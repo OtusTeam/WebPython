@@ -1,0 +1,468 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 1</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 1</h1>
+        <p>Илья Лебедев</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегоня говорить</h2>
+        <ul>
+            <li>технические детали курса;</li>
+            <li>декомпозиция;</li>
+            <li>чистые функции;</li>
+            <li>цикломатическая сложность;</li>
+            <li>читаемость;</li>
+            <li>фичеризм;</li>
+            <li>поддерживаемость;</li>
+            <li>статический анализ кода.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Технические детали курса</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как декомпозировать программу</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Как декомпозировать программу</h2>
+        <ul>
+            <li>сверху вниз;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Как декомпозировать программу</h2>
+        <ul>
+            <li>сверху вниз;</li>
+            <li>соблюдая принцип единой ответсвенности (SRP);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Как декомпозировать программу</h2>
+        <ul>
+            <li>сверху вниз;</li>
+            <li>соблюдая принцип единой ответсвенности (SRP);</li>
+            <li>используя термины предметной области;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Как декомпозировать программу</h2>
+        <ul>
+            <li>сверху вниз;</li>
+            <li>соблюдая принцип единой ответсвенности (SRP);</li>
+            <li>используя термины предметной области;</li>
+            <li>уменьшая зависимость между модулями.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Чистые функции</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Чистые функции</h2>
+        <p>Детерменированные функции без побочных эффектов.</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Чистые функции</h2>
+        Результат работы функции зависит только от её аргументов.
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Чистые функции</h2>
+        Результат работы функции зависит только от её аргументов и передаётся в мир только как результат работы функции.
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Вложенность кода</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Вложенность кода</h2>
+        <ul>
+            <li>один уровень вложенности увеличивает сложность чтения кода на порядок;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Вложенность кода</h2>
+        <ul>
+            <li>один уровень вложенности увеличивает сложность чтения кода на порядок;</li>
+            <li>на практике почти всегда достаточно двух-трёх отступов.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Вложенность кода</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    if os.path.exists(filepath):
+        with open(filepath, 'r') as file_handler:
+            return json.load(file_handler)
+    else:
+        return None</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Вложенность кода</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    if not os.path.exists(filepath):
+        return
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <p>Количество линейно независимых маршрутов через программный код.</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    if not os.path.exists(filepath):
+        return
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    <mark>if not os.path.exists(filepath):</mark>
+        <mark>return</mark>
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    if not os.path.exists(filepath):
+        return
+    <mark>with open(filepath, 'r') as file_handler:</mark>
+        <mark>return json.load(file_handler)</mark></code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig"><code>
+def load_json_data(filepath):
+    if not os.path.exists(filepath):
+        return
+    with open(filepath, 'r') as file_handler:
+        return json.load(file_handler)</code></pre>
+        <p>Цикломатическая сложность – 2</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig bash"><code>
+$ pip install mccabe</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Цикломатическая сложность</h2>
+        <pre class="xbig bash"><code>
+$ pip install mccabe
+$ python -m mccabe --min 5 mccabe.py
+("185:1: 'PathGraphingAstVisitor.visitIf'", 5)
+("71:1: 'PathGraph.to_dot'", 5)
+("245:1: 'McCabeChecker.run'", 5)
+("283:1: 'main'", 7)
+("203:1: 'PathGraphingAstVisitor.visitTryExcept'", 5)
+("257:1: 'get_code_complexity'", 5)</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+            <li>понятные названия у функций;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+            <li>понятные названия у функций;</li>
+            <li>понятные названия у классов;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+            <li>понятные названия у функций;</li>
+            <li>понятные названия у классов;</li>
+            <li>понятные названия у модулей;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+            <li>понятные названия у функций;</li>
+            <li>понятные названия у классов;</li>
+            <li>понятные названия у модулей;</li>
+            <li>весь контекст как можно ближе к коду;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        <ul>
+            <li>понятные названия у переменных;</li>
+            <li>понятные названия у функций;</li>
+            <li>понятные названия у классов;</li>
+            <li>понятные названия у модулей;</li>
+            <li>весь контекст как можно ближе к коду;</li>
+            <li>разумное использование фишек Python.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        Код должен быть написа на английском, а не на Python.
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Читаемость</h2>
+        Код должен быть написа на английском, а не на Python.
+        <pre class="xbig"><code>
+credentials = load_oauth_credentials_from_file('fb_creds.json')
+fb_api = get_facebook_api(credentials)
+messages = fb_api.get_unread_messages()
+send_notifications_to_slack(messages=messages, user='ilebedev')</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Фичеризм</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Фичеризм</h2>
+        <div>С одной стороны код должен быть гибким: легким для изменения существующего поведения и добавления нового.
+        </div>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Фичеризм</h2>
+        <div>С одной стороны код должен быть гибким: легким для изменения существующего поведения и добавления нового.
+        </div>
+        <div>С друой, если делать код максимально функциональным, любая задача разрастается до огромных размеров.</div>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Фичеризм</h2>
+        <div>С одной стороны код должен быть гибким: легким для изменения существующего поведения и добавления нового.
+        </div>
+        <div>С друой, если делать код максимально функциональным, любая задача разрастается до огромных размеров.</div>
+        <div>Как бороться: обобщать только когда используется дважды, реализовывать возможность только когда она
+            необходима. От остального защищает правильная декомпозиция кода.
+        </div>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Поддерживаемость</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Поддерживаемость</h2>
+        <ul>
+            <li>весь контекст как можно ближе к коду</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Поддерживаемость</h2>
+        <ul>
+            <li>весь контекст как можно ближе к коду (привязка к коммитам, тикетам, комментарии, документация, вики);
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Поддерживаемость</h2>
+        <ul>
+            <li>весь контекст как можно ближе к коду (привязка к коммитам, тикетам, комментарии, документация, вики);
+            </li>
+            <li>тесты, демонстрирующие неочевидное поведение.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Статический анализ кода</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Статический анализ кода</h2>
+        <ul>
+            <li>
+                <a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a> (ex-pep8);
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Статический анализ кода</h2>
+        <ul>
+            <li>
+                <a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a> (ex-pep8);
+            </li>
+            <li>
+                <a href="https://pypi.python.org/pypi/flake8">flake8</a>;
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Статический анализ кода</h2>
+        <ul>
+            <li>
+                <a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a> (ex-pep8);
+            </li>
+            <li>
+                <a href="https://pypi.python.org/pypi/flake8">flake8</a>;
+            </li>
+            <li>
+                <a href="https://docs.python.org/3/library/ast.html">ast</a>.
+            </li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+    </div>
+</section>
+<script src="js/shower.min.js"></script>
+</body>
+</html>
