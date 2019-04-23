@@ -1,0 +1,511 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 22</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 23</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 23<br>React</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что сможем делать после вебинара?</h2>
+        <ul>
+            <li>Настроить себе окружение для работы с React и использовать его.</li>
+            <li>Понимать и применять синтаксис JSX</li>
+            <li>Создавать простые приложения на React</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Компонентный подход</h2>
+        <ul>
+            <li>Компонент – логика + поведение.</li>
+            <li>Любая связная часть – это компонент</li>
+            <li>Все сейчас поддерживают компонентный подход к разработке UI приложения.</li>
+            <li>Всё приложение – дерево компонент.</li>
+            <li>Задача программиста – разработать удобные компоненты, желательно переиспользуемые и менее связные.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упраженение</h2>
+        <ul>
+            <li>Назовите в чат компоненты, которые видите на макете</li>
+            <li>Поспорьте с коллегой</li>
+        </ul>
+        <p>
+            <img src="img/l22-components.png" style="height: 250px; width: auto"/>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как Вы думаете?</h2>
+        <ul>
+            <li>Чем отличается framework от библиотеки?</li>
+            <li>Что хорошего в использовании фреймворка?</li>
+            <li>Что хорошего в использовании библиотеки?</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Классические приложения (HTML + jQuery)</h2>
+        <ul>
+            <li>Большая HTML с данными - для каждой страницы (генерируется сервером – PHP/JSP/ASP/JINJA)</li>
+            <li>JS - подключается в HTML, анимирует HTML с данными</li>
+            <li>CSS - подключается в HTML, задаёт стили отображения</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Шаблонные фреймворки (Handlebars)</h2>
+        <ul>
+            <li>Небольшая статическая HTML</li>
+            <li>Данные загружаются с сервера отдельно</li>
+            <li>HTML шаблоны – статические фрагменты компонентов HTML, отображающие данные</li>
+            <li>JS компоненты - подключаются в HTML, добавляют поведение к HTML шаблонам</li>
+            <li>CSS – подключается в главной HTML</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SPA (React на базе JSX, Angular)</h2>
+        <ul>
+            <li>Минимальная одна HTML, только чтобы подключить JS и CSS<br>
+                (SPA – Single Page Application)
+            </li>
+            <li>Данные загружаются с сервера отдельно</li>
+            <li>JSX компоненты – содержат и JS код и подобие HTML разметки для каждого компонента</li>
+            <li>CSS – подключается в HTML</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React</h2>
+        <ul>
+            <li>Входит в ТОП-5 фреймворков/библиотек (Hackernoon 2018)</li>
+            <li>Библиотека, а не фреймворк.</li>
+            <li>Только для создания UI, вы не ограничены выбором для других частей<br>
+                (в терминах Model-View-Whatever – это V).
+            </li>
+            <li>Вся мощь на client-side но есть server-side.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React</h2>
+        <ul>
+            <li>Использует JSX (&laquo;XML&raquo; в JS)</li>
+            <li>Virtual DOM и Reconcilation (может обновлять страницу быстрее-быстрого)</li>
+            <li>Flux/Redux – модный паттерн/библиотека/реализация для хранения состояния.</li>
+            <li>Огроооооомнейшая экосистема из различных утилит, билиотек, плюшек и, конечно, компонент.</li>
+            <li>Служит для создания SPA</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример кода на React<br>(что нового?)</h2>
+        <pre class="xbig">
+<code>
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(
+    &lt;h1>Hello, world!&lt;/h1>,
+    document.getElementById('root')
+);
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример кода на React<br>(что нового?)</h2>
+        <pre class="xbig">
+<code>
+class HelloMessage extends React.Component {
+    render() {
+        return (
+            &lt;div>
+                 Hello {this.props.name}
+            &lt;/div>
+        );
+    }
+}
+
+ReactDOM.render(&lt;HelloMessage name="Taylor"/>, mountNode)
+</code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>create-react-app</h2>
+        <ul>
+            <li>Утилита для создания React-приложений</li>
+            <li>Глубоко запрятан webpack</li>
+            <li>Глубоко запрятан webpack dev-сервер</li>
+            <li>Ещё глубже тестовый фреймворк</li>
+            <li>Ещё глубже babel</li>
+            <li>Но зато очень просто создаётся приложение</li>
+            <li>eject – достать из глубин</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>create-react-app</h2>
+        <pre class="xbig">
+            <code>
+npm install -g create-react-app
+create-react-app my-app
+cd my-app
+npm start
+
+                или
+
+npx create-react-app my-app
+cd my-app
+npm start
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>create-react-app</h2>
+        <pre class="xbig">
+            <code>
+npm run eject
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Весь JSX-шник</h2>
+        <pre class="xbig">
+            <code>
+import React, { Component } from 'react';
+import Logo from './Logo';
+import Menu from './Menu';
+
+export default class Header extends Component {
+    render() {
+        return (
+            &lt;div className="header">
+                &lt;Logo className="header__logo"/>
+                &lt;Menu className="header__menu"/>
+            &lt;/div>
+        );
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JSX</h2>
+        <pre class="xbig">
+            <code>
+&lt;Menu className="header__menu"/> - строчные атрибуты
+
+&lt;User logged={true} /> - булевы атрибуты
+&lt;User logged={isLogged()} /> - произвольные атрибуты
+
+/* &lt;User /> */ - комментарии
+
+&lt;div style={{color:'red'}} /> - стили (объекты)
+
+return flag && &lt;div />; - это JS-объекты!
+
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JSX</h2>
+        <pre class="xbig">
+            <code>
+&lt;User username="ydvorzhetskiy"/>
+
+export default class User extends Component {
+    render() {
+        return (
+            &lt;div>
+                My name is {this.props.username}
+            &lt;/div>
+        );
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JSX</h2>
+        <pre class="xbig">
+            <code>
+&lt;Page>
+    &lt;div/>
+    &lt;span/>
+&lt;/Page>
+
+export default class Page extends Component {
+    render() {
+        return (
+            &lt;div className="page">
+                {this.props.children}
+            &lt;/div>
+        );
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JSX</h2>
+        <pre class="xbig">
+            <code>
+class Hello extends Component {
+    render() {
+        const {username} = this.props;
+        return (
+            &lt;div>Hello, {username}&lt;/div>
+        )
+    }
+}
+// Эквивалентная запись
+const Hello = ({username}) => (
+    &lt;div>Hello, {username}&lt;/div>
+);
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>render()</h2>
+        <ul>
+            <li>Чистая функция</li>
+            <li>Из метода render() React компонента можно возвращать только один JSX элемент.</li>
+            <li>Если хотите вернуть несколько элементов, то необходимо обернуть в ещё один элемент, например, &lt;div/>
+                ***.
+            </li>
+            <li>Помните, что JSX преобразуется в JS. Иногда непросто увидеть, почему разметка неправильная.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Diff</h2>
+        <p>
+            <img src="img/l22-diff.jpg" style="height: 400px; width: auto"/>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Best practices</h2>
+        <ul>
+            <li>Данные лежат рядом с App.</li>
+            <li>Данные спускаются до дочерних элементов через props</li>
+            <li>Обычно хранятся в redux store (это именно то, что мы сейчас написали)</li>
+            <li>Компоненты – переиспользуемые</li>
+            <li>Используйте агрегацию вместо наследования.</li>
+            <li>Компоненты прекрасно покрываются тестами
+                (react-test-renderer, enzyme).
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>One-way data flow</h2>
+        <p>
+            <img src="img/l22-dataflow.png" style="height: 400px; width: auto"/>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример и делаем</h2>
+        <pre class="xbig">
+            <code>
+let user = {
+   username: 'Ivan',
+   email: 'ivan@example.com'
+};
+
+class App extends Component {
+  render() {
+    return (
+      &lt;div className="App">
+        Header user={user}>
+        ...
+      &lt;/div>
+    );
+  }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример и делаем</h2>
+        <pre class="xbig">
+            <code>
+class Header extends Component {
+  render() {
+    return (
+      &lt;div className="header">
+        &lt;div>{this.props.user.name}&lt;/div>
+      &lt;/div>
+    );
+  }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Вынести компонент Header с пользователем, вывести имя пользователя (передать через props).</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что почитать</h2>
+        <ul>
+            <li><a href="https://reactjs.org/">https://reactjs.org/</a>
+            <li><a href="https://reactjs.org/docs/add-react-to-a-new-app.html">https://reactjs.org/docs/add-react-to-a-new-app.html</a>
+            <li>
+                <a href="https://reactjs.org/docs/introducing-jsx.html">https://reactjs.org/docs/introducing-jsx.html</a>
+            <li><a href="https://reactjs.org/docs/jsx-in-depth.html">https://reactjs.org/docs/jsx-in-depth.html</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Главная страница на React</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Опрос</h2>
+        <ul>
+            <li><a href="https://otus.ru/polls/2118/">https://otus.ru/polls/2118/</a>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь React!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

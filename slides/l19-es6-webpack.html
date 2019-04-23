@@ -1,0 +1,520 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 19</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 19</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 19</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>ES6</li>
+            <li>NodeJS</li>
+            <li>Webpack</li>
+            <li>CSS-preprocessors - лучше чуть позже</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>спасибо большое за отзывы!</li>
+            <li>я их учёл;</li>
+            <li>live coding;</li>
+            <li>а есть кто-то кто был на ДОД-ах?</li>
+            <li>про тайминг помню.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>ES6</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>ES6</h2>
+        <ul>
+            <li>ES6 (ES2015) - набор фич</li>
+            <li>Для каждой из них есть преобразование в ES 5.1</li>
+            <li>По сути дела, это синтаксический сахар</li>
+            <li>Но очень клёвый</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>let</h2>
+        <pre class="xbig">
+            <code>
+    function func() {
+        if (true) {
+            var tmp = 123;
+        }
+        console.log(tmp); // 123
+    }
+    function func() {
+        if (true) {
+            let tmp = 123;
+        }
+        console.log(tmp); // ReferenceError: tmp is not defined
+    }
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>const</h2>
+        <pre class="xbig">
+            <code>
+let foo = 'abc';
+foo = 'def';
+console.log(foo);   // def
+
+const foo2 = 'abc';
+foo2 = 'def';       // TypeError
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Arrow functions</h2>
+        <pre class="xbig">
+            <code>
+let f = function (v) { return v + 1; })
+
+f = v => v + 1;
+
+[0, 1, 2].forEach(e => console.log(e));
+
+let twoArgs = (x, y) => x + y;
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Arrow functions</h2>
+        <pre class="xbig">
+            <code>
+let withBody = (x, y) => {
+    let result = x + y;
+    return result;
+}
+
+let returningJson = text => ({text: text})
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Arrow functions</h2>
+        <pre class="xbig">
+            <code>
+class C {
+    method0() {
+        $.ajax({ success: function (x) { this.x = x;} }); // incorrect!
+    }
+    method1() {
+        let that = this;
+        $.ajax({ success: function (x) { that.x = x;} });
+    }
+    method1() {
+        $.ajax({ success: (x) => this.x = x; });
+    }
+};
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упрощённая запись свойств</h2>
+        <pre class="xbig">
+            <code>
+let x = 1, y = 2;
+
+let obj = {x: x, y: y};
+
+obj = {x, y};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упрощённая запись методов объекта</h2>
+        <pre class="xbig">
+            <code>
+let obj = {
+    f: function (x, y) { return x + y; }
+};
+
+obj = {
+    f(x, y) { return x + y; }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Деструктивное присваивание</h2>
+        <pre class="xbig">
+            <code>
+let arr = [0, 1];
+let [a, b] = arr;
+
+console.log(a + ', ' + b); // ?
+
+[b, a] = [a, b];
+
+let [x, y = 1, z = 2] = arr;
+
+console.log(x + ', ' + y + ', ' + z); // ?
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Деструктивное присваивание</h2>
+        <pre class="xbig">
+            <code>
+let obj = {x: 1, y: 2, z : 3};
+let {x, y} = obj;
+
+console.log(a + ', ' + b); // ?
+
+const {x, y = 1, z = 2} = obj;
+
+console.log(x + ', ' + y + ', ' + z); // ?
+
+let func = ({x, y}) => x + y;
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Параметры по умолчанию</h2>
+        <pre class="xbig">
+            <code>
+function f (x, y = 7, z = 42) {
+   return x + y + z
+}
+
+// а сюда передаётся объект!
+let func = ({x, y = 7, z = 42}) => x + y + z;
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Spread operator</h2>
+        <pre class="xbig">
+            <code>
+function f (x, y, ...other) {
+   console.log(other.length);
+}
+f(1,2,3,4);               // 2
+
+let arr = [0, 1, 2, 3, 4];
+let [a, b, ...rest] = arr;
+
+console.log(rest.length); // 3
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classes</h2>
+        <pre class="xbig">
+            <code>
+class Point {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    length() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+}
+
+console.log(new Point().length());
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Наследование</h2>
+        <pre class="xbig">
+            <code>
+class Parent {
+    constructor() {
+        this.x = 0;
+    }
+}
+
+class Child extends Parent {
+    constructor() {
+        super();
+        this.y = 0;
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Стaтические функции</h2>
+        <pre class="xbig">
+            <code>
+class MyClass  {
+    static defaultObject () {
+        return new MyChild();
+    }
+}
+
+let default = MyClass.defaultObject()
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Getters/Setters</h2>
+        <pre class="xbig">
+            <code>
+class Rectangle {
+    constructor (width, height) {
+        this._width  = width
+        this._height = height
+    }
+    set width  (width)  { this._width = width               }
+    get width  ()       { return this._width                }
+    set height (height) { this._height = height             }
+    get height ()       { return this._height               }
+    get area   ()       { return this._width * this._height }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>import/export</h2>
+        <pre class="xbig">
+            <code>
+//lib/math.js
+export function sum (x, y) { return x + y }
+export const pi = 3.141593
+
+//  someApp.js
+import * as math from "lib/math"
+console.log("2π = " + math.sum(math.pi, math.pi))
+
+//  otherApp.js
+import { sum, pi } from "lib/math"
+console.log("2π = " + sum(pi, pi))
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>default import/export</h2>
+        <pre class="xbig">
+            <code>
+// lib/mathplusplus.js
+export * from "lib/math"
+export var e = 2.71828182846
+export default (x) => Math.exp(x)
+
+//  someApp.js
+import exp, { pi, e } from "lib/mathplusplus"
+console.log("e^{π} = " + exp(pi))
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>NodeJS</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>NodeJS</h2>
+        <ul>
+            <li>NodeJS – не «серверный» JS, а «компьютерный», как VM Python.</li>
+            <li>Короче, среда выполнения JS не в браузере.</li>
+            <li>Есть встроенный package manager npm (его репозиторий доступен https://npmjs.com )</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li><a href="https://nodejs.org/en/">https://nodejs.org/en/</a></li>
+            <li>Ставим на машины и проверяем версию.</li>
+            <li>В консоли должна работать: node –v</li>
+            <li>Как сделаете - напишите Вашу версию в чат</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>NPM</h2>
+        <ul>
+            <li>Пакетный менеджер NodeJS.</li>
+            <li>Не единственный.</li>
+            <li>Конфигурационный файл – package.json.</li>
+            <li>Демо: npm init</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Express JS</h2>
+        <ul>
+            <li>Веб-сервер для среды NodeJS.</li>
+            <li>Что-то вроде Django, только без всего</li>
+            <li>По сути дела только REST-методы. Всё остальное прикручивается</li>
+            <li>На его основе сделаны другие веб-серверы</li>
+            <li>Демо</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>ES6</h2>
+        <ul>
+            <li>ES6 - набор фич, целиком не поддерживается никаким браузером, а только часть набора.</li>
+            <li>ES 5.1 в браузерах поддерживается</li>
+            <li>Для этого осуществляется транспайлинг.</li>
+            <li>Babel – один из самых мощных и популярных транспайлеров</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Webpack</h2>
+        <ul>
+            <li>Webpack один из самых навороченных сборщиков</li>
+            <li>Последняя версия проще предыдущих, но сложноват. Особенно терминология.</li>
+            <li>Но сделать конфиг – в итоге разовая работа.</li>
+            <li>Плюшками можно объесться</li>
+            <li>Демо</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Сборка UI с помощью webpack, форма логина и регистрации, проксирование вызовов на back-end</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь JS!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

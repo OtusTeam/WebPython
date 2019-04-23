@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 22</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 34</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 34<br>Routing в React</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что сможем делать после вебинара?</h2>
+        <ul>
+            <li>Знать и разбираться в AJAX и SPA</li>
+            <li>Разрабатывать SPA приложения на React с помощью React Router</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>План на сегодня</h2>
+        <ul>
+            <li>Опять немного о классике, модерне и современности</li>
+            <li>Много о React Router</li>
+            <li>Практики как таковой не будет</li>
+            <li>Но теория сугубо практическая</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>Вроде всё проверяется (сегодня)</li>
+            <li>Про тайминг помню.</li>
+            <li>В конце отзыв.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classic HTML, AJAX, SPA</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classic HТML-page</h2>
+        <ul>
+            <li>Страницы получаются GET запросом /index</li>
+            <li>Сервер генерирует HTML разметку c данными</li>
+            <li>В результирующей HTML ссылки на CSS и JS</li>
+            <li>CSS и JS хранятся на сервере и отдаются</li>
+            <li>JS анимирует страницы</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classic HТML-page</h2>
+        <ul>
+            <li>(+) Это просто</li>
+            <li>(+) Генерировать HTML на сервер просто</li>
+            <li>(-) Пользователь при переходе/действии загружает новую страницу целиком</li>
+            <li>(-) Видит «пустую страницу» даже при небольших действиях</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+        <ul>
+            <li>Страницы получаются GET запросом /index</li>
+            <li>Сервер генерирует HTML разметку c минимумом данных</li>
+            <li>JS получает и передаёт данные посредтсвом $.ajax | Fetch | XMLHttpRequest | Axios,
+                отображает их
+            </li>
+            <li>Переход на страницу – это переход на страницу</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+        <ul>
+            <li>(+) Меньше передаётся данных</li>
+            <li>(+) При действиях не перезагружается страница</li>
+            <li>(-) Тяжело писать что-то сложнее заполнения данными таблицу</li>
+            <li>(-) Видит «пустую страницу» только при переходе</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SPA</h2>
+        <ul>
+            <li>SPA – Single Page Application</li>
+            <li>Страница получаются GET запросом /index</li>
+            <li>Сервер (а часто и ваще балансер) отдаёт статическую HTML</li>
+            <li>JS получает и передаёт данные посредтсвом $.ajax | Fetch | XMLHttpRequest, и рендерит на основе их DOM
+            </li>
+            <li>Переход на страницу – это ререндеринг DOM посредством JS (но URL меняется)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SPA</h2>
+        <ul>
+            <li>(+) Передаётся абсолютный минимум данных</li>
+            <li>(+) При действиях и переходах не перезагружается страница</li>
+            <li>(-) SEO – сайт прозрачен для поисковиков, приходится выкручиваться</li>
+            <li>(-) Хорошее SPA сложно сделать</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Найти SPA-сайты</li>
+            <li>Отправить его в чат.</li>
+            <li>Полазить по нему с открытой консолью Network (+prserve logs)</li>
+            <li>Увидеть как передаются данные и что HTML не получается (GET) при переходах.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React Router v3</h2>
+        <h2>React Router v4</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Router</h2>
+        <ul>
+            <li>Роутер крайне полезная утилита, помогает в построении SPA.</li>
+            <li>React не предоставляет собственных механизмов роутинга, а вот коммьюнити React выпустило react-router
+            </li>
+            <li>React роутер синхронизирует состояние Вашего приложения с URL в зависимости от настроек</li>
+            <li>В SPA теперь вместо страниц (т.к. она одна) появляются <b>роуты</b>.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Router v3 и м4</h2>
+        <ul>
+            <li>Так получилось, что в реакте две популярные версии react-router - v3 и v4</li>
+            <li>Они отличаются синтаксисом и немного возможностями</li>
+            <li>Поэтому переход с 3-его произошёл не у всех</li>
+            <li>Мы поговорим поэтому про оба. А вот начинать рекомендую с последнего</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Route</h2>
+        <ul>
+            <li>Путь роута – это строка.</li>
+            <li>Может содержать разные обозначения</li>
+            <li>Один роут - это, возможно, множество "страниц" в классическом понимании</li>
+            <li>Но всегда один React-компонент "страницы"</li>
+            <li>Правда на один компонент "страницы" могут вести разные роуты</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Путь Route-а</h2>
+        <ul>
+            <li>:paramName – фрагмент пути роута, называется параметром</li>
+            <li>() – опциональная часть пути роута</li>
+            <li>* – любые символы до следующего символа паттерна или пути</li>
+            <li>** - любой путь</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Путь Route-а</h2>
+        <pre class="xbig">
+            <code>
+&lt;Route path="/hello">          /hello
+&lt;Route path="/hello/:name">    /hello/michael, /hello/ryan
+&lt;Route path="/hello(/:name)">  /hello, /hello/michael
+&lt;Route path="/files/*.*">      /files/hello.jpg, /files/hello.html
+&lt;Route path="/**/*.jpg">       /files/hello.jpg, /files/path/to/file.jpg
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример</h2>
+        <pre class="xbig">
+            <code>
+render((
+  &lt;Router history={hashHistory}>
+    &lt;Route path="/" component={Home}/>
+    {/* add the routes here */}
+    &lt;Route path="/grid" component={Grid}/>
+    &lt;Route path="/form" component={Form}/>
+  &lt;/Router>
+), document.getElementById('app'));
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>В этом примере</h2>
+        <ul>
+            <li>Как ни странно, но роутер, это компонет.</li>
+            <li>В данном примере три пути (страницы)</li>
+            <li>В данном случае в зависимости от URL страницы (hash)будет рендерится один из путей</li>
+            <li>Управляет этим hashHistory</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Написать роуты для сайта погоды</li>
+            <li>Функционал просмотра погоды для какого-то города
+            <li>на 1, 3, или 7 дней
+            <li>новости и прочая общесайтовая информация)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Link</h2>
+        <pre class="xbig">
+            <code>
+&lt;ul role="nav">
+&lt;li>
+  &lt;Link to="/grid">Grid&lt;/Link>
+&lt;/li>
+&lt;li>
+  &lt;Link to="/form">Form&lt;/Link>
+&lt;/li>
+&lt;/ul>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Link</h2>
+        <ul>
+            <li>В общем случае, если пользователь откроет ссылку (&lt;a>), то ему откроется страница стандартным
+                переходом.
+            </li>
+            <li>Чтобы этого не произошло, есть компонент Link, который принимает путь к роуту</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как работает (сценарий перехода)</h2>
+        <ul>
+            <li>Когда стартует клиент, то доавляется листенер на адес а дресной строке</li>
+            <li>Пользователь нажимает на Link</li>
+            <li>Link средствами JS инициирует изменение URL в адресной строке (это не переход!)</li>
+            <li>Листенер инициирует изменение роута (убрали один компонент страницы, поставили другой).
+                Ну и страницы ререндерится
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как работает (сценарий перехода)</h2>
+        <ul>
+            <li>Это выглядит бесшовно</li>
+            <li>Может меняться только кусочек сайта</li>
+            <li>URL - изначальная истина, какой роут отображается</li>
+            <li>http://company.com/<b>#/login</b> - hash-based роутер</li>
+            <li>http://company.com/<b>login</b> - browser history роутер</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Hash и Browser History</h2>
+        <ul>
+            <li>http://company.com/<b>#/login</b> - проще реализцется технически</li>
+            <li>http://company.com/<b>#/login</b> - так-то урлы страшные</li>
+            <li>http://company.com/<b>login</b> - сложнее (на стороне сервера)</li>
+            <li>http://company.com/<b>login</b> - сервер на каждый запрос должен отправлять index.html</li>
+            <li>http://company.com/<b>login</b> - но зато полная иллюзия классического сайта</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Сценарий отправки ссылки</h2>
+        <ul>
+            <li>В принципе URL можно не менять</li>
+            <li>Но тогда текщим положением на сайте никак не поделиться</li>
+            <li>Если Вы отправите товарищу ссылку, то она всегд абудет одна и та же</li>
+            <li>Поэтому её нужно менять и этот сценарий очень важен</li>
+            <li>А открытие ссылки происходит так:</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как работает (сценарий отправки ссылки)</h2>
+        <ul>
+            <li>Вам отправляют ссылку на роут, Вы открываете</li>
+            <li>Стартует роутер</li>
+            <li>И по УРЛу определяет что нужно открыть</li>
+            <li>Ну а дальше открывается каркас и внутри роут</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>react-router@4.x</h2>
+        <pre class="xbig">
+            <code>
+import {HashRouter, Route, Switch, Link} from 'react-router-dom';
+
+&lt;HashRouter>
+  &lt;App>
+    &lt;Switch>
+      &lt;Route exact path='/' component={Home}/>
+      &lt;Route exact path='/schedule' render={Schedule}/>
+      &lt;Route path='/schedule/edit' compent={Edit}/>
+    &lt;/Switch>
+  &lt;/App>
+&lt;/HashRouter>
+
+&lt;Link replace to='/schedule/edit'/>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Ещё пример</h2>
+        <pre class="xbig">
+            <code>
+&lt;Link to="/grid" activeStyle={{ color: 'red' }}>Grid&lt;/Link>
+&lt;Link to="/grid" activeClassName="activeLink">Grid&lt;/Link>
+
+&lt;Route path="/grid/:id" component={Repos}/>
+
+//Grid component
+render() {
+    return &lt;h2>{this.props.match.params.id}&lt;/h2>
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Lifecycle</h2>
+        <ul>
+            <li>Страницу (роут) создаёт сам роутер, не React.</li>
+            <li>И жизненным циклом управляет сам роутер</li>
+            <li>У него всё ещё хитрее - переход со одного и того же роута но с разными параметрами - это будет
+                props change
+            </li>
+            <li>Чтобы управлять жизненным циклом, можно использовать следующие методы:
+                onEnter – при открытии роута, onChange – роут тот же, но поменялись параметры, onLeave – при уходе с
+                роута
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Lifecycle</h2>
+        <pre class="xbig">
+            <code>
+&lt;Route path="/users/:userId/teams"
+       onEnter={userIsInATeam} />
+&lt;Route path="/users/:userId/teams"
+       onChange={onChange} />
+&lt;Route path="/users/:userId/teams"
+       onLeave={onLeave} />
+&lt;Route path='/schedule/' render={() => &lt;Schedule p1="1"/>}/>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что почитать?</h2>
+        <ul>
+            <li>Hooks, позволяющие управлять роутингом</li>
+            <li>Динамический роутинг (настройка - не на компонента, а JSON)</li>
+            <li>Интеграция с redux</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Опрос</h2>
+        <ul>
+            <li><a href="https://otus.ru/polls/1829/">https://otus.ru/polls/1829/</a>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Организация всего приложения в виде SPA.</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь React!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

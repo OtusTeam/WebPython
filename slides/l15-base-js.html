@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: ДОД1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 14</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 15</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>Ещё чуть-чуть про CSS</li>
+            <li>Типы данных JS</li>
+            <li>Операторы JS</li>
+            <li>Работа с браузером и DOM</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>Спасибо большое за отзывы!</li>
+            <li>С Вас отзыв в конце.</li>
+            <li>Тема - критичная, вопросы задаём сразу.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>CSS</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flex</h2>
+        <ul>
+            <li>Заменяют море кода</li>
+            <li>Поддерживаются очень большим числом утройств (считайте уже всеми)</li>
+            <li>Бутстраповская сетка делается за 3 строчки</li>
+            <li>С наворотами за 5</li>
+            <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Рекомендую</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flex</h2>
+        <pre class="xbig">
+            <code>
+&lt;div class="courses">
+  &lt;div class="course">...&lt;/div>
+  &lt;div class="course">...&lt;/div>
+  &lt;div class="course">...&lt;/div>
+&lt;/div>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flex (как это будет без CSS?)</h2>
+        <pre class="xbig">
+            <code>
+&lt;div class="courses">
+  &lt;div class="course">...&lt;/div>
+  &lt;div class="course">...&lt;/div>
+  &lt;div class="course">...&lt;/div>
+&lt;/div>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flex</h2>
+        <pre class="xbig">
+            <code>
+.courses {
+    display: flex;
+    justify-content: space-between
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flex (Wat?)</h2>
+        <pre class="xbig">
+            <code>
+.courses {
+    display: flex;
+    justify-content: space-between
+}
+@media (max-width: 767px) {
+    .courses {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Итого: Методологии вёрстки</h2>
+        <ul>
+            <li>как получится (тоже есть такая методология)</li>
+            <li>Атомарный CSS</li>
+            <li>БЭМ</li>
+            <li>SMACSS</li>
+            <li>Изолированые стили</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JS</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного про JavaScript</h2>
+        <ul>
+            <li>Язык может исополняться в разных местах (в браузере, в NodeJS)</li>
+            <li>Разных версий</li>
+            <li>То, что мы пройдём сегодня - это ES 5.1 в браузере</li>
+            <li>Это останется верным, когда пройдём ES6</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JavaScript</h2>
+        <ul>
+            <li>В браузере есть консоль</li>
+            <li>Ctrl + Shift + J - консоль</li>
+            <li>Всегда можно что-то попробовать</li>
+            <li>console.log( .... )</li>
+            <li>DEMO</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JavaScript</h2>
+        <ul>
+            <li>В браузере есть консоль</li>
+            <li>Ctrl + Shift + J - консоль</li>
+            <li>Всегда можно что-то попробовать</li>
+            <li>console.log( .... )</li>
+            <li>DEMO</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Тег Script</h2>
+        <pre class="xbig">
+            <code>
+&lt;script>('hello' + ' ' + "всем").length&lt;/script>
+
+&lt;script src="js/shower.min.js">&lt;/script>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>JavaScript</h2>
+        <ul>
+            <li>В JS есть типы!</li>
+            <li>Из 6 в ES5, в ES6 - их 7 + Symbol (но это не то, тчо Вы подумали)</li>
+            <li>А вот переменные типа не имеют (динамическая типизация)</li>
+            <li>Диалекты (TypeScript, Flow) позволяют задать тип во время компиляции</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Типы данных</h2>
+        <ul>
+            <li>String:&nbsp;&nbsp;&nbsp;"Привет", ''</li>
+            <li>Number:&nbsp;&nbsp;&nbsp;-1, 3.14</li>
+            <li>Boolean:&nbsp;&nbsp;&nbsp;true, false</li>
+            <li>Null:&nbsp;&nbsp;&nbsp;null</li>
+            <li>Undefined:&nbsp;&nbsp;&nbsp;undefined</li>
+            <li>Object:<br>
+                {x:1}, [0,1], function(){}, x => x + 5
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Типы данных</h2>
+        <ul>
+            <li>String:&nbsp;&nbsp;&nbsp;"Привет", ''</li>
+            <li>Number:&nbsp;&nbsp;&nbsp;-1, 3.14</li>
+            <li>Boolean:&nbsp;&nbsp;&nbsp;true, false</li>
+            <li>Null:&nbsp;&nbsp;&nbsp;null - <b>ничего нет</b></li>
+            <li>Undefined:&nbsp;&nbsp;&nbsp;undefined - <b>совсем ничего нет</b></li>
+            <li>Object:<br>
+                {x:1}, [0,1], function(){}, x => x + 5
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Типы данных</h2>
+        <ul>
+            <li>String:&nbsp;&nbsp;&nbsp;"Привет", ''</li>
+            <li>Number:&nbsp;&nbsp;&nbsp;-1, 3.14</li>
+            <li>Boolean:&nbsp;&nbsp;&nbsp;true, false</li>
+            <li>Null:&nbsp;&nbsp;&nbsp;null - <b>ничего нет</b></li>
+            <li>Undefined:&nbsp;&nbsp;&nbsp;undefined - <b>совсем ничего нет</b></li>
+            <li>Object:<br>
+                {x:1} - <b>объект</b>, [0,1] - <b>массив</b>,<br>function(){} - <b>функция</b>,
+                x => x + 5 - <b>стрелочная</b>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>String</h2>
+        <ul>
+            <li>Можно писать в одинарных кавычках, а момжно в двойных</li>
+            <li>Строчки юникодовские</li>
+            <li>У строчки есть длина</li>
+            <li>Строчки можно складывать</li>
+            <li>Со строчками можно делать много всего</li>
+            <li>Но они immutable: любая операция создаёт новую.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>String: Упражнение</h2>
+        <pre class="xbig">
+            <code>
+('hello' + ' ' + "всем").length
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>String: Упражнение</h2>
+        <pre class="xbig">
+            <code>
+('hello' + ' ' + "всем").length <b>= 10</b>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Number</h2>
+        <ul>
+            <li>Все числа - с плавающей запятой (double, 64 бит)</li>
+            <li>NaN, Infinity, -Infinity – тоже числа</li>
+            <li>Все операции тоже с плавающей запятой</li>
+            <li>Деньги в них считать опасно</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Number: Упражнение</h2>
+        <ul>
+            <li>7 / 2</li>
+            <li>1 / 0</li>
+            <li>Infinity - Infinity</li>
+            <li>-NaN</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Number: Упражнение</h2>
+        <ul>
+            <li>7 / 2 = <b>3.5</b></li>
+            <li>1 / 0 = <b>Infinity</b></li>
+            <li>Infinity - Infinity = <b>Nan</b></li>
+            <li>-NaN = <b>NaN</b></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Null и Undefined</h2>
+        <pre class="xbig">
+            <code>
+var a;                  // undefined
+console.log(a == null); // true
+
+var a = null;           // null
+console.log(a == null); // true
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Объект</h2>
+        <ul>
+            <li>Объекты, массивы, функции - всё объект</li>
+            <li>Да, функции могут иметь поля</li>
+            <li>Объекты - ассоциативный массив</li>
+            <li>Ключи - строчки</li>
+            <li>Массивы - тоже ассоциативный массив</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="xbig">
+            <code>
+var obj = {};
+
+var obj2 = { field: 100 };
+
+var obj3 = {
+    field1: 100,
+    method: function () {
+        this.field1 = 101;
+    }
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="xbig">
+            <code>
+var obj = {
+    field1: 100,
+    method: function () {
+        this.field1 = 101;
+    }
+};
+
+console.log( obj.field );
+console.log( obj['field'] );
+
+obj.method();
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Массивы</h2>
+        <pre class="xbig">
+            <code>
+var arr = [0,1,2];
+
+console.log( arr[1] );
+console.log( arr['1'] );
+
+arr.push(3);   // методов тьма и странных, лучше immutable юзать
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Функции</h2>
+        <pre class="xbig">
+            <code>
+function f() { alert('!'); }
+
+var f2 = function () { alert('!'); }
+
+var f2 = () => { alert('!'); }  // ES6
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>var и hoisting</h2>
+        <pre class="xbig">
+            <code>
+var v = 200;
+f();
+function f() {
+    alert(s);
+    alert(v);
+    var s = 100;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Глобальный scope</h2>
+        <pre class="xbig">
+            <code>
+var v = 200; // определяется в глобальном объекте
+console.log(v); // выведет v;
+console.log(window.v); // выведет v;
+
+window.document === document
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>ES6, вопрос?</h2>
+        <pre class="xbig">
+            <code>
+let v = 200;
+console.log(v);        // ?
+console.log(window.v); // ?
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Операторы</h2>
+        <pre class="xbig">
+            <code>
+10 == '10'
+
+10 === '10'
+
+null == undefined
+
+false == 'false'
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Операторы</h2>
+        <pre class="xbig">
+            <code>
+10 == '10'    // true
+
+10 === '10'   // false
+
+null == undefined   // true
+
+false == 'false'    // false
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Операторы</h2>
+        <ul>
+            <li>=== - рекомендуется</li>
+            <li>== - на крайняк</li>
+            <li>Алгоритм приведения типов в == не совсем сопадает с алгоритмом приведения типов</li>
+            <li>На <a href="https://developer.mozilla.org/ru/">MDN</a> ознакомьтесь</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Операторы</h2>
+        <pre class="xbig">
+            <code>
+10 == '10' && flag
+
+var obj = null;
+var obj = {};
+var obj = {field: false};
+var obj = {field: {subfield: undefined}};
+var obj = {field: {subfield: null}};
+var obj = {field: {subfield: 'aaaa'}};
+
+console.log(obj && obj.field && obj.field.subfield); // ?
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>for</h2>
+        <pre class="xbig">
+            <code>
+function printTenNumbers() {
+    for (var i = 0; i < 10; ++i) {
+        console.log(i);
+    }
+    return 'OK';
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>if</h2>
+        <pre class="xbig">
+            <code>
+if (a < 10) {
+    // do something
+} else {
+    return;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>try-catch-finally</h2>
+        <pre class="xbig">
+            <code>
+function f() {
+    try {
+        // do something dangerous
+        throw 'error';
+        throw new Error('!!!');
+        return 0;
+    } catch (err) {
+        return 1;
+    } finally {
+        return 2;
+    }
+    return 3;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>DOM</h2>
+        <pre class="xbig">
+            <code>
+var section = document.getElementById("section-main");
+
+section.innerHTML = 'Hello in section Main';
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>DOM</h2>
+        <pre class="xbig">
+            <code>
+var myP = document.getElementById("myP")
+myP.style.color = 'blue'
+
+var p = document.createElement("p")
+p.innerHTML = 'new paragraph'
+
+document.getElementById("myDiv").appendChild(p)
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>BOM (упражнение)</h2>
+        <pre class="xbig">
+            <code>
+window.location.href = http://vk.com
+
+window.history.back();
+
+window.close();
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как добавлять события</h2>
+        <pre class="xbig">
+            <code>
+var el = document.getElementById('my-div')
+el.addEventListener('click', false, () => console.log('!!!!');
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как добавлять события</h2>
+        <pre class="xbig">
+            <code>
+&lt;div onclick="func()">
+    НАЖМИ МЕНЯ
+&lt;/div>
+
+&lt;script>
+function func() {
+    console.log('!!!!);
+}
+&lt;/script>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как добавлять события</h2>
+        <ul>
+            <li>Через addEventListener - кошерно</li>
+            <li>Через HTML - не очень</li>
+            <li>Но в реакте в JSX так и будем писать</li>
+            <li>Но это реализуется внутри через addEventListener</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как добавлять события</h2>
+        <pre class="xbig">
+            <code>
+var el = document.getElementById('my-div')
+el.addEventListener('click', false, () => console.log('!!!!');
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопрос?</h2>
+        <p><a href="https://otus.ru/polls/1927/">https://otus.ru/polls/1927/</a></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Добавление поведения к главной странице, страница курсов.</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь JS!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 40</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+
+
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 40</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 40<br>QnA</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного о сегодняшнем вебинаре</h2>
+        <ul>
+            <li>Ответить на вопросы, которые накопились и появились</li>
+            <li>Вопросы, которые я подготтовил с ответами)</li>
+            <li>Как не было бы грустно, это последнее занятие по UI части, отправляю Вас в свободное плавание(</li>
+            <li>Ну и от меня напоследок немножко глаз, зубов и плавников)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>План на сегодня</h2>
+        <ul>
+            <li>Вопросы Ваши ко мне</li>
+            <li>Вопросы мои с ответами</li>
+            <li>Немножко интересностей</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>Всё вроде проверили)</li>
+            <li>В конце отзыва нет.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Ваши вопросы ко мне</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Не могу устоять - регламент)</h2>
+        <ul>
+            <li>Задавать можно голосом)</li>
+            <li>Если не дам ответ сразу - то отправлю в слак ответ</li>
+            <li>Если это мой подготовленный вопрос, то отвечу на него позже</li>
+            <li>Ну что, приступаем) Ваши вопросы...</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Ваши вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Мои вопросы и ответы</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Любимая история про тренажёр клавиатуры</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Любимая история про тренажёр клавиатуры</h2>
+        <ul>
+            <li>Я научился печатать со скоростью 1000 знаков в минуту, чему мне учиться дальше?</li>
+            <li>Для начала научитесь НЕ ВРАТЬ...</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Итак</h2>
+        <ul>
+            <li>Я научился &laquo;фронтенду&raquo;, чему мне учиться дальше?</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что можно ещё прочитать про вёрстку?</h2>
+        <ul>
+            <li>Mobile-first, сейчас это очень важно</li>
+            <li>Типографика - какие размеры шрифтов, какой ставить line-height</li>
+            <li>Вёрстка в em</li>
+            <li>Вёрстка во flex-ах</li>
+            <li>Различные техники оптимизации и дизайна</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>А ссылки?</h2>
+        <ul>
+            <li>
+                <a href="https://developers.google.com/web/fundamentals/design-and-ux/responsive/patterns">Responsive</a>
+            </li>
+            <li><a href="https://habr.com/post/269419/">Mobile-first</a></li>
+            <li><a href="https://kulbachny.com/math-of-typography-e9b9198e6ddf">Типографика</a></li>
+            <li><a href="https://dev.to/bytegasm/15-css-relative-units-how-many-do-you-know-em-rem-ex-cap-ch-ic-6m">rem
+                и em</a></li>
+            <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Flexbox</a></li>
+            <li><a href="https://developers.google.com/web/fundamentals/performance/rail">RAIL</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>А ещё ссылок?</h2>
+        <ul>
+            <li><a href="https://material.io/design/">Material design</a></li>
+            <li><a href="http://spyrestudios.com/lessons-principles-metro-ui-design/">Metro design</a></li>
+            <li>
+                <a href="https://medium.com/%D0%BD%D0%B0%D1%87%D0%B8%D0%BD%D0%B0%D1%8E%D1%89%D0%B5%D0%BC%D1%83-ux-%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD%D0%B5%D1%80%D1%83/%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D1%85-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%BE%D0%B2-cc36718c7e9f">Принципы
+                    построения UI</a></li>
+            <li><a href="https://habr.com/company/SECL_GROUP/blog/182208/">На хабре и со ссылками</a></li>
+            <li><a href="https://www.mockplus.com/blog/post/best-website-design-2018">Лучшие из лучших</a></li>
+            <li><a href="https://uxdesign.cc/9-essential-ui-design-trends-you-should-stick-to-in-2018-26f33d1fe980">Тренды</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React 16.2 (на самом деле, что недорассказал)</h2>
+        <ul>
+            <li>ContextAPI - на мой взгляд сомнительная штука, но если Вы профи или разработчик библиотек, то вполне нормальная</li>
+            <li>Fragmets - это &lt;&gt;</li>
+            <li>Uncontrolled Inputs - так и не попробовали</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React 16.3 - 16.4</h2>
+        <ul>
+            <li>Вышел сравнительно недавно</li>
+            <li>Новый lifecycle (<a href="https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html">ссыль</a>)</li>
+            <li>componentDidCatch</li>
+            <li>Новый способ работы с ref - createRef (<a href="https://reactjs.org/docs/refs-and-the-dom.html">ссыль</a>)</li>
+            <li>Порталы - (<a href="https://reactjs.org/docs/portals.html">ссыль</a>). Крутая шутка при реализации модальных окон, например.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React 16.6</h2>
+        <ul>
+            <li>Вышел сравнительно недавно</li>
+            <li>Новый lifecycle (<a href="https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html">ссыль</a>)</li>
+            <li>Новый способ работы с ref - createRef (<a href="https://reactjs.org/docs/refs-and-the-dom.html">ссыль</a>)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React 16.8</h2>
+        <ul>
+            <li>Вышел на этой неделе</li>
+            <li>Вообще там море всего хорошего</li>
+            <li>Но революция настала из-за хуков</li>
+            <li>Рекомендую видюшку</li>
+            <li>Но есть hydrate – дополнение серверной разметки клиентской, можете использовать и redux</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как дела с SEO в React?</h2>
+        <ul>
+            <li>С SEO на простых сайтах таки беда</li>
+            <li>Но есть Server-side rendering (<a href="https://habr.com/company/ruvds/blog/339148/">SSR</a>) и в React
+            </li>
+            <li>
+                Если думаете, что вот магическим образом у Вас будет React-приложение,
+                которое срендерино сервером, то это не правда
+            </li>
+            <li>По сути SSR в React – статический вызов метода render на стороне NodeJS</li>
+            <li>Но есть hydrate – дополнение серверной разметки клиентской, можете использовать и redux</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что с тестированием компонент?</h2>
+        <ul>
+            <li>Тестировать нужно</li>
+            <li>Про это море всего уже сказано и я сказал</li>
+            <li>React компоненты тоже можно тетсировать</li>
+            <li>Есть хорошие стандартные механизмы (нет)</li>
+            <li>А есть <a href="https://github.com/airbnb/enzyme">Enzyme</a> от AirBnb</li>
+        </ul>
+    </div>
+</section>
+
+<section>
+    <div>
+        <h2>Как организовывать приложение?</h2>
+        <ul>
+            <li>Прочитайте про <a href="https://reactjs.org/docs/higher-order-components.html">HOC</a></li>
+            <li>А есть ещё atomic design - atoms, molecules, organisms</li>
+            <li>Читать <a href="http://atomicdesign.bradfrost.com/chapter-2/">здесь</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как изучать Angular?</h2>
+        <ul>
+            <li>Изучите TypeScript сначала</li>
+            <li>А потом я даже не огорчусь, если Вы станете ренегатами и перейдёте в эту религию</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Глаза, зубы и плавники</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Глаза, зубы и плавники</h2>
+        <ul>
+            <li>То, про что не расказал</li>
+            <li>Но то, что Вам понадобится</li>
+            <li>Или вдохновит на покорение морей)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>eslint</h2>
+        <ul>
+            <li>Использование правил оформления – это важная часть корпоративной разработки</li>
+            <li>Это реально повышает поддерживаемость</li>
+            <li>Eslint – инструмент для работы с оформлением кода</li>
+            <li>Есть очередная плюшка от AirBnB - из <a href="https://github.com/airbnb/javascript">конфиг</a></li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Flow</h2>
+        <ul>
+            <li>Динамическая типизация JS – большая пробелма больших систем</li>
+            <li>Код быстро становится неподдерживаемым</li>
+            <li>Использование PropTypes (чекер во время выполнения) – просто обязательно</li>
+            <li>Но есть Flow – специальны диалект, крайне похож на TypeScript + сам статический тайп-чекер (от
+                Facebook)
+            </li>
+            <li><a href="https://flow.org/en/docs/types/">https://flow.org/en/docs/types/</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React Native</h2>
+        <ul>
+            <li><a href="https://facebook.github.io/react-native/">https://facebook.github.io/react-native/</a></li>
+            <li>Почти тот же React, но для мобильных приложений</li>
+            <li>Кросс-платформенный (!!!!!)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React 360</h2>
+        <ul>
+            <li>Мир плавно уходит в матрицу</li>
+            <li>Киберпанк уже здесь</li>
+            <li>Facebook (и React) на гребне волны</li>
+            <li>Просто оставлю это здесь, но посмотрите</li>
+            <li><a href="https://facebook.github.io/react-360/">https://facebook.github.io/react-360/</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Искренне приятно было с Вами работать!</p>
+        <p>Удачного плавания!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

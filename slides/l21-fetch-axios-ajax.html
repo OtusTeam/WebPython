@@ -1,0 +1,742 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 19</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 21</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 21</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>CSS-препроцессоры</li>
+            <li>AJAX</li>
+            <li>$.ajax</li>
+            <li>fetch + ещё немножко ES6</li>
+            <li>axios</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>спасибо большое за отзывы! я их учёл;</li>
+            <li>кто был на ДОД?</li>
+            <li>небольшая задержка с домашкой - я исправился</li>
+            <li>про тайминг помню.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>CSS-препроцессоры</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Чистый CSS</h2>
+        <pre class="xbig">
+            <code>
+.header {
+    width: 100%;
+}
+
+@media (min-width: 700px) {
+    .header {
+        width: 80%;
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Чистый CSS</h2>
+        <ul>
+            <li>По-хорошему нужны префиксы –moz- и т.д.</li>
+            <li>@media пишутся тяжело</li>
+            <li>Переменных нет *</li>
+            <li>Вложенность классов приходится делать руками</li>
+            <li>Нет никакой арифметики *</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>CSS-препроцессоры</h2>
+        <ul>
+            <li>Меньше кода, больше «програмимрования».</li>
+            <li>Много работы берут на себя</li>
+            <li>Перeменные, расширения, миксины, функции, арифметика, @import, inline-картинок
+                и много других страшных слов
+            </li>
+            <li>Да и проще синтаксис</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>CSS-препроцессоры</h2>
+        <ul>
+            <li>LESS (LESS CSS)– кто-то считает староватой</li>
+            <li>SASS/SCSS – кто-то считает недобной</li>
+            <li>Stylus – кто-считает неизвестным</li>
+            <li>PostCSS – несмотря на post, он ещё и pre</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>CSS-препроцессоры</h2>
+        <ul>
+            <li>Не отличаются особо по функционалу</li>
+            <li>Освоив один – можете смело пистаь на другом</li>
+            <li>Конечно, я соврал, но при некотором опыте – это так.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>LESS</h2>
+        <pre class="xbig">
+<code>
+@width: 10px;
+@height: @width + 10px;
+
+.header {
+    width: @width;
+    height: @height;
+}
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>LESS</h2>
+        <ul>
+            <li>Пишется примерно как CSS</li>
+            <li>Если написать в нём кусок CSS – он будет валидным LESS-кодом</li>
+            <li>Переменные пишутся через @</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SASS</h2>
+        <pre class="xbig">
+            <code>
+$width: 10px;
+$height: $width + 10px;
+
+.header
+    width: $width;
+    height: $height;
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SASS</h2>
+        <ul>
+            <li>Пишется с табуляциями (там ломается нога)</li>
+            <li>Если написать в нём кусок CSS – он НЕ будет валидным</li>
+            <li>Переменные пишутся через $</li>
+            <li>Точки с запятой не ставятся в конце! (это бесит, на самом деле)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SCSS</h2>
+        <pre class="xbig">
+            <code>
+$width: 10px;
+$height: $width + 10px;
+
+.header {
+    width: $width;
+    height: $height;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SCSS</h2>
+        <ul>
+            <li>Тот же SASS, только без табуляций</li>
+            <li>Когда говорят SASS, часто имеют ввиду SCSS</li>
+            <li>Если написать в нём кусок CSS – он будет неконец-то валидным</li>
+            <li>Переменные пишутся через $</li>
+            <li>Точки с запятой ставятся в конце – это не бесит.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>PostCSS</h2>
+        <ul>
+            <li>На самом деле это расширяемая система обработки CSS.</li>
+            <li>Как Вы расширите – так и будет интерпретироваться код</li>
+            <li>По синтаксису похож на SCSS</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+        <ul>
+            <li>Дальше я буду писать на less</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Иерархия классов</h2>
+        <pre class="xbig">
+            <code>
+// в CSS такое сложно писать
+.nav a { ... }
+
+.header .nav a { ... }
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Иерархия классов</h2>
+        <pre class="xbig">
+            <code>
+// в LESS или SCSS
+.header {
+    .nav {
+        a {
+            //...
+        }
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>БЭМ на CSS</h2>
+        <pre class="xbig">
+            <code>
+.header {
+    width: 100%;
+}
+
+.header__logo {
+    background: green;
+}
+
+.header--small {
+    width: 80%;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>БЭМ на CSS</h2>
+        <ul>
+            <li>Выглядит страшно</li>
+            <li>Особенно В CSS и HTML</li>
+            <li>Но это очень мощная методология</li>
+            <li>С CSS-препроцессорами и React – сплошное удовольствие</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>БЭМ на LESS или SCSS</h2>
+        <pre class="xbig">
+            <code>
+.header {
+    width: 100%;
+
+    &__logo {
+        background: green;
+    }
+
+    &--small {
+        width: 80%;
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Миксина (Less)</h2>
+        <pre class="xbig">
+            <code>
+.green() {
+    background: @green;
+}
+
+.block {
+    .green;
+    width: 100%;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Миксина (SASS)</h2>
+        <pre class="xbig">
+            <code>
+@mixin green() {
+    background: $green;
+}
+
+.block {
+    @include green;
+    width: 100%;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li><a href="https://codepen.io/ydvorzhetskiy/pen/GBKxrg">
+                https://codepen.io/ydvorzhetskiy/pen/GBKxrg</a></li>
+            <li>Вынесите green и 100px в переменные и используйте</li>
+            <li>А потом ещё и в миксину</li>
+            <li>&__elem</li>
+            <li>Уменьшите марджин между блоками вполовину c помощью арифметики</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как устанавливать</h2>
+        <ul>
+            <li>Для того, чтобы этот код преобразовался в CSS, необходимо запустить сам препроцессор</li>
+            <li>По идее есть npm-пакеты типа lesscss, которые натравливаются на исходники</li>
+            <li>Обычно используются лоадеры в webpack, gulp и, как ни странно, PostCSS</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Установка less в webpack</h2>
+        <pre class="xbig">
+            <code>
+module.exports = {
+    module: {
+        rules: [{
+            test: /\.less$/,
+            use: [
+                { loader: 'style-loader' },
+                { loader: 'css-loader' },
+                { loader: 'less-loader' }
+            }]
+        }, /* ... */ ]
+    }, // ...
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного о less-loader</h2>
+        <ul>
+            <li>Загружает Less-файлы</li>
+            <li>Интерпретирует их в CSS</li>
+            <li>Собственно, он и вызывает пакет less</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного о css-loader</h2>
+        <ul>
+            <li>css-loader - загружает @import внутри .less файлов</li>
+            <li>А так-же url(), например, в background</li>
+            <li>Короче, обеспечаивает нормальную работу css</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного об @import</h2>
+        <pre class="xbig">
+            <code>
+// brand.less
+@blue: #0000f5
+
+// style.less
+@import "brand";
+
+.body {
+    background: blue;
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного о style-loader</h2>
+        <ul>
+            <li>style-loader - создаёт тег style в DOM</li>
+            <li>Делает это с помощью JS</li>
+            <li>И поэтому можно делать вот такое</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Немного об import</h2>
+        <pre class="xbig">
+            <code>
+// component.js
+import jQuery from 'jquery/dist';   // ES6
+
+import 'style.less';       // style-loader
+
+let someJsCode = 'someJSString';
+// ...
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classic HТML-page</h2>
+        <ul>
+            <li>Страницы получаются GET запросом /index</li>
+            <li>Сервер генерирует HTML разметку c данными</li>
+            <li>В результирующей HTML ссылки на CSS и JS</li>
+            <li>CSS и JS хранятся на сервере и отдаются</li>
+            <li>JS анимирует страницы</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Classic HТML-page</h2>
+        <ul>
+            <li>(+) Это просто</li>
+            <li>(+) Генерировать HTML на сервер просто (PHP)</li>
+            <li>(-) Пользователь при переходе/действии загружает новую страницу целиком</li>
+            <li>(-) Видит «пустую страницу» даже при небольших действиях</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Найти классический HTML-сайт.</li>
+            <li>Отправить его в чат.</li>
+            <li>Полазить по нему с открытой консолью Network (+preserve logs)</li>
+            <li>Ужаснуться (килобайтам)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+        <ul>
+            <li>AJAX (Asynchronous Javascript and XML)</li>
+            <li>Это целая архитектура</li>
+            <li>Изначально базуруется на классе XMLHttpRequest (старый)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+        <ul>
+            <li>Страницы получаются GET запросом /index</li>
+            <li>Сервер генерирует HTML разметку c минимумом данных</li>
+            <li>JS получает и передаёт данные посредтсвом $.ajax | Fetch | XMLHttpRequest | Axios,
+                отображает их</li>
+            <li>Переход на страницу – это переход на страницу</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>AJAX</h2>
+        <ul>
+            <li>(+) Меньше передаётся данных</li>
+            <li>(+) При действиях не перезагружается страница</li>
+            <li>(-) Тяжело писать что-то сложнее заполнения данными таблицу</li>
+            <li>(-) Видит «пустую страницу» только при переходе</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Найти страницы с AJAX архитектурой.</li>
+            <li>Отправить его в чат.</li>
+            <li>Полазить по нему с открытой консолью Network (+prserve logs)</li>
+            <li>Увидеть как передаются данные.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>SPA</h2>
+        <ul>
+            <li>AJAX - не конец</li>
+            <li>Дальше будет SPA</li>
+            <li>Но об этом позже :)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>$.ajax</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>$.ajax</h2>
+        <ul>
+            <li>Релаизация Ajax-запроса</li>
+            <li>В классической билиотеке - jquery</li>
+            <li>Просто отличная обёртка XMLHttpRequest</li>
+            <li>Часто её прикручивают просто из-за удобства AJAX</li>
+            <li>Пример: <a href="https://codepen.io/btholt/pen/FArdh">
+                https://codepen.io/btholt/pen/FArdh</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>$.ajax в ES6</h2>
+        <pre class="xbig">
+            <code>
+import $ from 'jquery';
+
+$.get('http://localhost:8008/api/user')
+    .done(function(data) {
+        console.log(data);
+    });
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>axios</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>axios</h2>
+        <ul>
+            <li>Навороченная обёртка XMLHttpRequest (Promise)</li>
+            <li>Можно прикрутить JSON-schema</li>
+            <li>Можно останавливать запрос</li>
+            <li>Развивался до fetch</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>axios</h2>
+        <pre class="xbig">
+            <code>
+import axios from 'axios';
+
+axios.get('/user?ID=12345')
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>fetch</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>fetch</h2>
+        <ul>
+            <li>Замена XMLHttpRequest (Promise-based)</li>
+            <li>Самы современный</li>
+            <li>Не всеми поддерживается - нужен polyfill</li>
+            <li>Нельзя останавливать запрос</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>fetch</h2>
+        <pre class="xbig">
+            <code>
+var myImage = document.querySelector('img');
+
+fetch('flowers.jpg').then(function(response) {
+  return response.blob();
+}).then(function(myBlob) {
+  var objectURL = URL.createObjectURL(myBlob);
+  myImage.src = objectURL;
+});
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Сборка UI с помощью webpack, форма логина и регистрации, проксирование вызовов на back-end</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь JS!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

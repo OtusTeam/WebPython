@@ -1,0 +1,632 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 22</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 26</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 26<br>React</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что сможем делать после вебинара?</h2>
+        <ul>
+            <li>Работать со state и props.</li>
+            <li>Осознать one-way data flow</li>
+            <li>Почти полностью создавать приложения на React</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>Небольшая задержка с домашкой - я пока исправился, но исправлюсь в ближайшее время</li>
+            <li>Про тайминг помню.</li>
+            <li>В конце отзыв.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+        <pre class="xbig">
+            <code>
+&lt;User username="ydvorzhetskiy"/>
+
+export default class User extends Component {
+    render() {
+        return (
+            &lt;div>
+                My name is {this.props.username}
+            &lt;/div>
+        );
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+        <pre class="xbig">
+            <code>
+&lt;Page>
+    &lt;div/>
+    &lt;span/>
+&lt;/Page>
+
+export default class Page extends Component {
+    render() {
+        return (
+            &lt;div className="page">
+                {this.props.children}
+            &lt;/div>
+        );
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+        <pre class="xbig">
+            <code>
+class Hello extends Component {
+    render() {
+        const {username} = this.props;
+        return (
+            &lt;div>Hello, {username}&lt;/div>
+        )
+    }
+}
+// Эквивалентная запись (stateless)
+const Hello = ({username}) => (
+    &lt;div>Hello, {username}&lt;/div>
+);
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+        <ul>
+            <li>props – immutable параметры, которые приходят из родительского компонента в дочерний.</li>
+            <li>В дочернем доступен через this.props</li>
+            <li>Единственный правильный способ поменять props – это сказать parent-у (через callback) чтобы он их
+                поменял
+            </li>
+            <li>Туда можно класть и React-элементы</li>
+            <li>Их можно валидировать</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>defaultProps</h2>
+        <pre class="xbig">
+            <code>
+class Label extends Component {
+    render() {
+        return &lt;span>{this.props.text}&lt;/span>
+    }
+}
+
+Label.defaultProps = {
+    text: 'N/A'
+};
+
+// в parent-е
+&lt;Label/>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>defaultProps</h2>
+        <ul>
+            <li>defaultProps – свойства по умолчанию. Эти значения подставятся в случае undefined в соответствующем
+                ключе
+            </li>
+            <li>С помощью них Вы можете безопасно писать компоненты, если даже родитель не передаст Важные свойства.
+            </li>
+            <li>Обычно используются для массивов или специальных значений у которыхз дальше вызываются функции и
+                получаются свойства
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>PropTypes</h2>
+        <ul>
+            <li>Учитывая, что Ваше приложение растёт и развивается, то было бы неплохо убедиться, что Ваши компоненты
+                работают правильно.
+            </li>
+            <li>propTypes предоставляют такую возможность. Это набор валидаторов, которые позволяют проверить тип,
+                состав полей и просто наличие свойств компонента.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>PropTypes</h2>
+        <ul>
+            <li>Работает в development react-е, по сути, выводит только warnigns на консоль браузера.</li>
+            <li>Немаловажное достоинство – с помощью propTypes, по сути, документируются props. Подсказки,
+                IntelliJ/WebStorm
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>PropTypes</h2>
+        <pre class="xbig">
+            <code>
+import PropTypes from "prop-types";
+
+class Label extends Component {}
+
+Label.defaultProps = {
+    text: 'N/A'
+};
+Label.propTypes = {
+    text: PropTypes.string
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>PropTypes</h2>
+        <ul>
+            <li>Тьма различных валидаторов</li>
+            <li>Можно комбинировать валидаторы</li>
+            <li>Можно даже проверять форму (наличие полей)</li>
+            <li><a href="https://www.npmjs.com/package/prop-types">https://www.npmjs.com/package/prop-types</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>this.props.children</h2>
+        <pre class="xbig">
+            <code>
+class Container extends Component {
+    render () {
+        return &lt;div>
+            {this.props.children}
+        &lt;/div>
+    }
+}
+
+Container.propTypes = {
+    PropTypes.element.isRequired
+}
+
+            </code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <pre class="xbig">
+            <code>
+npm install -g create-react-app
+create-react-app my-app
+cd my-app
+npm start
+
+                или
+
+npx create-react-app my-app
+cd my-app
+npm start
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <pre class="xbig">
+            <code>
+class Label extends Component {
+    render() {
+        return &lt;span>{this.props.text}&lt;/span>
+    }
+}
+
+// TODO: defaultProps и PropTypes
+            </code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>events и handlers</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Обработка событий</h2>
+        <pre class="xbig">
+            <code>
+// onClick обработчик
+&lt;div onClick={ (event) => console.log('!') }>
+  Нажми меня!
+&lt;/div>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Доступные события</h2>
+        <p>
+            onCopy onCut onPaste; onCompositionEnd onCompositionStart onCompositionUpdate; onKeyDown onKeyPress onKeyUp;
+            onFocus onBlur; onChange onInput onSubmit; onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter
+            onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave onMouseMove
+            onMouseOut onMouseOver onMouseUp; onSelect; onTouchCancel onTouchEnd onTouchMove onTouchStart;
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Доступные события</h2>
+        <p>
+            onScroll; onWheel; onLoad onError; onAnimationStart onAnimationEnd onAnimationIteration; onTransitionEnd;
+            onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded onError onLoadedData
+            onLoadedMetadata; ^_^
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Обёртка event</h2>
+        <ul>
+            <li>В каждый обработчик приходит не обычное браузерное событие, а обёртка – SyntheticEvent</li>
+            <li>Данная обёртка является кросс-браузерной. И если там есть поле, например, keyCode, то оно будет во всех
+                браузерах
+            </li>
+            <li>Также есть обычные методы событий: stopPropagation() и preventDefault()</li>
+            <li>Если необходимо добраться до нативного события, просто используте nativeEvent поле</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>state</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>constructor</h2>
+        <pre class="xbig">
+            <code>
+class MyComponent extends Component {
+
+    constructor(props) {
+        super();
+        this.state = {
+            username: 'N/A'
+        }
+    }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>constructor</h2>
+        <ul>
+            <li>Конструктор вызывается один раз за всю жизнь объекта.</li>
+            <li>В конструкторе можно смело задавать начальное состояние.</li>
+            <li>Здесь по идее не надо загружать данные</li>
+            <li>Где надо пройдём на следующем занятии</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>state</h2>
+        <ul>
+            <li>Перед тем как изменять state, он задаётся в конструкторе объекта напрямую (state поле компонента)</li>
+            <li>До вызова первого render, state нельзя никак менять (и зачем?)</li>
+            <li>Далее state не изменяется напрямую, а только через setState метод</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>setState</h2>
+        <pre class="xbig">
+            <code>
+onClick() {
+  this.setState({
+    checked: !this.state.checked
+  });
+
+  this.setState(prev => ({
+      checked: !prev.checked
+  }))
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>setState</h2>
+        <pre class="xbig">
+            <code>
+handleChange(event) {
+    this.setState({title: event.target.value})
+}
+
+render() {
+    return &lt;input type="text" value={this.state.title}
+          onChange={this.handleChange.bind(this)}/>
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упраженение</h2>
+        <pre class="xbig">
+            <code>
+&lt;div onClick={ (event) => ??? }>
+  Нажми меня!
+&lt;/div>
+
+{this.state.labelIsVisible &&
+  &lt;span>Спрячь меня!&lt;span>
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>state и props</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>state vs props</h2>
+        <ul>
+            <li>props-ы (Properties, свойства) поступают в компонент из родительского компонента</li>
+            <li>state инициализируется внутри компонента в конструкторе</li>
+            <li>state – внутреннее состояние компонента, props – начальные данные (обычно)</li>
+            <li>props могут быть провалидированы, state – нет</li>
+            <li>Большинству компонентов не нужен state, только props</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что должно помещаться в state?</h2>
+        <ul>
+            <li>Данные по которым может вызываться обновление UI</li>
+            <li>Минимальные данные, неоьходимые для логики</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Что НЕ должно помещаться в state?</h2>
+        <ul>
+            <li>Дубликаты данных из формы</li>
+            <li>React компоненты</li>
+            <li>Любые вычисляемые данные</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <p>Назовите по два компонента, какие их данные можно отнести к props, какие ко state?</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>refs</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>refs</h2>
+        <ul>
+            <li>React поддерживает очень специальные свойства, называемые refs</li>
+            <li>С их помощью можно получить доступ к компонентам вне render</li>
+            <li>Это называется Uncontolled Inputs.</li>
+            <li>Полезно, если Вы прикручиваете React к другому фреймворку.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Refs</h2>
+        <pre class="xbig">
+<code>
+class Input extends Component {
+    componentDidMount() {
+        this._input.focus();
+    }
+
+    render() {
+        return &lt;TextInput
+            ref={(c) => this._input = c}
+        />;
+    }
+}
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>One-way data flow</h2>
+        <p>
+            <img src="img/l22-dataflow.png" style="height: 400px; width: auto"/>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример</h2>
+        <pre class="xbig">
+            <code>
+let user = {username: 'Ivan'};
+
+class App extends Component {
+  render() {
+    return (
+      &lt;div className="App">
+        &lt;input value={user.username}
+                onChange={e => user.username=e.target.value}/>
+
+      &lt;/div>
+    );
+  }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример и делаем</h2>
+        <pre class="xbig">
+            <code>
+class App extends Component {
+  render() {
+    return (
+      &lt;div className="App">
+        &lt;input placeholder="Введите имя" value={} onChange={}/>
+        &lt;br/>
+        &lt;input placeholder="Введите имя" value={} onChange={}/>
+        &lt;button onClick={/*а здесь алерт*/}>Зарегистрироваться</button>
+                &lt;/div>
+    );
+  }
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Опрос</h2>
+        <ul>
+            <li><a href="https://otus.ru/polls/1689/">https://otus.ru/polls/1689/</a>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Страница логина, регистрации на React</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь React!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,900 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 22</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 30</h2>
+    <h1>OTUS</h1>
+    <p>Юрий Дворжецкий</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 30<br>Flux и Redux</h1>
+        <p>Юрий Дворжецкий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что сможем делать после вебинара?</h2>
+        <ul>
+            <li>Ориентироваться во Flux</li>
+            <li>Разрабатывать приложения на React любого масштаба (и огроооомные тоже)</li>
+            <li>С хранением состояния в Redux</li>
+            <li>И не только React-приложения</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>План на сегодня</h2>
+        <ul>
+            <li>Немного о хранении состояния приложения</li>
+            <li>Немного о Flux</li>
+            <li>Много о Redux</li>
+            <li>И best-practices, разумеется.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Орг.моменты</h2>
+        <ul>
+            <li>Задержка с домашкой, собственно, сейчас и проверяю</li>
+            <li>Про тайминг помню.</li>
+            <li>В конце отзыв.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Сегодня мы будем уметь это</h2>
+        <p><img src="img/l30-mem.png" style="height: 400px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Состояние приложения</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Дано: App, Page, Header. В Header выводится имя пользователя.
+            <li>Где мы будем хранить данные о пользователе?</li>
+            <li>Где мы будем их получать?</li>
+            <li>Какие + и -</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>One-way data flow</h2>
+        <p>
+            <img src="img/l22-dataflow.png" style="height: 400px; width: auto"/>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Примерно так и выглядит</h2>
+        <pre class="xbig">
+            <code>
+class Page extends Component {
+    state = {showDialog: false}
+
+    render() {
+        return &lt;div>
+            &lt;Dialog visible={this.state.showDialog}
+                    onClose={ () => this.setState({showDialog: false}) }/>
+        &lt;/div>
+    }
+}
+const Dialog = ({visible, onClose}) => props.visible && &lt;div>
+    &lt;button onClick={onclose}>Закрыть&lt;/button>
+&lt;/div>
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Дано: App, Page, Header. В Header выводится имя пользователя.
+            <li>Где мы будем хранить данные о пользователе?</li>
+            <li>Где мы будем их получать?</li>
+            <li>Какие + и -</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Выводы</h2>
+        <ul>
+            <li>Состояние приложения нужно хранить снаружи</li>
+            <li>Но не хочется тащить callback-и</li>
+            <li>Хочется просто отслеживать изменения</li>
+            <li>Ну и поменьше дефектов тоже</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux</h2>
+        <ul>
+            <li>Flux – архитектура приложений, созданная Facebook</li>
+            <li>One-way Data Flow в центре этой архитектуры</li>
+            <li>Во Flux есть роли: action, store, dispatcher и view</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux</h2>
+        <ul>
+            <li>One-Way Data Flow делает Ваши приложения очень простыми, причём, как к понимаю,
+                так и к отладке и дальнейшему расширению.
+            </li>
+            <li>Two-Way Data Flow является причиной каскадных изменений, неэффективности всей клиентской
+                части и источником частых и труднообнаружимых ошибок.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux</h2>
+        <p><img src="img/l30-flux.png" style="height: 400px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли Flux: Action</h2>
+        <ul>
+            <li>Action – это просто объект содержащий идентификатор действия (type),
+                и все данные необходимые для совершения действия
+            </li>
+            <li>Разные действия имеют разный атрибут type</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли Flux: Action</h2>
+        <pre class="xbig">
+            <code>
+{
+  type: "IncreaseCount",
+  local_data: {delta: 1}
+}
+                
+{
+  type: "IncreaseCount",
+  delta: 1,
+  silent: true
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упраженение</h2>
+        <ul>
+            <li>Придумайте Ваши объекты-экшены и напишите их в чат</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли flux: store</h2>
+        <ul>
+            <li>Store содержит логику приложения и его текущее состояние</li>
+            <li>Можно считать, что store отвечает за обработку какой-то области приложения</li>
+            <li>Очень похож на модель из MVC, но это не модель. Модель хранит какой-то один объект,
+                а store может хранить состояние всего приложения.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли flux: store</h2>
+        <ul>
+            <li>Store обновляется callback-ом из диспатчера. Callback получает action как параметр</li>
+            <li>Как store будет обновлён, рассылается уведомление слушающим view, которые перерисовывают
+                себя с новыми данными.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли Flux: dispatcher</h2>
+        <ul>
+            <li>Dispatcher – центральный хаб . Он обрабатывает action-ы, и вызывает callback-и со store,
+                в котором он зарегистрирован
+            </li>
+            <li>Диспатчер, это не совсем контроллер из MVC, он не содержит
+                никакой логики по обработке данных – только слепое выполнение
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Роли Flux: View</h2>
+        <ul>
+            <li>В качестве view обычно выступают react-компоненты</li>
+            <li>Наподобие MVC, View подписываются на обновление данных, и обновляют себя при их изменении</li>
+            <li>View могут добавлять новые действия в диспатчер</li>
+            <li>С react-овским one-way data flow работает особенно хорошо и просто</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Без Flux, c Flux</h2>
+        <p><img src="img/l30-with-flux.png" style="height: 300px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux</h2>
+        <p><img src="img/l30-flux.png" style="height: 400px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Опишите плюсы Flux по картнкам</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Redux</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Реализации Flux</h2>
+        <ul>
+            <li>Flux Вы можете реализовать самостоятельно, собственно, это только архитектурный паттерн</li>
+            <li>А можете воспользоваться одной из готовых реализаций:</li>
+            <li><b>Facebook Flux</b>, Fluxible by Yahoo, Reflux, Alt, Flummox, Marty.js, McFly, Lux, Material Flux,
+                <b>Redux</b>, Redux + Flambeau, <b>Nuclear.js</b>, Fluxette, Fluxxor, Freezer, Fluxury
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Redux</h2>
+        <ul>
+            <li>Flux – потрясающий паттерн. Single direction data flow позволяет точно знать, что происходит с данными.
+            </li>
+            <li>Если Вы пишете с Flux, нужно совсем немного времени, чтобы разобраться, что происходит.</li>
+            <li>Но если Вы используете чистый Flux, то у Вас появляется масса вспомогательного кода (boilerplate).</li>
+            <li>Так и появился Redux</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Immutability</h2>
+        <ul>
+            <li>Самый простой путь сравнить два объекта на равенство – это сравнить их ссылки.</li>
+            <li>Вместо глубокого сравнения: _.isEqual(object1, object2)</li>
+            <li>Хочется просто написать: object1 === object2</li>
+            <li>Но это верно только для неизменяемых объектов (immutable)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Immutability</h2>
+        <ul>
+            <li>Можно реализовывать такие объекты с Immutable.js или React.addons.update</li>
+            <li>А можно просто следовать правилу: "If you change it, replace it."</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Напишите immutable животное, которое может быть голодным/сытым и может есть</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Immutability (хорошие функции)</h2>
+        <pre class="xbig">
+            <code>
+// Для массивов хорошие:
+[…arrays],
+concat, slice, splice
+filter, map
+
+// Для Объектов хорошие:
+Object.assign()
+{...obj}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Impure (нечистая) function</h2>
+        <pre class="xbig">
+            <code>
+var values = {a: 1};
+
+function impureFunction(items) {
+    var b = 1;
+    items.a = items.a * b + 2;
+    return items.a;
+}
+
+var c = impureFunction(values);
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Pure (чистая) function</h2>
+        <pre class="xbig">
+            <code>
+var values = {a: 1};
+
+function pureFunction(a) {
+    var b = 1;
+    a = a * b + 2;
+    return a;
+}
+
+var c = pureFunction(values.a);
+            </code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Redux</h2>
+        <ul>
+            <li>Redux это предсказуемый контейнер для данных в JS приложениях</li>
+            <li>Redux следует идеям Flux, но заметно сокращает сложность</li>
+            <li>Redux не касается рендеринга, роутинга, безопасности и type-safety</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Основные идеи Redux</h2>
+        <ul>
+            <li>Single source of truth – Состояние всего приложения хранится в единственном store, и только в нём.</li>
+            <li>State является read-only – Единственный способ изменить состояние – создать новое.</li>
+            <li>Изменения осуществляются чистыми функциями (pure).</li>
+            <li>Для того, чтобы задать как состояние меняется, вы пишите чистые редьюсеры (reducers).</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Redux (пример)</h2>
+        <pre class="xbig">
+            <code>
+function counter(state = 0, action) {
+    switch (action.type) {
+        case 'INCREMENT': return state + 1
+        case 'DECREMENT': return state - 1
+        default: return state
+    }
+}
+
+let store = createStore(counter)
+store.subscribe( () => console.log(store.getState()) )
+store.dispatch({type: 'INCREMENT'}) //1
+store.dispatch({type: 'INCREMENT'}) //2
+store.dispatch({type: 'DECREMENT'}) //1
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux vs Redux (нет диспатчера)</h2>
+        <p><img src="img/l30-flux-and-redux.png" style="height: 250px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Flux vs Redux (один store)</h2>
+        <p><img src="img/l30-flux-and-redux-2.png" style="height: 250px; width: auto"/></p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>как сделать один store (reducer) ?</h2>
+        <pre class="xbig">
+            <code>
+const todos = (state = [], action) => {
+    switch (action.type) {
+        case 'SOME_ACTION': //DO SOMETHING HERE
+        default: return state;
+    }
+};
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+    switch (action.type) {
+        case 'SET_VISIBILITY_FILTER': return action.filter;
+        default: return state;
+    }
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>как сделать один store (reducer) ?</h2>
+        <pre class="xbig">
+            <code>
+const todoApp = (state = {}, action) => {
+    return {
+        todos: todos(state.todos, action),
+        visibilityFilter: visibilityFilter(
+           state.visibilityFilter, action
+        )
+    };
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>store</h2>
+        <ul>
+            <li>Это просто объект, хранит состояние всего приложения</li>
+            <li>Состояние получается через getState(); Изменяется только через dispatch(action);</li>
+            <li>Листенеры регистрируются через subscribe(listener);</li>
+            <li>Store должен быть один на всё приложение</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>store</h2>
+        <ul>
+            <li>Создаётся с помощью createStore</li>
+            <li>Для создания требуется редьюсер (один, смерженный из всех остальных)</li>
+            <li>Дальше с ним можно работать как с обычным объектом</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Создание store</h2>
+        <pre class="xbig">
+            <code>
+import {createStore} from 'redux'
+import todoApp from './reducers'
+
+let store = createStore(todoApp)
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Action</h2>
+        <ul>
+            <li>Action – это просто объект содержащий идентификатор действия (type), и все данные необходимые
+                для совершения действия (факт действия)
+            </li>
+            <li>Они передаются в метод dispatch</li>
+            <li>И приходят в параметры reducer-а</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Action</h2>
+        <pre class="xbig">
+            <code>
+{
+  type: "IncreaseCount",
+  delta: 1,
+  silent: true
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Reducer</h2>
+        <ul>
+            <li>Редьюсеры, это то, что объединяет actions и store</li>
+            <li>Action описывает сам факт действия, но не говорит, о том, что нужно сделать,
+                а вот редьюсер как раз и делает.
+            </li>
+            <li>Редьюсер – это чистая функция, которая принимает предыдущий state из store и action,
+                а возвращает новый state
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Reducer</h2>
+        <ul>
+            <li>Поэтому и называется редьюсер:
+            <li>(previousState, action) => newState // это сейчас был reduce</li>
+            <li>Очень важно, чтобы редьюсер был чистой функцией: не осуществлял изменния аргументов,
+                не осуществлял запросов, не использовал Date.now() или Math.random()
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Action</h2>
+        <pre class="xbig">
+            <code>
+function counter(state = 0, action) {
+    switch (action.type) {
+        case 'INCREMENT': return state + 1
+        case 'DECREMENT': return state - 1
+        default: return state
+    }
+}
+
+// 0 – это initialState
+// Принимает текущее состояние (число) и экшн
+// Возвращает новое состояние
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Упражнение</h2>
+        <ul>
+            <li>Напишите редьюсер для приложения-калькулятора (арифметические операции, ресет)</li>
+            <li>Какой state? Initial?</li>
+            <li>Какие типы action-ов?</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Reducer</h2>
+        <pre class="xbig">
+            <code>
+const todoApp = (state = {}, action) => {
+    return {
+        todos: todos(state.todos, action),
+        visibilityFilter: visibilityFilter(
+            state.visibilityFilter, action
+        )
+    };
+};
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Reducer</h2>
+        <pre class="xbig">
+            <code>
+const todoApp = (state = {}, action) => {
+    return {
+        todos: todos(state.todos, action),
+        visibilityFilter: visibilityFilter( state.visibilityFilter, action )
+    };
+};
+                
+// rootReducer.js
+import {combineReducers} from 'redux'
+
+export default combineReducers({ reducer1, reducer2 })
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Middlewares</h2>
+        <ul>
+            <li>Middlewares в Redux - это что в других технологиях называется third-party extensions</li>
+            <li>Redux позволяет подключить эти third-party extension в тот момент, после того, как action отправили
+                в dispatch, но до того, как этот метод попал в reducer.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Thunk middlewares</h2>
+        <pre class="xbig">
+            <code>
+function fetchTodos(url) {
+    return dispatch => {
+        dispatch(startFetchingTodos(url))
+        return fetch(url)
+            .then(response => response.json())
+            .then(json => dispatch(todosReceived(url, json)))
+    }
+}
+
+store.dispatch(fetchTodos("http://awesomePlaceWithTodos"))
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Итоги (промежуточные)</h2>
+        <p><img src="img/l30-redux-arch.png" style="height: 400px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример (App)</h2>
+        <pre class="xbig">
+            <code>
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import todoApp from './reducers'
+
+let store = createStore(todoApp);
+
+const App = () => (
+    &lt;Provider store={store}>
+        &lt;MyRootComponent />
+    &lt;/Provider>
+);
+
+ReactDOM.render(&lt;App/>, rootEl);
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример (connect)</h2>
+        <pre class="xbig">
+            <code>
+import { connect } from 'react-redux'
+import { toggleTodo } from '../actions'
+
+const mapStateToProps = state => ({ todos: state.todos })
+
+const mapDispatchToProps = dispatch => ({
+    toggleTodo: id => dispatch(toggleTodo(id))
+})
+
+const TodoList = ({ todos }) => ( &lt;ul>{todos}&lt;/ul> );
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример (connect)</h2>
+        <pre class="xbig">
+            <code>
+import { connect } from 'react-redux'
+import { toggleTodo } from '../actions'
+
+const TodoList = ({ todos }) => ( &lt;ul>{todos}&lt;/ul> );
+
+export default connect(
+    state => ({
+        todos: state.todos
+    }),
+    dispatch => ({
+        toggleTodo: id => dispatch(toggleTodo(id))
+    })
+)(TodoList)
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Структура папок (в простых приложениях)</h2>
+        <ul>
+            <li>actions – сюда располагают action creators, а в этих файлах и константы</li>
+            <li>components – собственно, React –компоненты</li>
+            <li>reducers – редьюсеры</li>
+            <li>store – создание store и middleware</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Структура папок (для профи)</h2>
+        <ul>
+            <li>actions – сюда располагают action creators, а в этих файлах и константы</li>
+            <li>сonstants – константы экшенов</li>
+            <li>components – простые React –компоненты (не знают про Redux)</li>
+            <li>containers – React-контейнеры (знают о Redux, connect)</li>
+            <li>reducers – редьюсеры</li>
+            <li>store – создание store и middleware</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что почитать</h2>
+        <ul>
+            <li><a href="https://redux.js.org/">https://redux.js.org/</a></li>
+            <li><a href="https://www.valentinog.com/blog/react-redux-tutorial-beginners/">
+                https://www.valentinog.com/blog/react-redux-tutorial-beginners/
+            </a></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Итоги</h2>
+        <p><img src="img/l30-redux-flow.png" style="height: 400px; width: auto"/></p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Опрос</h2>
+        <ul>
+            <li><a href="https://otus.ru/polls/2267/">https://otus.ru/polls/2267/</a>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание</h2>
+        <p>Блок успеваемости в личном кабинете, ведомость в кабинете преподавателя</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Спасибо!</h2>
+        <p>Спасибо!</p>
+        <p>Не бойтесь React!</p>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
+
