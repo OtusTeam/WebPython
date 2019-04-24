@@ -1,0 +1,619 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 04</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 04</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 04</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>IP, TCP, HTTP;</li>
+            <li>[u]WSGI.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>OSI</h2>
+        <ul>
+            <li>IP;</li>
+            <li>TCP;</li>
+            <li>HTTP.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>IP</h2>
+        <ul>
+            <li>есть хосты;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>IP</h2>
+        <ul>
+            <li>есть хосты;</li>
+            <li>между ними ходят пакеты (бинарные данные от 20 до 65535 байт);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>IP</h2>
+        <ul>
+            <li>есть хосты;</li>
+            <li>между ними ходят пакеты (бинарные данные от 20 до 65535 байт);</li>
+            <li>пакеты могут потеряться по дороге или прийти несколько раз.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>TCP</h2>
+        <ul>
+            <li>способ отправлять пакеты по IP так, чтобы они приходили в пункт назначения в целости и правильном
+                порядке;
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>TCP</h2>
+        <ul>
+            <li>способ отправлять пакеты по IP так, чтобы они приходили в пункт назначения в целости и правильном
+                порядке;
+            </li>
+            <li>TCP устанавливает канал между двумя хостами и гарантирует доставку данных по нему;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>TCP</h2>
+        <ul>
+            <li>способ отправлять пакеты по IP так, чтобы они приходили в пункт назначения в целости и правильном
+                порядке;
+            </li>
+            <li>TCP устанавливает канал между двумя хостами и гарантирует доставку данных по нему;</li>
+            <li>TCP умеет разбивать данные на пакеты;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>TCP</h2>
+        <ul>
+            <li>способ отправлять пакеты по IP так, чтобы они приходили в пункт назначения в целости и правильном
+                порядке;
+            </li>
+            <li>TCP устанавливает канал между двумя хостами и гарантирует доставку данных по нему;</li>
+            <li>TCP умеет разбивать данные на пакеты;</li>
+            <li>чтобы несколько приложений могли использовать TCP на одной машине, придумали порты;</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>HTTP 1.1</h2>
+        <ul>
+            <li>текстовый протокол передачи данных;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>HTTP 1.1</h2>
+        <ul>
+            <li>текстовый протокол передачи данных;</li>
+            <li>разные ресурсы и методы;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>HTTP 1.1</h2>
+        <ul>
+            <li>текстовый протокол передачи данных;</li>
+            <li>разные ресурсы и методы;</li>
+            <li>не хранит промежуточного состояния;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>HTTP 1.1</h2>
+        <ul>
+            <li>текстовый протокол передачи данных;</li>
+            <li>разные ресурсы и методы;</li>
+            <li>не хранит промежуточного состояния;</li>
+            <li>есть частичные и условные запросы.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Запрос</h2>
+        <pre><code>GET / HTTP/1.1
+Host: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Метод</h2>
+        <pre><code><mark>GET</mark> / HTTP/1.1
+Host: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Путь</h2>
+        <pre><code>GET <mark>/</mark> HTTP/1.1
+Host: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Протокол</h2>
+        <pre><code>GET / <mark>HTTP/1.1</mark>
+Host: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Заголовки</h2>
+        <pre><code>GET / HTTP/1.1
+<mark>Host: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</mark></code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Название заголовка</h2>
+        <pre><code>GET / HTTP/1.1
+<mark>Host</mark>: otus.ru
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Значение заголовка</h2>
+        <pre><code>GET / HTTP/1.1
+Host: <mark>otus.ru</mark>
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Методы http</h2>
+        <ul>
+            <li><code>GET</code></li>
+            <li><code>POST</code></li>
+            <li><code>PUT</code></li>
+            <li><code>DELETE</code></li>
+            <li><code>PATCH</code></li>
+            <li><code>OPTIONS</code></li>
+            <li><code>TRACE</code></li>
+            <li><code>CONNECT</code></li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Ответ сервера</h2>
+        <pre><code>HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 27 Sep 2017 13:14:03 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: csrftoken=AHKNhCvOVRDl1WuU2Bq3lGuFMUSvPFnkeOKISqhh11bvlyYOkz1z85uN3MatE2ke; expires=Wed, 26-Sep-2018 13:14:03 GMT; HttpOnly; Max-Age=31449600; Path=/
+Content-Encoding: gzip</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Код состояния</h2>
+        <pre><code>HTTP/1.1 <mark>200</mark> OK
+Server: nginx
+Date: Wed, 27 Sep 2017 13:14:03 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: csrftoken=AHKNhCvOVRDl1WuU2Bq3lGuFMUSvPFnkeOKISqhh11bvlyYOkz1z85uN3MatE2ke; expires=Wed, 26-Sep-2018 13:14:03 GMT; HttpOnly; Max-Age=31449600; Path=/
+Content-Encoding: gzip</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Пояснение</h2>
+        <pre><code>HTTP/1.1 200 <mark>OK</mark>
+Server: nginx
+Date: Wed, 27 Sep 2017 13:14:03 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: csrftoken=AHKNhCvOVRDl1WuU2Bq3lGuFMUSvPFnkeOKISqhh11bvlyYOkz1z85uN3MatE2ke; expires=Wed, 26-Sep-2018 13:14:03 GMT; HttpOnly; Max-Age=31449600; Path=/
+Content-Encoding: gzip</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Тело ответа</h2>
+        <pre><code>HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 27 Sep 2017 13:14:03 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Cookie
+Set-Cookie: csrftoken=AHKNhCvOVRDl1WuU2Bq3lGuFMUSvPFnkeOKISqhh11bvlyYOkz1z85uN3MatE2ke; expires=Wed, 26-Sep-2018 13:14:03 GMT; HttpOnly; Max-Age=31449600; Path=/
+Content-Encoding: gzip
+
+<mark>&lt;!DOCTYPE html> &lt;html lang="ru"> &lt;head>...</mark></code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Коды состояний</h2>
+        <ul>
+            <li><code>1xx</code> – информационные</li>
+            <li><code>2xx</code> – успех</li>
+            <li><code>3xx</code> – перенаправление</li>
+            <li><code>4xx</code> – ошибка клиента</li>
+            <li><code>5xx</code> – ошибка сервера</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частичный запрос</h2>
+        <pre><code>GET / HTTP/1.1
+Host: otus.ru
+<mark>Content-Range: 1024-</mark>
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Условный GET</h2>
+        <pre><code>GET / HTTP/1.1
+Host: otus.ru
+<mark>If-Modified-Since: Wed, 21 Oct 2015 07:28:00 GMT</mark>
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+Cookie: cookies</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>MIME</h2>
+        В рамках одного сообщение можно передать несколько сущностей.
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MIME</h2>
+        <pre><code>POST /send-message.html HTTP/1.1
+Referer: http://mail.example.com/send-message.html
+Content-Type: multipart/form-data; boundary="Asrf456BGe4h"
+
+--Asrf456BGe4h
+Content-Disposition: form-data; name="MessageTitle"
+
+Я негодую
+--Asrf456BGe4h
+Content-Disposition: form-data; name="AttachedFile1"; filename="horror-photo-1.jpg"
+Content-Type: image/jpeg
+
+(двоичное содержимое фотографии)
+--Asrf456BGe4h--</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Simple http server</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Simple http server</h2>
+        <pre><code>def server_forever():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('localhost', 9004))
+    server_socket.listen()
+    while True:
+        client_connection, client_address = server_socket.accept()
+        request = client_connection.recv(1024)
+        print(request)
+
+        client_connection.sendall(b"HTTP/1.1 200 OK\n\nHello!")
+        client_connection.close()
+</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <p>Есть много серверов и много фреймворков. Чтобы общаться, им нужен общий язык для взаимодействия.</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <p>Есть много серверов и много фреймворков. Чтобы общаться, им нужен общий язык для взаимодействия.</p>
+        <p>Это WSGI (Web Server Gateway Interface).</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <p>Есть много серверов и много фреймворков. Чтобы общаться, им нужен общий язык для взаимодействия.</p>
+        <p>Это WSGI (Web Server Gateway Interface). WSGI – это спецификация.</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <p>Есть много серверов и много фреймворков. Чтобы общаться, им нужен общий язык для взаимодействия.</p>
+        <p>Это WSGI (Web Server Gateway Interface). WSGI – это спецификация.</p>
+        <p>uWSGI – реализация этой спецификации.</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>WSGI implementation part</h2>
+        <pre><code>def handle_request(application):
+    client_connection, client_address = server_socket.accept()
+    request = client_connection.recv(1024)
+    response = application(request)
+    client_connection.sendall(response)
+    client_connection.close()
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>WSGI implementation part</h2>
+        <pre><code>def handle_request(application):
+    client_connection, client_address = server_socket.accept()
+    raw_request = client_connection.recv(1024)
+    response = application(<mark>parse_request</mark>(raw_request), <mark>start_response</mark>)
+    client_connection.sendall(response)
+    client_connection.close()
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>WSGI app implementation</h2>
+        <pre><code>def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain')])
+    return [b'Hello world from a simple WSGI application!']
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Challenge 3</h2>
+        <p>Написать свой wsgi веб-фреймворк.</p>
+        <p>За основу взять пример выше. Добавить парсинг запроса, обработку роутинга, проброс запроса во view, генерацию
+            ответа, проброс её наружу..</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+            <li>лишние классы;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+            <li>лишние классы;</li>
+            <li>не исправленные баги в коде;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+            <li>лишние классы;</li>
+            <li>не исправленные баги в коде;</li>
+            <li>неправильная декомпозиция функций;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+            <li>лишние классы;</li>
+            <li>не исправленные баги в коде;</li>
+            <li>неправильная декомпозиция функций;</li>
+            <li>отсутвие базовой обработки пользовательских данных;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Частые ошибки в первом задании</h2>
+        <ul>
+            <li>неполный ридми;</li>
+            <li>непонятные названия (переменных, функций, модулей, проекта);</li>
+            <li>все функции в одном файле;</li>
+            <li>лишние классы;</li>
+            <li>не исправленные баги в коде;</li>
+            <li>неправильная декомпозиция функций;</li>
+            <li>отсутвие базовой обработки пользовательских данных;</li>
+            <li>лишние комментарии.</li>
+        </ul>
+    </div>
+</section>
+
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
