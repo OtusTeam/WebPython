@@ -1,0 +1,672 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 03</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 03</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 03</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегоня говорить</h2>
+        <ul>
+            <li>принципы ООП;</li>
+            <li>mixins;</li>
+            <li>class/instance variables;</li>
+            <li>MRO;</li>
+            <li>__dict__;</li>
+            <li>__slots__;</li>
+            <li>name mangling.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Disclaimer</h2>
+        <ul>
+            <li>ООП – очень модная штука</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Disclaimer</h2>
+        <ul>
+            <li>ООП – очень модная штука</li>
+            <li>... но далеко не всегда необходимая.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Основные принципы</h2>
+        <ul>
+            <li>инкапсуляция;</li>
+            <li>наследование;</li>
+            <li>полиморфизм.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <pre><code>class Question(SiteItem):
+    def __init__(self, text_md, category_slug):
+        self.text_md = text_md
+        self.text_html = convert_md_to_html(self.text_md.strip())
+        self.category = fetch_category_by_slug(category_slug)
+
+    def publish(self):
+        pass
+
+    def redraw(self):
+        pass
+
+    def get_author(self):
+        pass
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <pre><code>class Article(Model):
+    def __init__(self, text_md, title):
+        self.title = title
+        self.text_md = text_md
+        self.text_html = convert_md_to_html(self.text_md)
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <pre><code>class Article(Model):
+    def __init__(self, text_md, title):
+        self.title = title
+        self.text_md = text_md
+        <mark>self.text_html = convert_md_to_html(self.text_md.strip())</mark>
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <pre><code>class Question(SiteItem):
+    def __init__(self, text_md, category_slug):
+        self.text_md = text_md
+        <mark>self.text_html = convert_md_to_html(self.text_md.strip())</mark>
+        self.category = fetch_category_by_slug(category_slug)
+
+    def publish(self):
+        pass
+
+    def redraw(self):
+        pass
+
+    def get_author(self):
+        pass
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <pre><code>class MarkdownHtmlTextMixin:
+    def _update_html(self):
+        self.text_html = convert_md_to_html(self.text_md.strip())
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <pre><code>class Question(<mark>MarkdownHtmlTextMixin</mark>, SiteItem):
+    def __init__(self, text_md, category_slug):
+        self.text_md = text_md
+        <mark>self._update_html()</mark>
+        self.category = fetch_category_by_slug(category_slug)
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <p><code>MarkdownHtmlTextMixin</code> – mixin.</p>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <p><code>MarkdownHtmlTextMixin</code> – mixin. Он определяет какое-то поведение, но в отрыве от других сущностей
+            не имеет смысла.</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Переменные класса</h2>
+        <pre class="python big"><code>class User(object):
+    is_banned = True
+
+
+print(User.is_banned)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные класса</h2>
+        <pre class="python big"><code>class User(object):
+    is_banned = True
+
+
+print(User.is_banned)  # True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные класса</h2>
+        <pre class="python big"><code>class User(object):
+    is_banned = True
+
+
+u = User()
+print(u.is_banned)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные класса</h2>
+        <pre class="python big"><code>class User(object):
+    is_banned = True
+
+
+u = User()
+print(u.is_banned)  # True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные объекта</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.is_banned = True
+
+print(User.is_banned)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные объекта</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.is_banned = True
+
+print(User.is_banned)  # <mark class="important">AttributeError</mark>
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные объекта</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.is_banned = True
+
+u = User()
+print(u.is_banned)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Переменные объекта</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.is_banned = True
+
+u = User()
+print(u.is_banned)  # True
+		</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>class Model:
+    def __init__(self):
+        print('Model init')
+
+class ExtendedModel(Model):
+    def __init__(self):
+        print('ExtendedModel init')
+        super(ExtendedModel, self).__init__()
+
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>class BaseMixin:
+    pass
+
+class ModelMixin(BaseMixin):
+    def __init__(self):
+        print('ModelMixin init')
+        super(ModelMixin, self).__init__()
+    def some_stuff(self):
+        print('some stuff')
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>class MyModel(ModelMixin, ExtendedModel):
+    pass
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>class MyModel(ModelMixin, ExtendedModel):
+    pass
+
+m = MyModel()
+
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>class MyModel(ModelMixin, ExtendedModel):
+    pass
+
+m = MyModel()
+
+# ModelMixin init
+# ExtendedModel init
+# Model init
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>print(MyModel.mro())
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MRO (method resolution order)</h2>
+        <pre class="python big"><code>print(MyModel.mro())
+# [
+#   &lt;class '__main__.MyModel'>,
+#   &lt;class '__main__.ModelMixin'>,
+#   &lt;class '__main__.BaseMixin'>,
+#   &lt;class '__main__.ExtendedModel'>,
+#   &lt;class '__main__.Model'>,
+#   &lt;class 'object'>
+# ]
+		</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>__class__ vs type</h2>
+        <pre class="python big"><code>print(m.__class__)
+print(type(m))
+print(m.__class__ == type(m))
+print(m.__class__ is type(m))
+
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__class__ vs type</h2>
+        <pre class="python big"><code>print(m.__class__)
+print(type(m))
+print(m.__class__ == type(m))
+print(m.__class__ is type(m))
+
+# &lt;class '__main__.MyModel'>
+# &lt;class '__main__.MyModel'>
+# True
+# True
+		</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>class Model:
+    class_property = 1
+
+m1 = Model()
+m1.class_property = 2
+
+m2 = Model()
+print(m2.class_property)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>class Model:
+    class_property = 1
+
+m1 = Model()
+m1.class_property = 2
+
+m2 = Model()
+print(m2.class_property)  # 1
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)  # {'some_property': True}
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)  # {'some_property': True}
+m.class_property = 2
+print(m.__dict__)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)  # {'some_property': True}
+m.class_property = 2
+print(m.__dict__)  # {'some_property': True, 'class_property': 2}
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)  # {'some_property': True}
+m.class_property = 2
+print(m.__dict__)  # {'some_property': True, 'class_property': 2}
+del m.__dict__['class_property']
+print(m.__dict__)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__dict__</h2>
+        <pre class="python big"><code>m = Model()
+print(m.__dict__)  # {}
+m.some_property = True
+print(m.__dict__)  # {'some_property': True}
+m.class_property = 2
+print(m.__dict__)  # {'some_property': True, 'class_property': 2}
+del m.__dict__['class_property']
+print(m.__dict__)  # {'some_property': True}
+		</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>__slots__</h2>
+        <pre class="python big"><code>class Point:
+    __slots__ = ('x', 'y')
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__slots__</h2>
+        <pre class="python big"><code>class Point:
+    __slots__ = ('x', 'y')
+
+p = Point()
+p.x = 1
+p.z = 3
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__slots__</h2>
+        <pre class="python big"><code>class Point:
+    __slots__ = ('x', 'y')
+
+p = Point()
+p.x = 1
+p.z = 3  # <mark class="important">AttributeError: 'Point' object has no attribute 'z'</mark>
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__slots__</h2>
+        <pre class="python big"><code>class Point:
+    __slots__ = ('x', 'y')
+
+p = Point()
+p.x = 1
+p.z = 3  # <mark class="important">AttributeError: 'Point' object has no attribute 'z'</mark>
+print(p.__dict__)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>__slots__</h2>
+        <pre class="python big"><code>class Point:
+    __slots__ = ('x', 'y')
+
+p = Point()
+p.x = 1
+p.z = 3  # <mark class="important">AttributeError: 'Point' object has no attribute 'z'</mark>
+print(p.__dict__)  # <mark class="important">AttributeError: 'Point' object has no attribute '__dict__'</mark>
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.status = 'active'
+        self._current_status = 'banned'
+        self.__spammed_today = True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.<mark>status</mark> = 'active'  # публичное поле
+        self._current_status = 'banned'
+        self.__spammed_today = True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.status = 'active'  # публичное поле
+        self.<mark>_current_status</mark> = 'banned'  # приватное поле
+        self.__spammed_today = True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>class User(object):
+    def __init__(self):
+        self.status = 'active'  # публичное поле
+        self._current_status = 'banned'  # приватное поле
+		self.<mark>__spammed_today</mark> = True # name mangling
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u.status)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u.status)  # active
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u._current_status)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u._current_status)  # active
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u.__spammed_today)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u.__spammed_today)  # <mark class="important">AttributeError</mark>
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>u = User()
+print(u._User__spammed_today)  # True
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>name mangling</h2>
+        <pre class="python big"><code>class Admin(User):
+    def __init__(self):
+        super().__init__()
+        self.__spammed_today = False  # _Admin__spammed_today
+		</code></pre>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
