@@ -1,0 +1,490 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 05</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 05</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>werkzeug;</li>
+            <li>Flask.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>werkzeug</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Response</h2>
+        Без werkzeug:
+        <pre><code>def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain')])
+    return ['Hello World!']
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Response</h2>
+        Без werkzeug:
+        <pre><code>def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/plain')])
+    return ['Hello World!']
+        </code></pre>
+        С werkzeug:
+        <pre><code>def application(environ, start_response):
+    response = <mark>Response</mark>('Hello World!', mimetype='text/plain')
+    return response(environ, start_response)
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Request</h2>
+        <span class="next">
+            Без werkzeug:
+            <pre><code>def application(environ, start_response):
+        query = parse_qs(urlparse(environ['REQUEST_URI']).query).get('q', [''])
+        if query:
+            query = query[0]
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+        return [b'Query param is %s' % query.encode('utf-8')]</code></pre>
+        </span>
+        <span class="next">
+            С werkzeug:
+            <pre><code>def application(environ, start_response):
+        request = Request(environ)
+        text = 'Query param is %s' % <mark>request.args.get('q', '')</mark>
+        return Response(text, mimetype='text/plain')(environ, start_response)
+            </code></pre>
+        </span>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Запуск приложения</h2>
+        <span class="next">
+            Без werkzeug:
+            <pre><code>$ uwsgi --http :9090 --wsgi-file app.py</code></pre>
+        </span>
+        <span class="next">
+            С werkzeug:
+            <pre><code>if __name__ == '__main__':
+    from werkzeug.serving import run_simple
+    app = create_app()
+    run_simple(
+        '127.0.0.1', 9090, app,
+        use_debugger=True, use_reloader=True, processes=2,
+    )
+            </code></pre>
+        </span>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>debugger</h2>
+        <img src="images/5d.png"/>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>debugger</h2>
+        <img src="images/5d2.png"/>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>reloader</h2>
+        <pre><code> * Detected change in '/Users/ilebedev/projects/otus_webdew_hw/app.py', reloading
+ * Restarting with stat
+        </code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Routing</h2>
+        <pre class="next"><code>    url_map = Map([
+        Rule('/products/', endpoint='products_list'),
+        Rule('/products/&lt;int:product_id>/', endpoint='product_page')
+    ])
+    adapter = url_map.bind_to_environ(environ)
+    try:
+        endpoint, values = adapter.match()
+    except NotFound:
+        endpoint, values = None, None
+    print(endpoint, values)  # product_page {'product_id': 123} for /products/123/
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>werkzeug</h2>
+        А ещё:
+        <ul>
+            <li>удобные итераторы для работы с запросами/файлами;</li>
+            <li>парсеры урлов и параметров;</li>
+            <li>парсер и генератор для cookie;</li>
+            <li>конвертер байты <-> строки;</li>
+            <li>удобное форматирование дат для запроса;</li>
+            <li>парсинг форм;</li>
+            <li>объединение нескольких приложений в одно;</li>
+            <li>...</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Flask</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Flask</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Methods</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/', <mark>methods=['GET', 'POST']</mark>)
+def hello_world():
+    return 'Hello, World!'</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Templates</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    return <mark>render_template('hello.html', name=name)</mark></code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Request object</h2>
+        <pre><code>from flask import Flask
+<mark>from flask import request</mark>
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    print(<mark>request.method</mark>)
+    return render_template('hello.html', name=name)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Files</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    <mark>request.files['the_file'].save('/tmp/uploaded_file.txt')</mark>
+    return render_template('hello.html', name=name)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Get cookie</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    print(<mark>request.cookies.get('username')</mark>)
+    return render_template('hello.html', name=name)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Set cookies</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    response = render_template('hello.html', name=name)
+    <mark>response.set_cookie('username', 'john doe')</mark>
+    return response
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>App config</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+<mark>app.config.update(
+    DEBUG=True,
+    SECRET_KEY='...',
+    DB_URL='sqlite.db',
+)</mark>
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    return 'Hello world'
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>App config from file</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+<mark>app.config.from_envvar('APP_SETTINGS')</mark>
+
+$ <mark>APP_SETTINGS=/project/config.cfg</mark> python app.py
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>App config from object</h2>
+        <pre><code>from flask import Flask
+app = Flask(__name__)
+<mark>app.config.from_object('config.ProductionConfig')</mark>
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>App config from object</h2>
+        <pre><code>class Config(object):
+    DEBUG = False
+    TESTING = False
+    DATABASE_URI = 'sqlite://:memory:'
+
+class ProductionConfig(Config):
+    DATABASE_URI = 'mysql://user@localhost/foo'
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class TestingConfig(Config):
+    TESTING = True
+</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>app = Flask(__name__)
+
+@app.route('/products')
+def products_list():
+    ...
+
+@app.route('/products/&lt;int:product_id>')
+def products_list(product_id):
+    ...
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>app = Flask(__name__)
+
+@app.route('/cart')
+def cart_details():
+    ...
+
+@app.route('/pay')
+def cart_pay():
+    ...
+
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>products_app = <mark>Blueprint</mark>('products_app', __name__)
+
+@products_app.route(<mark>'/'</mark>)
+def products_list():
+    ...
+
+@products_app.route('/&lt;int:product_id>')
+def products_list(product_id):
+    ...
+
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>cart_app = <mark>Blueprint</mark>('cart_app', __name__)
+
+@cart_app.route(<mark>'/'</mark>)
+def cart_details():
+    ...
+
+@cart_app.route('/')
+def cart_pay():
+    ...
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Modules</h2>
+        <pre><code>app = Flask(__name__)
+app.register_blueprint(products_app, url_prefix='/products')
+app.register_blueprint(cart_app, url_prefix='/cart')
+</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Сторонние модули</h2>
+        <ul>
+            <li class="next"><a href="https://github.com/tobiasandtobias/flask-alembic">flask-alembic</a> для удобных
+                миграций БД;
+            </li>
+            <li class="next"><a href="https://github.com/lepture/flask-wtf">flask-wtf</a> для удобной работы с формами;
+            </li>
+            <li class="next"><a href="https://github.com/flask-admin/flask-admin">flask-admin</a> для админки;</li>
+            <li class="next"><a href="https://github.com/maxcountryman/flask-login">flask-login</a> для управления
+                сессиями пользователей;
+            </li>
+            <li class="next"><a href="https://github.com/mgood/flask-debugtoolbar">flask-debugtoolbar</a> для удобной
+                отладки;
+            </li>
+            <li class="next"><a href="https://github.com/flask-restful/flask-restful">flask-restful</a> для REST API;
+            </li>
+            <li class="next">...</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Что нужно кроме Flask</h2>
+        <ul>
+            <li class="next">SQlite/PostgreSQL для хранения данных;</li>
+            <li class="next">alembic для управления схемой БД;</li>
+            <li class="next">Jinja2 для генерации страниц.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Basic load test</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Basic load test</h2>
+        <pre><code>REQUEST = b"""\
+GET / HTTP/1.1
+Host: localhost:5000
+
+"""
+def load_test(max_clients, max_conns):
+    for client_num in range(max_clients):
+        pid = os.fork()
+        if pid == 0:
+            for connection_num in range(max_conns):
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.connect(('localhost', 5000))
+                sock.sendall(REQUEST)
+            os._exit(0)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Basic load test</h2>
+        <pre><code>Traceback (most recent call last):
+  File "client.py", line 43, in <module>
+    main(args.max_clients, args.max_conns)
+  File "client.py", line 21, in main
+    sock.connect(SERVER_ADDRESS)
+ConnectionResetError: [Errno 54] Connection reset by peer</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Challenge 4</h2>
+        <img src="images/5mac.png" width="100%"/>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Challenge 4</h2>
+        Сделать сайт-каталог товаров. Со страницей списка товаров и страницей одного товара.
+        Использовать Flask.
+    </div>
+</section>
+
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
