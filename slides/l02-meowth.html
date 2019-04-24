@@ -1,0 +1,882 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 02</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 02</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегоня говорить</h2>
+        <ul>
+            <li>оргвопросы;</li>
+            <li>о чём говорили в прошлый раз;</li>
+            <li>объекты и переменные;</li>
+            <li>структуры данных под капотом основных типов;</li>
+            <li>list vs tuple;</li>
+            <li>профилирование памяти;</li>
+            <li>как работает сборщик мусора.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+            <li>про лекции, лаги и записи;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+            <li>про лекции, лаги и записи;</li>
+            <li>про ДЗ и его сдачу;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+            <li>про лекции, лаги и записи;</li>
+            <li>про ДЗ и его сдачу;</li>
+            <li>про дополнительные материалы;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+            <li>про лекции, лаги и записи;</li>
+            <li>про ДЗ и его сдачу;</li>
+            <li>про дополнительные материалы;</li>
+            <li>про чат;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Организационные вопросы</h2>
+        <ul>
+            <li>про лекции, лаги и записи;</li>
+            <li>про ДЗ и его сдачу;</li>
+            <li>про дополнительные материалы;</li>
+            <li>про чат;</li>
+            <li>про обратную связь.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+            <li>декомпозиция сверху вниз;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+            <li>декомпозиция сверху вниз;</li>
+            <li>чистые функции;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+            <li>декомпозиция сверху вниз;</li>
+            <li>чистые функции;</li>
+            <li>цикломатическая сложность;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+            <li>декомпозиция сверху вниз;</li>
+            <li>чистые функции;</li>
+            <li>цикломатическая сложность;</li>
+            <li>статический анализ;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Некоторые знания с прошлого вебинара</h2>
+        <ul>
+            <li>декомпозиция сверху вниз;</li>
+            <li>чистые функции;</li>
+            <li>цикломатическая сложность;</li>
+            <li>статический анализ;</li>
+            <li>критерии подходящих названий.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <ul>
+            <li>объекты хранят в себе данные и их тип;</li>
+            <li class="next">переменные хранят в себе только ссылку на объект.</li>
+        </ul>
+        <pre class="big next"><code># один объект, одна переменная
+a = 3
+			</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <ul>
+            <li>объекты хранят в себе данные и их тип;</li>
+            <li>переменные хранят в себе только ссылку на объект.</li>
+        </ul>
+        <pre class="big"><code># три объекта, одна переменная
+a = 3
+a = 3.14
+a = 'pi'
+			</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <ul>
+            <li>объекты хранят в себе данные и их тип;</li>
+            <li>переменные хранят в себе только ссылку на объект.</li>
+        </ul>
+        <pre class="big"><code># один объект, три переменных
+a = 3.14
+b = a
+c = a
+			</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big python">
+				<code>a = 3.14</code>
+				<code>b = a</code>
+				<code>a = 5</code>
+				<code>print(b)  # ???</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big python">
+				<code>a = 3.14</code>
+				<code>b = a</code>
+				<code>a = 5</code>
+				<code>print(b)  # 3.14</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = 3.14         #  var | obj      obj | val</code>
+				<code>b = a            #    a | 1          1 | 3.14</code>
+				<code>                 #    b | 1</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = 3.14         #  var | obj      obj | val</code>
+				<code>b = a            #    a | <mark>2</mark>         1 | 3.14</code>
+				<code><mark>a = 5</mark>           #    b | 1          <mark>2 | 5</mark></code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = 3.14         #  var | obj      obj | val</code>
+				<code>b = a            #    a | 2          1 | 3.14</code>
+				<code>a = 5            #    b | 1          2 | 5</code>
+				<code>print(b)  # 3.14</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = []</code>
+				<code>b = a</code>
+				<code>a.append(1)</code>
+				<code>print(b)  # ???</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = []</code>
+				<code>b = a</code>
+				<code>a.append(1)</code>
+				<code>print(b)  # [1]</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = []         #  var | obj      obj | val</code>
+				<code>b = a          #    a | 1          1 | []</code>
+				<code>               #    b | 1</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <pre class="big">
+				<code>a = []         #  var | obj      obj | val</code>
+				<code>b = a          #    a | 1          1 | [<mark>1</mark>]</code>
+				<code><mark>a.append(1)</mark>   #    b | 1</code>
+			</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Объекты</h2>
+        <p>Объекты и переменные – не одно и то же.</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Устройство некоторых стандартных типов данных</h2>
+        <ul>
+            <li>float;</li>
+            <li>list/tuple;</li>
+            <li>dict/set;</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>float</h2>
+        <ul>
+            <li class="next">внутри реализованы как double в C</li>
+            <li class="next">IEEE-754</li>
+            <li class="next">
+                <a href="https://docs.python.org/3.6/tutorial/floatingpoint.html">Floating Point Arithmetic: Issues and
+                    Limitations</a>
+            </li>
+        </ul>
+        <pre class="next bigger python">
+			<code>>>> 0.1 + 0.2 == 0.3</code>
+			<code><mark>False</mark></code>
+		</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>float</h2>
+        <ul>
+            <li>внутри реализованы как double в C</li>
+            <li>IEEE-754</li>
+            <li>
+                <a href="https://docs.python.org/3.6/tutorial/floatingpoint.html">Floating Point Arithmetic: Issues and
+                    Limitations</a>
+            </li>
+        </ul>
+        <pre class="bigger python">
+			<code>>>> 0.1 + 0.2</code>
+			<code>0.30000000000000004</code>
+		</pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Big O notation</h2>
+        <ul>
+            <li><code>O(1)</code></li>
+            <li><code>O(log n)</code></li>
+            <li><code>O(n)</code></li>
+            <li><code>O(n^2)</code></li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Big O notation</h2>
+        <ul>
+            <li><code>O(1)</code><span style="margin-left: 20px;">очень быстро</span></li>
+            <li><code>O(log n)</code><span style="margin-left: 20px;">быстро</span></li>
+            <li><code>O(n)</code><span style="margin-left: 20px;">норм</span></li>
+            <li><code>O(n^2)</code><span style="margin-left: 20px;">так себе</span></li>
+        </ul>
+
+        <p class="note">"Анализ алгоритмов. Активный обучающий подход"</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+            <li>C-style массив ссылок на элементы</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+            <li>C-style массив ссылок на элементы</li>
+            <li>константный доступ к элементу</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+            <li>C-style массив ссылок на элементы</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента в конец (почти всегда)</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+            <li>C-style массив ссылок на элементы</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента в конец (почти всегда)</li>
+            <li>линейное добавление элемента в середину</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>list и tuple</h2>
+        <ul>
+            <li>C-style массив ссылок на элементы</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента в конец (почти всегда)</li>
+            <li>линейное добавление элемента в середину</li>
+            <li>срез - линейный относительно длины среза</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+            <li>константный доступ к элементу</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента</li>
+            <li>константное удаление элемента</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента</li>
+            <li>константное удаление элемента</li>
+            <li>... но иногда всё это может стать линейным (из-за коллизий и расширения таблицы)</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>dict</h2>
+        <ul>
+            <li>hash-таблица</li>
+            <li>константный доступ к элементу</li>
+            <li>константное добавление элемента</li>
+            <li>константное удаление элемента</li>
+            <li>... но иногда всё это может стать линейным (из-за коллизий и расширения таблицы)</li>
+            <li>... и если hash-функция плохая - всё тоже может быть медленно (тоже из-за коллизий)</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>set</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>set</h2>
+        <ul>
+            <li>тоже hash-таблица</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>set</h2>
+        <ul>
+            <li>тоже hash-таблица</li>
+            <li>только без значений</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>set</h2>
+        <ul>
+            <li>тоже hash-таблица</li>
+            <li>только без значений</li>
+            <li>квадратичные математические операции (почти все)</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>set</h2>
+        <ul>
+            <li>тоже hash-таблица</li>
+            <li>только без значений</li>
+            <li>квадратичные математические операции (почти все)</li>
+            <li>константная проверка на вхождение элемента (почти всегда)</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Отличия list и tuple</h2>
+        <ul>
+            <li>неизменяемость tuple;</li>
+            <li>tuple занимает меньше памяти;</li>
+            <li>у tuple и list разный смысл.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Неизменяемость tuple</h2>
+        <pre class="big"><code>t = tuple([1, 2, 3, 4, 5])
+t[2] = 10
+print(t)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Неизменяемость tuple</h2>
+        <pre class="big"><code>t = tuple([1, 2, 3, 4, 5])
+t[2] = 10  # <mark class="important">TypeError</mark>
+print(t)
+		</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Потребление памяти</h2>
+        <pre class="big"><code>l = list(range(int(1E9)))
+t = tuple(list(range(int(1E9))))
+sys.getsizeof(l)
+sys.getsizeof(t)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Потребление памяти</h2>
+        <pre class="big"><code>l = list(range(int(1E9)))
+t = tuple(list(range(int(1E9))))
+sys.getsizeof(l)  # 90000120
+sys.getsizeof(t)  # 80000056
+		</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>point_2d = (10, 42)
+animals = ['cat', 'dog']
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>point_2d = 10, 42
+animals = ['cat', 'dog']
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>banned_users = []
+for user in sorted(all_users):
+    if user.is_banned():
+        banned_users.append(user)
+
+save_banned_users_report_to_file(banned_users)
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>banned_users = [1, 5, 22, 77]
+for user in sorted(all_users):
+    if user.id in banned_users:
+        return Http404()
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>banned_users = <mark>(</mark>1, 5, 22, 77<mark>)</mark>  # ?
+for user in sorted(all_users):
+    if user.id in banned_users:
+        return Http404()
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <pre class="big"><code>banned_users = <mark>{</mark>1, 5, 22, 77<mark>}</mark>  # !
+for user in sorted(all_users):
+    if user.id in banned_users:
+        return Http404()
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Семантическая разница между tuple и list</h2>
+        <p>Tuples have structure, lists have order.</p>
+        <p>
+            <a href="https://stackoverflow.com/questions/626759/">stackoverflow.com/questions/626759/</a>
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Построчное профилирование (memory_profiler)</h2>
+        <pre><code>@profile
+def my_func():
+    a = [1] * (10 ** 6)
+    b = [2] * (2 * 10 ** 7)
+    del b
+    return a
+
+if __name__ == '__main__':
+    my_func()
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Построчное профилирование (memory_profiler)</h2>
+        <pre><code>$ python -m memory_profiler example.py
+		</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Построчное профилирование (memory_profiler)</h2>
+        <pre><code>$ python -m memory_profiler example.py
+
+# Line #    Mem usage  Increment   Line Contents
+# ==============================================
+#      3                           @profile
+#      4      5.97 MB    0.00 MB   def my_func():
+#      5     13.61 MB    7.64 MB       a = [1] * (10 ** 6)
+#      6    166.20 MB  152.59 MB       b = [2] * (2 * 10 ** 7)
+#      7     13.61 MB -152.59 MB       del b
+#      8     13.61 MB    0.00 MB       return a
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+            <li>профилирование по типу занимаемой памяти (guppy);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование по типу занимаемой памяти (guppy)</h2>
+        <pre class="big"><code>from guppy import hpy
+h = hpy()
+
+print(h.heap())
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование по типу занимаемой памяти (guppy)</h2>
+        <pre><code># Partition of a set of 235760 objects. Total size = 19909080 bytes. Index Count % Size % Cumulative % Kind (class / dict of class)
+# 0 97264  41 8370996 42 8370996   42 str
+# 1 47430  20 1916788 10 10287784  52 tuple
+# 2 937    0 1106440  6 11394224   57 dict of PyQt4.QtCore.pyqtWrapperType
+# 3 646    0 1033648  5 12427872   62 dict of module
+# 4 11683  5 841176   4 13269048   67 types.CodeType
+# 5 11684  5 654304   3 13923352   70 function
+# 6 1200   1 583872   3 14507224   73 dict of type
+# 7 782    0 566768   3 15073992   76 dict (no owner)
+# 8 1201   1 536512   3 15610504   78 type
+# 9 1019   0 499124   3 16109628   81 unicode
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+            <li>профилирование по типу занимаемой памяти (guppy);</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+            <li>профилирование по типу занимаемой памяти (guppy);</li>
+            <li>граф зависимостей (objgraph).</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Граф зависимостей (objgraph)</h2>
+        <pre class="big"><code>>>> x = []
+>>> y = [x, [x], dict(x=x)]
+>>> import objgraph
+>>> objgraph.show_refs([y], filename='sample-graph.png')
+		</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Граф зависимостей (objgraph)</h2>
+        <img src="http://mg.pov.lt/objgraph/_images/sample-graph.png"/>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Профилирование памяти</h2>
+        Моё приложение потребляет кучу памяти. Что делать?
+        <ul>
+            <li>построчное профилирование (memory_profiler);</li>
+            <li>профилирование по типу занимаемой памяти (guppy);</li>
+            <li>граф зависимостей (objgraph).</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Сборщик мусора в двух словах</h2>
+        <ul>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сборщик мусора в двух словах</h2>
+        <ul>
+            <li>у всех объектов есть счётчик ссылок – сколько переменных на них ссылается;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сборщик мусора в двух словах</h2>
+        <ul>
+            <li>у всех объектов есть счётчик ссылок – сколько переменных на них ссылается;</li>
+            <li>все объекты разделяются на три поколения – те, что пережили 0, 1 или 2 сборки мусора;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сборщик мусора в двух словах</h2>
+        <ul>
+            <li>у всех объектов есть счётчик ссылок – сколько переменных на них ссылается;</li>
+            <li>все объекты разделяются на три поколения – те, что пережили 0, 1 или 2 сборки мусора;</li>
+            <li>объект удаляется, если на него нет ссылок;</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сборщик мусора в двух словах</h2>
+        <ul>
+            <li>у всех объектов есть счётчик ссылок – сколько переменных на них ссылается;</li>
+            <li>все объекты разделяются на три поколения – те, что пережили 0, 1 или 2 сборки мусора;</li>
+            <li>объект удаляется, если на него нет ссылок;</li>
+            <li>сборщик мусора запускается, если вызван <code>gc.collect</code> или если в нулевом поколении больше 700
+                объектов.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
