@@ -1,0 +1,361 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 07</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 07</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 07</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>Django apps;</li>
+            <li>Django ORM;</li>
+            <li>Django CBV;</li>
+            <li>Django common tools.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Django</h2>
+        <ul>
+            <li>популярный веб-фреймворк;</li>
+            <li>решает много задач;</li>
+            <li>хорошо подходит для типичных сайтов.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Django apps</h2>
+        <ul>
+            <li class="next">цельная часть функциональности, слабо связанная с другими функциями;</li>
+            <li class="next">логически группируют части сервиса;</li>
+            <li class="next">легко включать/выключать.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Django apps how to</h2>
+        <ul>
+            <li class="next">не хранить в базовом приложении ничего;</li>
+            <li class="next">в базовом <code>urls.py</code> подключать view из приложений с помощью <code>include</code>;
+            </li>
+            <li class="next">давать моделям и приложениям понятные имена (переименовывать их – та ещё морока);</li>
+            <li class="next">держать близкую функциональность в одних модулях;</li>
+            <li class="next">если в модуле a много импортов из модуля b – возможно, что-то не то с декомпозицией.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Django apps how to</h2>
+        Пример: типичный интернет-магазин. Его список модулей:
+        <ul>
+            <li><code>catalog</code>;</li>
+            <li><code>cart</code>;</li>
+            <li><code>cms</code>;</li>
+            <li><code>backoffice</code>;</li>
+            <li><code>users</code>.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>MVC</h2>
+        <ul>
+            <li class="next">Model – доступ к данным;</li>
+            <li class="next">View – отображение данных;</li>
+            <li class="next">Controller – взаимодействие с пользователем.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>MVC (MTV)</h2>
+        <ul>
+            <li>Model
+                <mark>(Model)</mark>
+                – доступ к данным;
+            </li>
+            <li>View
+                <mark>(Template)</mark>
+                – отображение данных;
+            </li>
+            <li>Controller
+                <mark>(View)</mark>
+                – взаимодействие с пользователем.
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Model</h2>
+        <pre><code>class Question(models.Model):
+    text_md = models.TextField()
+    text_html = models.TextField(null=True, blank=True)
+    weight = models.IntegerField(default=0)
+    category = models.ForeignKey('QuestionCategory', related_name='questions')
+
+    def __str__(self):
+        return self.text_md[:100]
+
+    def save(self, *args, **kwargs):
+        self.text_html = _convert_to_html(self.text_md)
+        super(Question, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ('weight', )
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>View</h2>
+        <pre><code>def question_detail(request, question_id):
+    try:
+        q = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'quiz/question_detail.html', {'question': q})
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Template</h2>
+        <pre><code>
+&lt;html>&lt;body>
+    &lt;h1>{{ question.text_html }}&lt;/h1>
+    &lt;ul>
+        {% for option in question.options.all %}
+            &lt;li>{{ option.text_html }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+&lt;/body>&lt;/html>
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Template</h2>
+        <pre><code>
+&lt;html>&lt;body>
+    &lt;h1><mark>{{ question.text_html }}</mark>&lt;/h1>
+    &lt;ul>
+        {% for option in question.options.all %}
+            &lt;li>{{ option.text_html }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+&lt;/body>&lt;/html>
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Template</h2>
+        <pre><code>
+&lt;html>&lt;body>
+    &lt;h1>{{ question.text_html }}&lt;/h1>
+    &lt;ul>
+        <mark>{% for option in question.options.all %}</mark>
+            &lt;li>{{ option.text_html }}&lt;/li>
+        <mark>{% endfor %}</mark>
+    &lt;/ul>
+&lt;/body>&lt;/html>
+    </code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Куда селить функциональность</h2>
+        <ul>
+            <li>fat models;</li>
+            <li>thin views;</li>
+            <li>stupid templates.</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Django ORM</h2>
+        Получение данных:
+        <ul>
+            <li class="next"><code>Question.objects.all()</code></li>
+            <li class="next"><code>Question.objects.get(pk=23)</code></li>
+            <li class="next"><code>Question.objects.filter(text_md__icontains='python')</code></li>
+            <li class="next"><code>Question.objects.filter(category_id__in=[1, 2])</code></li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Django ORM</h2>
+        Получение данных:
+        <ul>
+            <li class="next"><code>Question.objects.filter(pk=23).first()</code></li>
+            <li class="next"><code>Question.objects.filter(text_md__icontains='python')[:5]</code></li>
+            <li class="next"><code>Question.objects.filter(Q(title__startswith='Python 2') | Q(title__startswith='Python
+                3'))</code></li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Django ORM</h2>
+        Апдейт данных:
+        <pre class="next"><code>for question in Question.objects.filter(
+    pk__in=questions_to_publish
+):
+    question.is_published = True
+    question.save()</code></pre>
+
+        <pre class="next"><code>Question.objects.filter(
+    pk__in=questions_to_publish
+).update(question.is_published = True)</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Django ORM</h2>
+        <pre class="big"><code>question = Question.objects.get(pk=23)
+print(question.category.id)
+print(question.category_id)
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Django ORM</h2>
+        <pre class="big"><code>question = Question.objects.get(pk=23)
+print(question.category.id)  # тут будет запрос к БД
+print(question.category_id)  # тут нет
+        </code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Class based views</h2>
+        Было:
+        <pre><code>def question_detail(request, question_id):
+    try:
+        q = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'quiz/question_detail.html', {'question': q})
+    </code></pre>
+
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Class based views</h2>
+        Стало:
+        <pre><code>class QuestionDetailView(View):
+    def get(self, request, question_id):
+        try:
+            q = Question.objects.get(pk=question_id)
+        except Question.DoesNotExist:
+            raise Http404("Question does not exist")
+        return render(request, 'quiz/question_detail.html', {'question': q})
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Class based views</h2>
+        Потом стало:
+        <pre><code>class QuestionDetailView(TemplateView):
+    template_name = 'quiz/question_detail.html'
+    def get_context_data(self):
+        context = super().get_context_data()
+        try:
+            q = Question.objects.get(pk=self.request.params.question_id)
+        except Question.DoesNotExist:
+            raise Http404("Question does not exist")
+        context['question'] = q
+        return context
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Class based views</h2>
+        А потом стало:
+        <pre><code>class QuestionDetailView(DetailView):
+    template_name = 'quiz/question_detail.html'
+    model = Question
+    </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Class based views</h2>
+        Часто используемые CBV:
+        <ul>
+            <li><code>ListView</code>;</li>
+            <li><code>DetailView</code>;</li>
+            <li><code>CreateView/UpdateView/DeleteView</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Common modules</h2>
+        <ul>
+            <li><a href="https://github.com/jazzband/django-debug-toolbar">django debug toolbar</a></li>
+            <li><a href="https://github.com/django-extensions/django-extensions">django-extensions</a> (shell_plus)</li>
+            <li><a href="https://github.com/kennethreitz/dj-database-url">dj-database-url</a></li>
+            <li><a href="https://django-configurations.readthedocs.io/en/stable/">django-configurations</a></li>
+        </ul>
+    </div>
+</section>
+
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
