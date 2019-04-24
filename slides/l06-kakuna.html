@@ -1,0 +1,595 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Курс веб-разработки на Питоне: Лекция 06</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+</head>
+<body class="full" data-plugins="notes">
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.configure({languages: ['html', 'css', 'js']});
+    hljs.initHighlightingOnLoad();
+    console.clear = undefined;  // иначе notes работают неправильно.
+</script>
+
+<header class="caption">
+    <h2>«Python для web&#8209;разработки» – лекция 06</h2>
+    <h1>OTUS</h1>
+    <p>Владимир Филонов</p>
+</header>
+
+<section class="slide" id="cover">
+    <div>
+        <h2>OTUS</h2>
+        <h1>«Python для web&#8209;разработки»<br>лекция 06</h1>
+        <p>Владимир Филонов</p>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>О чём будем сегодня говорить</h2>
+        <ul>
+            <li>ORM – зачем оно нужно;</li>
+            <li>описание схемы данных;</li>
+            <li>сессии;</li>
+            <li>создание/удаление/апдейт данных.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>ORM – зачем использовать</h2>
+        <ul class="next">
+            <li>схема данных живёт в коде;</li>
+            <li>проще генерировать запросы;</li>
+            <li>общение с БД не зависит от БД.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Создание таблицы</h2>
+        <pre><code>engine = sqlalchemy.create_engine('sqlite:///blog.db')
+metadata = sqlalchemy.MetaData()
+
+post_table = sqlalchemy.Table('posts', metadata,
+    sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column('user_id', sqlalchemy.Integer, nullable=False),
+    sqlalchemy.Column('title', sqlalchemy.String(16), nullable=False),
+    sqlalchemy.Column('text', sqlalchemy.Text, nullable=False),
+    sqlalchemy.Column('is_publised', sqlalchemy.Boolean, default=False),
+)
+
+if __name__ == '__main__':
+    metadata.create_all(engine)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание таблицы</h2>
+        <pre><code>Base = declarative_base()
+
+class Post(Base):
+    __tablename__ = 'posts'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
+    title = sqlalchemy.Column(sqlalchemy.String(16), nullable=False)
+    text = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
+    is_publised = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
+if __name__ == '__main__':
+    Base.metadata.create_all(engine)
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Подтягивание модели из существующей БД</h2>
+        <pre><code>engine = sqlalchemy.create_engine('sqlite:///blog.db')
+metadata = sqlalchemy.MetaData()
+
+if __name__ == '__main__':
+    posts_table = sqlalchemy.Table('posts', metadata, autoload=True, autoload_with=engine)
+    print([c.name for c in posts_table.columns])
+    # ['id', 'user_id', 'title', 'text', 'is_publised']
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Создание ForeignKey</h2>
+        <pre><code>class Post(Base):
+    __tablename__ = 'posts'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, <mark>ForeignKey('users.id')</mark>, nullable=False)
+    title = sqlalchemy.Column(sqlalchemy.String(16), nullable=False)
+    text = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
+    is_publised = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
+    <mark>user = relationship("User", back_populates="posts")</mark>
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание ForeignKey</h2>
+        <pre><code>class User(Base):
+    __tablename__ = 'users'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    username = sqlalchemy.Column(sqlalchemy.String(128), nullable=False)
+
+    <mark>posts = relationship("Post", back_populates="user")</mark>
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Использование ForeignKey</h2>
+        <pre><code>post = session.query(Post).first()
+print(post.user.username)  # есть доступ до объекта User
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Использование ForeignKey</h2>
+        <pre><code>post = session.query(Post).first()  # в этот момент делается select from posts
+print(post.user.username)  # в этот момент делается select from users
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Использование ForeignKey</h2>
+        <pre><code>post = session.query(Post).first()  # в этот момент делается select from posts
+print(post.user.username)  # в этот момент делается select from users
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Использование ForeignKey</h2>
+        <pre><code>class Post(Base):
+    __tablename__ = 'posts'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, ForeignKey('users.id'), nullable=False)
+    title = sqlalchemy.Column(sqlalchemy.String(16), nullable=False)
+    text = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
+    is_publised = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
+    user = relationship("User", back_populates="posts", <mark>lazy='joined'</mark>)
+
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Использование ForeignKey</h2>
+        <pre><code>post = session.query(Post).first()  # в этот момент делается select from posts join users
+print(post.user.username)  # тут уже всё есть, запроса не делается
+</code></pre>
+    </div>
+</section>
+<!---->
+<!---->
+<!--<section><div>-->
+<!--<h2>Использование ForeignKey</h2>-->
+<!--<pre><code>-->
+<!--</code></pre>-->
+<!--</div></section>-->
+
+<section class="slide">
+    <div>
+        <h2>Создание Many2Many</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Создание Many2Many</h2>
+        <pre><code>tags_posts_table = Table('tags_posts', Base.metadata,
+    Column('post_id', Integer, ForeignKey('posts.id')),
+    Column('tag_id', Integer, ForeignKey('tags.id'))
+)
+
+class Post(Base):
+    __tablename__ = 'posts'
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, ForeignKey('users.id'))
+    title = sqlalchemy.Column(sqlalchemy.String(16))
+    text = sqlalchemy.Column(sqlalchemy.Text)
+    is_publised = sqlalchemy.Column(sqlalchemy.Boolean)
+    user = relationship("User", back_populates="posts", lazy='joined')
+    tags = relationship("Tag", <mark>secondary=tags_posts_table</mark>, back_populates="posts")
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание Many2Many</h2>
+        <pre><code>class Tag(Base):
+    __tablename__ = 'tags'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    name = sqlalchemy.Column(sqlalchemy.String(128), nullable=False)
+
+    posts = relationship("Post", <mark>secondary=tags_posts_table</mark>, back_populates="tags")
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Добавление Many2Many</h2>
+        <pre><code>post = session.query(Post).first()
+tag = session.query(Tag).first()
+
+post.tags.append(tag)
+session.add(post)
+session.commit()
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Использование Many2Many</h2>
+        <pre><code>post = session.query(Post).filter(Post.id==1).first()
+print(post.tags[0].name)  # python
+</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Сессии</h2>
+        <ul>
+            <li><code>Session</code><span class="next"> – класс, который хранит в себе изменения текущей сессии;</span>
+            </li>
+            <li><code>sessionmaker</code><span class="next"> – фабрика для генерации объектов Session с заданными параметрами;</span>
+            </li>
+            <li><code>scoped_session</code><span class="next"> –  хранилище разных сессий.</span></li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сессии</h2>
+        <pre><code>session_factory = sessionmaker(bind=some_engine)
+Session = scoped_session(session_factory)
+session = Session()</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Сессии</h2>
+        <pre><code>session_factory = sessionmaker(bind=some_engine)
+Session = scoped_session(session_factory)
+session = Session()
+session2 = Session()
+print(session is session2)</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))
+print(q.all())
+print(q.one())
+print(q.first())
+print(q.scalar())
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())
+print(q.one())
+print(q.first())
+print(q.scalar())
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())  # [(1,)]
+print(q.one())
+print(q.first())
+print(q.scalar())
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())  # [(1,)]
+print(q.one())  # (1,)
+print(q.first())
+print(q.scalar())
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())  # [(1,)]
+print(q.one())  # (1,)
+print(q.first())  # (1,)
+print(q.scalar())
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())  # [(1,)]
+print(q.one())  # (1,)
+print(q.first())  # (1,)
+print(q.scalar())  # 1
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Получение данных</h2>
+        <pre><code>q = session.query(Post.id).filter(Post.id == 1)
+print(type(q))  # &lt;class 'sqlalchemy.orm.query.Query'>
+print(list(q))  # [(1,)]
+print(q.all())  # аналог list()
+print(q.one())  # берёт все результаты, выбрасывает ошибку, если их не 1
+print(q.first())  # делает запрос с limit 1 и возвращает этот объект или None
+print(q.scalar())  # аналог one()[0]
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Создание</h2>
+        <pre><code>posts = [
+    {'id': 1, 'title': 'foo post'},
+    {'id': 2, 'title': 'bar post'},
+]
+for post_info in posts:
+    session.add(Post(**post_info))
+    session.commit()
+</code></pre>
+
+        <pre><code>for post_info in posts:
+    session.add(Post(**post_info))
+session.commit()
+</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание</h2>
+        <pre><code>posts = [
+    {'id': 1, 'title': 'foo post'},
+    {'id': 2, 'title': 'bar post'},
+]
+for post_info in posts:
+    session.add(Post(**post_info))
+    session.commit()  # 2 запроса
+</code></pre>
+
+        <pre><code>for post_info in posts:
+    session.add(Post(**post_info))
+session.commit()  # 1 запрос
+</code></pre>
+
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание</h2>
+        <pre><code>posts = [
+    {'id': 1, 'title': 'foo post'},
+    {'id': 2, 'title': 'bar post'},
+]
+for post_info in posts:
+    session.add(Post(**post_info))
+    session.commit()  # 2 запроса
+</code></pre>
+
+        <pre><code>for post_info in posts:
+    session.add(Post(**post_info))
+session.commit()  # 1 запрос
+</code></pre>
+
+        <pre><code>conn.execute(Post.__table__.insert(), posts)  # ???</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Создание</h2>
+        <pre><code>posts = [
+    {'id': 1, 'title': 'foo post'},
+    {'id': 2, 'title': 'bar post'},
+]
+for post_info in posts:
+    session.add(Post(**post_info))
+    session.commit()  # 2 запроса
+</code></pre>
+
+        <pre><code>for post_info in posts:
+    session.add(Post(**post_info))
+session.commit()  # 1 запрос
+</code></pre>
+
+        <pre><code>conn.execute(Post.__table__.insert(), posts)  # 1 запрос</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        <pre><code>p = session.query(Post).join(User, Post.user_id == User.id).first()
+print(p.user.username)  # john</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        <pre><code>p = session.query(Post).join(User).first()
+print(p.user.username)  # ??</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        <pre><code>p = session.query(Post).join(User).first()
+print(p.user.username)  # john</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        <pre><code>p = session.query(Tag).join(User, Tag.id == User.id).first()
+print(p)  # &lt;__main__.Tag object at 0x103471630></code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        <pre><code>p = session.query(Tag, User).join(User, Tag.id == User.id).first()
+print(p)  # (&lt;__main__.Tag object at 0x1036aea58>, &lt;__main__.User object at 0x1036aec50>)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        У нас есть 2 тега и 2 пользователя.
+        <pre><code>p = session.query(Tag, User).count()
+print(p)  # ???</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>join</h2>
+        У нас есть 2 тега и 2 пользователя.
+        <pre><code>p = session.query(Tag, User).count()
+print(p)  # 4</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>filter fk</h2>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>filter fk</h2>
+        Посты пользователя с юзернеймом john
+        <pre><code>session.query(Post).join(User).filter(User.username == 'john').all()</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>filter fk</h2>
+        Посты пользователя с юзернеймом john
+        <pre><code>session.query(Post)<mark>.join(User)</mark>.filter(User.username == 'john').all()</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>filter fk</h2>
+        Посты пользователя с юзернеймом john
+        <pre><code>session.query(Post<mark>, User</mark>).filter(User.username == 'john').all()</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>filter m2m</h2>
+        Посты с тегом python
+        <pre><code>tag_id = session.query(Tag.id).filter(Tag.name=='python').scalar()
+posts = session.query(Post).join(tags_posts_table).filter(
+    tags_posts_table.c.tag_id == tag_id,
+)</code></pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Домашнее задание 5</h2>
+        Написать ORM и отладить её работу на sqlite. Необходимая функциональность:
+        <ul>
+            <li>создание/удаление таблиц;</li>
+            <li>insert/update</li>
+            <li>select с указанием необходимых столбцов;</li>
+            <li>обработка базовых ошибок (нет таблицы, нет столбца, не указано значение у обязательного столбца);</li>
+            <li>поддержка foreign key и автоджоин таблиц, на которые есть fk.</li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Пример АПИ написанной ORM</h2>
+        <pre><code>class User(Base):
+    __tablename__ = 'posts'
+
+    id = ('int', 'required')
+    username = ('char(256)', 'not_required')
+
+User(id=1, username='doe', connection=conn).select_all()</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Часть реализации ORM</h2>
+        <pre><code>def select_all(self):
+    field_names = [k for k in self.__class__.__dict__.keys() if not k.startswith('__')]
+    print('SELECT %s FROM %s;' % (', '.join(field_names), self.__class__.__tablename__))
+</code></pre>
+    </div>
+</section>
+
+<script src="js/shower.min.js"></script>
+</body>
+</html>
