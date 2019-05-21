@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+    <h1>Products list:</h1>
+
+    <ul>
+        {% for product in products %}
+        <li><a href="{{ url_for('products_app.product', product_id=product[0])}}">{{ product[1] }}</a></li>
+        <img src="" alt="">
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

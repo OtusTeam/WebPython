@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+</head>
+<body class="container">
+    <h1>Hello World!!!</h1>
+    <div>
+        Hello another line!
+    </div>
+    <hr>
+    <div>
+        <ul>
+            <li><a href="{{ url_for('products_app.products') }}">Products</a></li>
+            <li><a href="{{ url_for('products_app.product', product_id=42) }}">Product 42</a></li>
+        </ul>
+    </div>
+</body>
+</html>
