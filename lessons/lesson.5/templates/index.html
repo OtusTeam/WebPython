@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+</head>
+<body class="container">
+    <h1>Hello {{ name }}!!!</h1>
+    <h1>Your user id = {{ user_id }}</h1>
+    <hr>
+    <div>
+        <a href="{{ url_for('products_app.products') }}">Go to products</a>
+        <br>
+        <a href="{{ url_for('products_app.product', product_id=42) }}">Go to product 42</a>
+    </div>
+</body>
+</html>
