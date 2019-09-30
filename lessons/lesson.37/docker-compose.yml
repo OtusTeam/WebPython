@@ -1,0 +1,22 @@
+version: '3'
+
+
+services:
+  web:
+    container_name: web_flask
+    build: .
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+#    volumes:
+#      - ./project:/project
+    entrypoint: [ "flask", "run" ]
+    command: [ "--host=0.0.0.0" ]
+#    command: [ "flask", "run", "--host=0.0.0.0" ]
+
+  pg:
+    image: postgres:10-alpine
