@@ -22,14 +22,14 @@
 <header class="caption">
     <h2>«Python для web&#8209;разработки» – лекция 30</h2>
     <h1>OTUS</h1>
-    <p>Юрий Дворжецкий</p>
+    <p>Михаил Кузнецов</p>
 </header>
 
 <section class="slide" id="cover">
     <div>
         <h2>OTUS</h2>
         <h1>«Python для web&#8209;разработки»<br>лекция 30<br>Flux и Redux</h1>
-        <p>Юрий Дворжецкий</p>
+        <p>Михаил Кузнецов</p>
     </div>
 </section>
 
@@ -41,6 +41,16 @@
             <li>Разрабатывать приложения на React любого масштаба (и огроооомные тоже)</li>
             <li>С хранением состояния в Redux</li>
             <li>И не только React-приложения</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Links</h2>
+        <ul>
+            <li><a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools</a> </li>
+            <li><a href="https://codepen.io/shershen08/pen/oNvdovy">Redux demo codepen</a> </li>
         </ul>
     </div>
 </section>
@@ -226,7 +236,7 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
 
 <section class="slide">
     <div>
-        <h2>Упраженение</h2>
+        <h2>Упражнение</h2>
         <ul>
             <li>Придумайте Ваши объекты-экшены и напишите их в чат</li>
         </ul>
@@ -302,7 +312,7 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Упражнение</h2>
         <ul>
-            <li>Опишите плюсы Flux по картнкам</li>
+            <li>Опишите плюсы Flux по картинкам</li>
         </ul>
     </div>
 </section>
@@ -811,14 +821,15 @@ export default connect(
     </div>
 </section>
 
+
 <section class="slide">
     <div>
         <h2>Структура папок (в простых приложениях)</h2>
         <ul>
-            <li>actions – сюда располагают action creators, а в этих файлах и константы</li>
-            <li>components – собственно, React –компоненты</li>
-            <li>reducers – редьюсеры</li>
-            <li>store – создание store и middleware</li>
+            <li>/actions – сюда располагают action creators, а в этих файлах и константы</li>
+            <li>/components – собственно, React –компоненты</li>
+            <li>/reducers – редьюсеры</li>
+            <li>/store – создание store и middleware</li>
         </ul>
     </div>
 </section>
@@ -827,12 +838,12 @@ export default connect(
     <div>
         <h2>Структура папок (для профи)</h2>
         <ul>
-            <li>actions – сюда располагают action creators, а в этих файлах и константы</li>
-            <li>сonstants – константы экшенов</li>
-            <li>components – простые React –компоненты (не знают про Redux)</li>
-            <li>containers – React-контейнеры (знают о Redux, connect)</li>
-            <li>reducers – редьюсеры</li>
-            <li>store – создание store и middleware</li>
+            <li>/actions – сюда располагают action creators, а в этих файлах и константы</li>
+            <li>/сonstants – константы экшенов</li>
+            <li>/components – простые React –компоненты (не знают про Redux)</li>
+            <li>/containers – React-контейнеры (знают о Redux, connect)</li>
+            <li>/reducers – редьюсеры</li>
+            <li>/store – создание store и middleware</li>
         </ul>
     </div>
 </section>
