@@ -11,3 +11,4 @@
 - [Урок 33: aiogram](lessons/lesson.33/)
 - [Урок 35: threading.multiprocessing.queue](lessons/lesson.35/)
 - [Урок 37: Docker, docker-compose](lessons/lesson.37/)
+- [Урок 39: asyncio](lessons/lesson.39/)
