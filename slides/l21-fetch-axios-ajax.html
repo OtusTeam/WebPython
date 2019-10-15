@@ -21,14 +21,14 @@
 <header class="caption">
     <h2>«Python для web&#8209;разработки» – лекция 21</h2>
     <h1>OTUS</h1>
-    <p>Юрий Дворжецкий</p>
+    <p>Михаил Кузнецов</p>
 </header>
 
 <section class="slide" id="cover">
     <div>
         <h2>OTUS</h2>
         <h1>«Python для web&#8209;разработки»<br>лекция 21</h1>
-        <p>Юрий Дворжецкий</p>
+        <p>Михаил Кузнецов</p>
     </div>
 </section>
 
@@ -41,18 +41,6 @@
             <li>$.ajax</li>
             <li>fetch + ещё немножко ES6</li>
             <li>axios</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Орг.моменты</h2>
-        <ul>
-            <li>спасибо большое за отзывы! я их учёл;</li>
-            <li>кто был на ДОД?</li>
-            <li>небольшая задержка с домашкой - я исправился</li>
-            <li>про тайминг помню.</li>
         </ul>
     </div>
 </section>
@@ -619,12 +607,14 @@ let someJsCode = 'someJSString';
     <div>
         <h2>$.ajax</h2>
         <ul>
-            <li>Релаизация Ajax-запроса</li>
+            <li>Реализация Ajax-запроса</li>
             <li>В классической билиотеке - jquery</li>
             <li>Просто отличная обёртка XMLHttpRequest</li>
             <li>Часто её прикручивают просто из-за удобства AJAX</li>
             <li>Пример: <a href="https://codepen.io/btholt/pen/FArdh">
                 https://codepen.io/btholt/pen/FArdh</a></li>
+            <li>jquery много весит (+200 Kb)</li>
+            <li>$.getJSON, $.ajaxStop/$.ajaxStart</li>
         </ul>
     </div>
 </section>
@@ -657,8 +647,8 @@ $.get('http://localhost:8008/api/user')
         <ul>
             <li>Навороченная обёртка XMLHttpRequest (Promise)</li>
             <li>Можно прикрутить JSON-schema</li>
-            <li>Можно останавливать запрос</li>
-            <li>Развивался до fetch</li>
+            <li>Можно останавливать запрос <a href="https://gist.github.com/adeelibr/d8f3f8859e2929f3f1adb80992f1dc09">cancelToken</a></li>
+            <li>Развился до fetch</li>
         </ul>
     </div>
 </section>
@@ -696,7 +686,7 @@ axios.get('/user?ID=12345')
         <h2>fetch</h2>
         <ul>
             <li>Замена XMLHttpRequest (Promise-based)</li>
-            <li>Самы современный</li>
+            <li>Самый современный</li>
             <li>Не всеми поддерживается - нужен polyfill</li>
             <li>Нельзя останавливать запрос</li>
         </ul>
@@ -724,7 +714,7 @@ fetch('flowers.jpg').then(function(response) {
 <section class="slide">
     <div>
         <h2>Домашнее задание</h2>
-        <p>Сборка UI с помощью webpack, форма логина и регистрации, проксирование вызовов на back-end</p>
+        <p>См в личном кабинете</p>
     </div>
 </section>
 
