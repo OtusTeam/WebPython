@@ -186,10 +186,9 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Flux</h2>
         <ul>
-            <li>One-Way Data Flow делает Ваши приложения очень простыми, причём, как к понимаю,
-                так и к отладке и дальнейшему расширению.
+            <li>One-Way Data Flow <br>делает Ваши приложения очень простыми: для понимания, отладки и дальнейшего расширения.
             </li>
-            <li>Two-Way Data Flow является причиной каскадных изменений, неэффективности всей клиентской
+            <li>Two-Way Data Flow <br>является причиной каскадных изменений, неэффективности всей клиентской
                 части и источником частых и труднообнаружимых ошибок.
             </li>
         </ul>
@@ -262,7 +261,7 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
         <h2>Роли flux: store</h2>
         <ul>
             <li>Store обновляется callback-ом из диспатчера. Callback получает action как параметр</li>
-            <li>Как store будет обновлён, рассылается уведомление слушающим view, которые перерисовывают
+            <li>Как store будет обновлён, рассылается уведомление подписанным компонентам, которые перерисовывают
                 себя с новыми данными.
             </li>
         </ul>
@@ -273,10 +272,10 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Роли Flux: dispatcher</h2>
         <ul>
-            <li>Dispatcher – центральный хаб . Он обрабатывает action-ы, и вызывает callback-и со store,
+            <li>Dispatcher – центральный хаб. <br>Он обрабатывает action-ы, и вызывает callback-и со store,
                 в котором он зарегистрирован
             </li>
-            <li>Диспатчер, это не совсем контроллер из MVC, он не содержит
+            <li>Dispatcher, это не совсем контроллер из MVC, он не содержит
                 никакой логики по обработке данных – только слепое выполнение
             </li>
         </ul>
@@ -334,11 +333,10 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Реализации Flux</h2>
         <ul>
-            <li>Flux Вы можете реализовать самостоятельно, собственно, это только архитектурный паттерн</li>
-            <li>А можете воспользоваться одной из готовых реализаций:</li>
-            <li><b>Facebook Flux</b>, Fluxible by Yahoo, Reflux, Alt, Flummox, Marty.js, McFly, Lux, Material Flux,
-                <b>Redux</b>, Redux + Flambeau, <b>Nuclear.js</b>, Fluxette, Fluxxor, Freezer, Fluxury
-            </li>
+            <li>Flux Вы можете реализовать самостоятельно - это лишь архитектурный паттерн</li>
+            <li>Можете воспользоваться одной из готовых реализаций:<br>
+           <strong> Redux</strong>, Nuclear.js, Fluxxor (и еще 10 не-популярных решений)
+        </li>
         </ul>
     </div>
 </section>
