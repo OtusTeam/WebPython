@@ -169,8 +169,7 @@
 
 <section class="slide">
     <div>
-        <h2>React Router v3</h2>
-        <h2>React Router v4</h2>
+        <h2>React Router</h2>
     </div>
 </section>
 
@@ -183,18 +182,6 @@
             </li>
             <li>React роутер синхронизирует состояние Вашего приложения с URL в зависимости от настроек</li>
             <li>В SPA теперь вместо страниц (т.к. она одна) появляются <b>роуты</b>.</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 и v4</h2>
-        <ul>
-            <li>в React две популярные версии react-router - v3 и v4</li>
-            <li>Они отличаются синтаксисом и немного возможностями</li>
-            <li>Поэтому переход с 3-его произошёл не у всех</li>
-            <li>Мы поговорим поэтому про оба. А вот начинать рекомендую с последнего</li>
         </ul>
     </div>
 </section>
@@ -413,39 +400,6 @@ render() {
 <section class="slide">
     <div>
         <h2>Вопросы?</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 lifecycle</h2>
-        <ul>
-            <li>Страницу (роут) создаёт сам роутер, не React.</li>
-            <li>И жизненным циклом управляет сам роутер</li>
-            <li>У него всё ещё хитрее - переход со одного и того же роута но с разными параметрами - это будет
-                props change
-            </li>
-            <li>Чтобы управлять жизненным циклом, можно использовать следующие методы:
-                onEnter, onChange, onLeave
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 пример</h2>
-        <pre class="xbig">
-            <code>
-&lt;Route path="/users/:userId/teams"
-       onEnter={userIsInATeam} />
-&lt;Route path="/users/:userId/teams"
-       onChange={onChange} />
-&lt;Route path="/users/:userId/teams"
-       onLeave={onLeave} />
-&lt;Route path='/schedule/' render={() => &lt;Schedule p1="1"/>}/>
-            </code>
-        </pre>
     </div>
 </section>
 
