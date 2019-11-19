@@ -68,73 +68,108 @@
     </div>
 </section>
 
-
 <section class="slide">
     <div>
-        <h2>React hooks API</h2>
+        <h2>React hooks</h2>
+    </div>
+</section>
+    
+<section class="slide">
+    <div>
+        <h2>Обзор</h2>
         <ul>
-                <li> > 16.8</li>
-                <li> состояние и другие возможности React без написания классов</li>
+            <li> функциональное программирование, сайд эффекты</li>
+            <li> >= 16.8</li>
+            <li> состояние и другие возможности React без написания классов</li>
+            <li> переиспользование кода</li>
+            <li> нет жизненного цикла, только синхронизация</li>
+            <li> use[NAME_HERE]</li>
         </ul>
-
-        
     </div>
 </section>
 
-
-
-
 <section class="slide">
     <div>
-        <h2>useState</h2>
+        <h2>useState, useEffect</h2>
         <pre class="xbig">
             <code>
+                const [users, setUsers] = useState([]);
+                useEffect(() => {
+                    //do something
+                });
             </code>
+            <a href="https://codesandbox.io/s/yq5qowzrvz?from-embed">codesandbox demo</a>
         </pre>
     </div>
 </section>
 
-<section class="slide">
-        <div>
-            <h2>useEffect</h2>
-            <pre class="xbig">
-                <code>
-                </code>
-            </pre>
-        </div>
-    </section>
 
-    <section class="slide">
-            <div>
-                <h2>useContext</h2>
-                <pre class="xbig">
-                    <code>
-                    </code>
-                </pre>
-            </div>
-        </section>
+
+<section class="slide">
+    <div>
+        <h2>useContext</h2>
+        <pre class="xbig">
+            <code>
+                //configContext.js
+                const someConfigs = {}
+                export default ConfigContext = React.createContext(someConfigs);
+
+                // app.js
+                import ConfigContext from 'configContext.js'
+                function App() {
+                    return (
+                      <ConfigContext.Provider value={someConfigs.foo}>
+                        <Toolbar />
+                      </ConfigContext.Provider>
+                    );
+                  }
+                
+                  // deeplyNestedComponent.js
+                  import ConfigContext from 'configContext.js'
+                  
+                  function DeeplyNestedComponent() {
+                    const configData = useContext(ConfigContext);
+                    return (
+                      <some-tag prop={configData.foo}>
+                        Я стилизован темой из контекста!
+                      </some-tag>
+                    );
+                  }
+            </code>
+        </pre>
+    </div>
+</section>
 
 
 <section class="slide">
     <div>
         <h2>Дополнительные хуки</h2>
         <ul>
-            <li>useReducer</li>
-            <li> useCallback</li>
-            <li> useMemo</li>
-            <li> useRef</li>
-            <li>useDebugValue</li>
+            <li>useReducer - мини редакс</li>
+            <li>useCallback, useMemo - зависимости и мемоизация</li>
+            <li>useRef - для хранения ссылки на значение</li>
+            <li>useDebugValue - Показывать ярлык в DevTools </li>
         </ul>
         <a href="https://codepen.io/dashboard/">codepen.io/</a>
     </div>
 </section>
 
 <section class="slide">
-        <div>
-            <h2>Как писать свои хуки</h2>
-            // todo
-        </div>
-    </section>
+    <div>
+        <h2>Как писать свои хуки</h2>
+        <code>
+            const [name, setName] = useLocalStorage('name', 'Bob');
+        </code>
+        <a href="https://codesandbox.io/s/qxkr4mplv6?from-embed">codesandbox demo</a>
+        <a href="https://codesandbox.io/s/509jvrqr8n?from-embed">codesandbox demo #2</a>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
+    </div>
+</section>
 
 <section class="slide">
     <div>
