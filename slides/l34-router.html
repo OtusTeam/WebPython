@@ -37,6 +37,7 @@
     <div>
         <h2>Что сможем делать после вебинара?</h2>
         <ul>
+            <li>Ract hooks</li>
             <li>Знать и разбираться в AJAX и SPA</li>
             <li>Разрабатывать SPA приложения на React с помощью React Router</li>
         </ul>
@@ -47,7 +48,8 @@
     <div>
         <h2>План на сегодня</h2>
         <ul>
-            <li>Опять немного о классике, модерне и современности</li>
+            <li>SPA/non-SPA</li>
+            <li>React Hooks</li>
             <li>Много о React Router</li>
             <li>Практики как таковой не будет</li>
             <li>Но теория сугубо практическая</li>
@@ -63,6 +65,109 @@
             <li>Про тайминг помню.</li>
             <li>В конце отзыв.</li>
         </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>React hooks</h2>
+    </div>
+</section>
+    
+<section class="slide">
+    <div>
+        <h2>Обзор</h2>
+        <ul>
+            <li> функциональное программирование, сайд эффекты</li>
+            <li> >= 16.8</li>
+            <li> состояние и другие возможности React без написания классов</li>
+            <li> переиспользование кода</li>
+            <li> нет жизненного цикла, только синхронизация</li>
+            <li> use[NAME_HERE]</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>useState, useEffect</h2>
+        <pre class="xbig">
+            <code>
+                const [users, setUsers] = useState([]);
+                useEffect(() => {
+                    //do something
+                });
+            </code>
+            <a href="https://codesandbox.io/s/yq5qowzrvz?from-embed">codesandbox demo</a>
+        </pre>
+    </div>
+</section>
+
+
+
+<section class="slide">
+    <div>
+        <h2>useContext</h2>
+        <pre class="xbig">
+            <code>
+                //configContext.js
+                const someConfigs = {}
+                export default ConfigContext = React.createContext(someConfigs);
+
+                // app.js
+                import ConfigContext from 'configContext.js'
+                function App() {
+                    return (
+                      <ConfigContext.Provider value={someConfigs.foo}>
+                        <Toolbar />
+                      </ConfigContext.Provider>
+                    );
+                  }
+                
+                  // deeplyNestedComponent.js
+                  import ConfigContext from 'configContext.js'
+                  
+                  function DeeplyNestedComponent() {
+                    const configData = useContext(ConfigContext);
+                    return (
+                      <some-tag prop={configData.foo}>
+                        Я стилизован темой из контекста!
+                      </some-tag>
+                    );
+                  }
+            </code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
+        <h2>Дополнительные хуки</h2>
+        <ul>
+            <li>useReducer - мини редакс</li>
+            <li>useCallback, useMemo - зависимости и мемоизация</li>
+            <li>useRef - для хранения ссылки на значение</li>
+            <li>useDebugValue - Показывать ярлык в DevTools </li>
+        </ul>
+        <a href="https://codepen.io/dashboard/">codepen.io/</a>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Как писать свои хуки</h2>
+        <code>
+            const [name, setName] = useLocalStorage('name', 'Bob');
+        </code>
+        <a href="https://codesandbox.io/s/qxkr4mplv6?from-embed">codesandbox demo</a>
+        <a href="https://codesandbox.io/s/509jvrqr8n?from-embed">codesandbox demo #2</a>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Вопросы?</h2>
     </div>
 </section>
 
@@ -151,26 +256,13 @@
 
 <section class="slide">
     <div>
-        <h2>Упражнение</h2>
-        <ul>
-            <li>Найти SPA-сайты</li>
-            <li>Отправить его в чат.</li>
-            <li>Полазить по нему с открытой консолью Network (+preserve logs)</li>
-            <li>Увидеть как передаются данные и что HTML не получается (GET) при переходах.</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
         <h2>Вопросы?</h2>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>React Router v3</h2>
-        <h2>React Router v4</h2>
+        <h2>React Router</h2>
     </div>
 </section>
 
@@ -183,18 +275,6 @@
             </li>
             <li>React роутер синхронизирует состояние Вашего приложения с URL в зависимости от настроек</li>
             <li>В SPA теперь вместо страниц (т.к. она одна) появляются <b>роуты</b>.</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 и v4</h2>
-        <ul>
-            <li>в React две популярные версии react-router - v3 и v4</li>
-            <li>Они отличаются синтаксисом и немного возможностями</li>
-            <li>Поэтому переход с 3-его произошёл не у всех</li>
-            <li>Мы поговорим поэтому про оба. А вот начинать рекомендую с последнего</li>
         </ul>
     </div>
 </section>
@@ -413,39 +493,6 @@ render() {
 <section class="slide">
     <div>
         <h2>Вопросы?</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 lifecycle</h2>
-        <ul>
-            <li>Страницу (роут) создаёт сам роутер, не React.</li>
-            <li>И жизненным циклом управляет сам роутер</li>
-            <li>У него всё ещё хитрее - переход со одного и того же роута но с разными параметрами - это будет
-                props change
-            </li>
-            <li>Чтобы управлять жизненным циклом, можно использовать следующие методы:
-                onEnter, onChange, onLeave
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Router v3 пример</h2>
-        <pre class="xbig">
-            <code>
-&lt;Route path="/users/:userId/teams"
-       onEnter={userIsInATeam} />
-&lt;Route path="/users/:userId/teams"
-       onChange={onChange} />
-&lt;Route path="/users/:userId/teams"
-       onLeave={onLeave} />
-&lt;Route path='/schedule/' render={() => &lt;Schedule p1="1"/>}/>
-            </code>
-        </pre>
     </div>
 </section>
 
