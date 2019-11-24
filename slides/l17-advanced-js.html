@@ -431,7 +431,7 @@ var Point = function(x, y) {
 }
 Point.prototype.length = function() {return Math.sqrt(this.x * this.x + this.y * this.y); }
 
-vat p = new Point(3, 4);
+var p = new Point(3, 4);
 console.log(p.length());
             </code>
         </pre>
@@ -445,7 +445,7 @@ console.log(p.length());
             <code>
 var Point = function(x, y) {this.x = x; this.y = y;}
 Point.prototype.length = function() {return Math.sqrt(this.x * this.x + this.y * this.y); }
-vat p = new Point(3, 4);
+var p = new Point(3, 4);
 
 console.log(p.__proto__);
 console.log(Point.__proto__);
