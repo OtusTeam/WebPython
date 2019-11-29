@@ -161,12 +161,6 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
 
 <section class="slide">
     <div>
-        <h2>Вопросы?</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
         <h2>Flux</h2>
     </div>
 </section>
@@ -177,6 +171,7 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
         <ul>
             <li>Flux – архитектура приложений, созданная Facebook</li>
             <li>One-way Data Flow в центре этой архитектуры</li>
+            <li>Flux Вы можете реализовать самостоятельно - это лишь архитектурный паттерн</li>
             <li>Во Flux есть роли: action, store, dispatcher и view</li>
         </ul>
     </div>
@@ -204,92 +199,14 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
 
 <section class="slide">
     <div>
-        <h2>Роли Flux: Action</h2>
+        <h2>Роли во Flux</h2>
         <ul>
-            <li>Action – это просто объект содержащий идентификатор действия (type),
-                и все данные необходимые для совершения действия
+            <li>Action – это просто объект содержащий идентификатор действия (type), и все данные необходимые для совершения действия
             </li>
-            <li>Разные действия имеют разный атрибут type</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Роли Flux: Action</h2>
-        <pre class="xbig">
-            <code>
-{
-  type: "IncreaseCount",
-  local_data: {delta: 1}
-}
-                
-{
-  type: "IncreaseCount",
-  delta: 1,
-  silent: true
-}
-            </code>
-        </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Упражнение</h2>
-        <ul>
-            <li>Придумайте Ваши объекты-экшены и напишите их в чат</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Роли flux: store</h2>
-        <ul>
             <li>Store содержит логику приложения и его текущее состояние</li>
-            <li>Можно считать, что store отвечает за обработку какой-то области приложения</li>
-            <li>Очень похож на модель из MVC, но это не модель. Модель хранит какой-то один объект,
-                а store может хранить состояние всего приложения.
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Роли flux: store</h2>
-        <ul>
             <li>Store обновляется callback-ом из диспатчера. Callback получает action как параметр</li>
-            <li>Как store будет обновлён, рассылается уведомление подписанным компонентам, которые перерисовывают
-                себя с новыми данными.
+            <li>Dispatcher обрабатывает action-ы, и вызывает callback-и со store
             </li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Роли Flux: dispatcher</h2>
-        <ul>
-            <li>Dispatcher – центральный хаб. <br>Он обрабатывает action-ы, и вызывает callback-и со store,
-                в котором он зарегистрирован
-            </li>
-            <li>Dispatcher, это не совсем контроллер из MVC, он не содержит
-                никакой логики по обработке данных – только слепое выполнение
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Роли Flux: View</h2>
-        <ul>
-            <li>В качестве view обычно выступают react-компоненты</li>
-            <li>Наподобие MVC, View подписываются на обновление данных, и обновляют себя при их изменении</li>
-            <li>View могут добавлять новые действия в диспатчер</li>
-            <li>С react-овским one-way data flow работает особенно хорошо и просто</li>
         </ul>
     </div>
 </section>
@@ -303,41 +220,7 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
 
 <section class="slide">
     <div>
-        <h2>Flux</h2>
-        <p><img src="img/l30-flux.png" style="height: 400px; width: auto"/></p>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Упражнение</h2>
-        <ul>
-            <li>Опишите плюсы Flux по картинкам</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Вопросы?</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
         <h2>Redux</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Реализации Flux</h2>
-        <ul>
-            <li>Flux Вы можете реализовать самостоятельно - это лишь архитектурный паттерн</li>
-            <li>Можете воспользоваться одной из готовых реализаций:<br>
-           <strong> Redux</strong>, Nuclear.js, Fluxxor (и еще 10 не-популярных решений)
-        </li>
-        </ul>
     </div>
 </section>
 
@@ -630,7 +513,7 @@ let store = createStore(todoApp)
         <ul>
             <li>Поэтому и называется редьюсер:
             <li>(previousState, action) => newState // это сейчас был reduce</li>
-            <li>Очень важно, чтобы редьюсер был чистой функцией: не осуществлял изменния аргументов,
+            <li>Очень важно, чтобы редьюсер был чистой функцией: не осуществлял изменения аргументов,
                 не осуществлял запросов, не использовал Date.now() или Math.random()
             </li>
         </ul>
