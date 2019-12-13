@@ -93,13 +93,21 @@
         <h2>useState, useEffect</h2>
         <pre class="xbig">
             <code>
-                const [users, setUsers] = useState([]);
-                useEffect(() => {
-                    //do something
-                });
+import React, { useState, useEffect } from "react";
+
+//замена this.setState
+//на каждое свойство можно свой
+const [users, setUsers] = useState([]);
+const [isVisible, setVisibility] = useState(false);
+
+// замена componentDidMount
+useEffect(() => {
+    //do something
+});
             </code>
-            <a href="https://codesandbox.io/s/yq5qowzrvz?from-embed">codesandbox demo</a>
         </pre>
+            <br>
+            <a href="https://codesandbox.io/s/yq5qowzrvz?from-embed">codesandbox demo</a>
     </div>
 </section>
 
@@ -107,34 +115,42 @@
 
 <section class="slide">
     <div>
-        <h2>useContext</h2>
+        <h2>useContext 1/2</h2>
         <pre class="xbig">
             <code>
-                //configContext.js
-                const someConfigs = {}
-                export default ConfigContext = React.createContext(someConfigs);
+//configContext.js
+const someConfigs = {}
+export default ConfigContext = React.createContext(someConfigs);
 
-                // app.js
-                import ConfigContext from 'configContext.js'
-                function App() {
-                    return (
-                      <ConfigContext.Provider value={someConfigs.foo}>
-                        <Toolbar />
-                      </ConfigContext.Provider>
-                    );
-                  }
-                
-                  // deeplyNestedComponent.js
-                  import ConfigContext from 'configContext.js'
-                  
-                  function DeeplyNestedComponent() {
-                    const configData = useContext(ConfigContext);
-                    return (
-                      <some-tag prop={configData.foo}>
-                        Я стилизован темой из контекста!
-                      </some-tag>
-                    );
-                  }
+// app.js
+import ConfigContext from 'configContext.js'
+function App() {
+    return (
+        &lt;ConfigContext.Provider value={someConfigs.foo}>
+        &lt;Toolbar />
+        &lt;/ConfigContext.Provider>
+    );
+    }
+</code>
+</pre>
+</div>
+</section>
+    <section class="slide">
+        <div>
+            <h2>useContext 2/2</h2>
+            <pre class="xbig">
+                <code>
+// deeplyNestedComponent.js
+import ConfigContext from 'configContext.js'
+
+function DeeplyNestedComponent() {
+const configData = useContext(ConfigContext);
+return (
+    &lt;some-tag prop={configData.foo}>
+    Я стилизован темой из контекста!
+    &lt;/some-tag>
+    );
+}
             </code>
         </pre>
     </div>
@@ -145,22 +161,35 @@
     <div>
         <h2>Дополнительные хуки</h2>
         <ul>
-            <li>useReducer - мини редакс</li>
+            <li>useReducer - мини-Redux</li>
             <li>useCallback, useMemo - зависимости и мемоизация</li>
             <li>useRef - для хранения ссылки на значение</li>
             <li>useDebugValue - Показывать ярлык в DevTools </li>
         </ul>
-        <a href="https://codepen.io/dashboard/">codepen.io/</a>
     </div>
 </section>
 
 <section class="slide">
+        <div>
+            <h2>DOs and DONTs</h2>
+            <ul>
+                <li>Используйте хуки только на верхнем уровне</li>
+                <li>Вызывайте хуки только из React-функций</li>
+            </ul>
+        </div>
+    </section>
+
+<section class="slide">
     <div>
         <h2>Как писать свои хуки</h2>
+        <pre class="xbig">
         <code>
-            const [name, setName] = useLocalStorage('name', 'Bob');
+const [name, setName] = useLocalStorage('name', 'Bob');
         </code>
-        <a href="https://codesandbox.io/s/qxkr4mplv6?from-embed">codesandbox demo</a>
+        </pre>
+
+        <br>
+        <a href="https://codesandbox.io/s/qxkr4mplv6?from-embed">codesandbox demo</a><br>
         <a href="https://codesandbox.io/s/509jvrqr8n?from-embed">codesandbox demo #2</a>
     </div>
 </section>
@@ -383,7 +412,7 @@ render((
     <div>
         <h2>Как работает (сценарий перехода)</h2>
         <ul>
-            <li>Когда стартует клиент, то доавляется листенер на изменение url в адресной строке</li>
+            <li>Когда стартует клиент, то добавляется листенер на изменение url в адресной строке</li>
             <li>Пользователь нажимает на Link</li>
             <li>Link средствами JS инициирует изменение URL в адресной строке (это не переход!)</li>
             <li>Листенер инициирует изменение роута (убрали один компонент страницы, поставили другой).
@@ -501,7 +530,7 @@ render() {
         <h2>Что почитать?</h2>
         <ul>
             <li>Hooks, позволяющие управлять роутингом</li>
-            <li>Динамический роутинг (настройка - не на компонента, а JSON)</li>
+            <li>Динамический роутинг (настройка - не на компонентах, а через JSON)</li>
             <li>Интеграция с redux</li>
         </ul>
     </div>
