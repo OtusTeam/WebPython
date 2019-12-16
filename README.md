@@ -10,3 +10,4 @@
 - [Урок 25: Введение в TDD](lessons/lesson.25/)
 - [Урок 26: pytest](lessons/lesson.26/)
 - [Урок 33: aiogram](lessons/lesson.33/)
+- [Урок 35: threading.multiprocessing.queue](lessons/lesson.35/)
