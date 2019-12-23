@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    container_name: web_flask
+    build:
+#      dockerfile: ./Dockerfile
+      context: .
+#      args:
+#        - VARIABLE=MY_VARIABLE
+    environment:
+      - HOST=0.0.0.0
+      - FLASK_APP=app.py
+    ports:
+      - 80:5000
+    command:
+      - flask
+      - run
+      - --host=0.0.0.0
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  pg:
+    image: postgres:10-alpine
