@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Products!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Products page!</h1>
+    <hr>
+    <ul>
+        {% for product in products %}
+        <li>
+            <a href="{{ url_for('products_app.product', id=product[0]) }}">{{ product[1] }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
