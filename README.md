@@ -7,3 +7,4 @@
 - [Урок 9: werkzeug, Flask](lessons/lesson.9/)
 - [Урок 11: Django: apps, Models, migrations](lessons/lesson.11/)
 - [Урок 17: Django REST framework](lessons/lesson.17/)
+- [Урок 18: Django REST framework. Authentication: JWT, OAuth2](lessons/lesson.18/)
