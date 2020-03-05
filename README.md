@@ -9,3 +9,4 @@
 - [Урок 17: Django REST framework](lessons/lesson.17/)
 - [Урок 18: Django REST framework. Authentication: JWT, OAuth2](lessons/lesson.18/)
 - [Урок 21: Django, django-debug-toolbar, many_to_many, select_related, prefetch_related, management commands, faker, mixer, Factory Boy](lessons/lesson.21/)
+- [Урок 22: Django. фабрики: mixer, Factory Boy, Faker](lessons/lesson.22/)
