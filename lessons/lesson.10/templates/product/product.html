@@ -1,0 +1,12 @@
+{% extends 'product/base.html' %}
+
+{% block title %}
+Product # {{ product_id }}
+{% endblock %}
+
+{% block body %}
+<h1>#{{ product_id }} {{ product_name }}</h1>
+<div>
+    <a href="{{ url_for('product_app.products') }}">To products list</a>
+</div>
+{% endblock %}

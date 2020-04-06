@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+</head>
+<body>
+    <h1>Hello index page from template!</h1>
+    <h1>Hi, {% if name %} {{ name }}{% else %} anon{% endif %}!</h1>
+    <div>
+        <ul>
+            {% for i in range(10) %}
+            <li>{{ i }} {{ lipsum(1) }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
