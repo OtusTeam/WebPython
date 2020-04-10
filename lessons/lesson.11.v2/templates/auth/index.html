@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Index auth
+{% endblock %}
+
+{% block body %}
+<h1>User info:</h1>
+<ul class="list-group">
+  <li class="list-group-item">Authenticated: {{ current_user.is_authenticated }}</li>
+    {% if current_user.is_authenticated %}
+    <li class="list-group-item">Username: {{ current_user.username }}</li>
+    {% endif %}
+</ul>
+{% endblock %}
