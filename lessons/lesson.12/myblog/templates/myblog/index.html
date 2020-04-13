@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<div>
+    <h1>Hello django blog index!</h1>
+    <ul>
+        <li>foo: {{ foo }}</li>
+        <li>spam: {{ spam }}</li>
+        <li>___</li>
+        <li>
+            Article #{{ article.id }}
+            with title {{ article.title }}
+            with text {{ article.text }}
+        </li>
+        <li>
+            Article TIME_TO_READ choices:
+            <ul>
+                {% for key, value in article.TIME_TO_READ %}
+                <li><code>{{ key }}: {{ value }}</code></li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            Artcle is
+            {% if article.time_to_read < article.TTR_5_15 %} not {% endif%}
+            very long
+        </li>
+
+    </ul>
+    <hr>
+    <h3>Articles:</h3>
+    <ul>
+        {% for article in all_articles %}
+            <li>
+                <div>
+                    Article #{{ article.id }}
+                    with title {{ article.title }}
+                </div>
+                <div>
+                    published on {{ article.ts_created }}
+                </div>
+                <div>
+                    by {{ article.author }}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <h3>All 'J' Authors:</h3>
+    <ul>
+        {% for author in all_j_authors %}
+            <li>
+                <div>
+                    Author #{{ author.id }}
+                    with full name {{ author.full_name }}
+                </div>
+                <div>
+                    has these articles:
+                    <ul>
+                        {% for article in author.article_set.all %}
+                        <li>
+                            <div>
+                                Article #{{ article.id }}
+                                with title {{ article.title }}
+                            </div>
+                            <div>
+                                published on {{ article.ts_created }}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div>
+        Url to this page: {% url 'myblog:index' %}
+    </div>
+</div>
+</body>
+</html>
