@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  my_app:
+    build:
+      context: .
+      args:
+        - myVAR=anothervalue
+    environment:
+      - ADMIN_USERNAME=admin
+    volumes:
+      - ./db:/app/db
+    ports:
+      - 8080:8000
+    entrypoint:
+      - "python"
+      - "manage.py"
+    command:
+      - "runserver"
+      - "0.0.0.0:8000"
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "3"
+            max-size: "1m"
