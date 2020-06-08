@@ -12,3 +12,4 @@
 - [Урок 14. Фабрики: Faker, Factory Boy, mixer](lessons/lesson.14/)
 - [Урок 18. Введение в Django REST Framework](lessons/lesson.18/)
 - [Урок 19. DRF auth](lessons/lesson.19/)
+- [Урок 26. Django m2m, select_related/prefetch_related, django debug toolbar](lessons/lesson.26/)
