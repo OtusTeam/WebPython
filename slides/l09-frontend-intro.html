@@ -25,7 +25,7 @@
 </script>
 
 <header class="caption">
-    <h2>«Python для web&#8209;разработки» – лекция 12</h2>
+    <h2>«Python для web&#8209;разработки» – лекция 09</h2>
     <h1>OTUS</h1>
     <p>Юрий Дворжецкий</p>
 </header>
@@ -33,7 +33,7 @@
 <section class="slide" id="cover">
     <div>
         <h2>OTUS</h2>
-        <h1>«Python для web&#8209;разработки»<br>лекция 12</h1>
+        <h1>«Python для web&#8209;разработки»<br>лекция 09</h1>
         <p>Юрий Дворжецкий</p>
     </div>
 </section>
@@ -50,19 +50,7 @@
             <li>немного про JS;</li>
             <li>немного про CSS;</li>
             <li>методологии вёрстки;</li>
-            <li>Bootstrap 3 и 4.</li>
-        </ul>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Фронтовая часть</h2>
-        <ul>
-            <li>занятия будут в субботу;</li>
-            <li>с Ильёй синхронизировали;</li>
-            <li>ДЗ после каждого занятия;</li>
-            <li>Интегрируется с нашим backend-ом;</li>
+            <li>Bootstrap</li>
         </ul>
     </div>
 </section>
@@ -155,15 +143,43 @@
 <section class="slide">
     <div>
         <h2>Упражнение: Какие HTTP-методы Вы знаете?</h2>
-        <ul>
-            <li>GET - получение страниц, получение entity (без тела)</li>
-            <li>POST - отправка данных формы, создание entity</li>
-            <li>PUT - ---, изменение entity</li>
-            <li>PATCH - ---, изменение entity (RFC-...)</li>
-            <li>DELETE ---, удаление entity</li>
-            <li>HEAD, OPTIONS - ...</li>
-            <li>TRACE - не используется</li>
-        </ul>
+        <table>
+            <tbody>
+            <tr>
+                <td>GET</td>
+                <td>получение страниц</td>
+                <td>получение entity (без тела)</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>отправка данных формы</td>
+                <td>создание entity</td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td></td>
+                <td>изменение entity</td>
+            </tr>
+            <tr>
+                <td>PATCH</td>
+                <td></td>
+                <td>изменение entity (RFC-...)</td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td></td>
+                <td>удаление entity</td>
+            </tr>
+            <tr>
+                <td colspan="2">HEAD, OPTIONS</td>
+                <td>хитрые</td>
+            </tr>
+            <tr>
+                <td colspan="2">TRACE</td>
+                <td>не используется</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 
@@ -184,7 +200,6 @@
             <li>PATCH - ?</li>
             <li>DELETE - ???</li>
             <li>HEAD, OPTIONS - ?</li>
-            <li>TRACE - не используется</li>
         </ul>
     </div>
 </section>
@@ -196,7 +211,7 @@
             <li>GET - да</li>
             <li>POST - нет</li>
             <li>PUT - да</li>
-            <li>PATCH - да</li>
+            <li>PATCH - нет!!!</li>
             <li>DELETE - да!!!</li>
             <li>HEAD, OPTIONS - да</li>
             <li>TRACE - не используется</li>
@@ -277,9 +292,9 @@
         <ul>
             <li>ECMA Script - стандарт, JavaScript, по сути реализация</li>
             <li>То что сейчас исполняется в браузере - ECMA Script 5.1 (ES 5.1)</li>
-            <li>Сейчас вышел стандарт ES6, он же называется ES2015</li>
-            <li>Готовится к выходу ES7</li>
-            <li>Как такового ES6 - нет, есть набор фич, которые поддерживают браузереы или нет</li>
+            <li>Сравнительно вышел взрывной стандарт ES6, он же называется ES2015</li>
+            <li>Готовится к выходу ES8</li>
+            <li>Как таковых ES>6 - нет, есть набор фич, которые поддерживают браузереы или нет</li>
         </ul>
     </div>
 </section>
@@ -560,7 +575,7 @@ position: fixed;
         <h2>Twitter Bootstrap</h2>
         <ul>
             <li><a href="http://getbootstrap.com">http://getbootstrap.com</a></li>
-            <li>Очень больго была 3-я версия</li>
+            <li>Очень долго была 3-я версия</li>
             <li>Сейчас 4-ая</li>
             <li>По сути отличаются сеткой</li>
             <li>Остальные компоненты почти те же</li>
@@ -588,7 +603,7 @@ position: fixed;
             <li>12 ячеек</li>
             <li>может делиться на 1, 2, 3, 4, 6, 12</li>
             <li>ячейки могут быть вложенными</li>
-            <li>не влезщие - переносятся</li>
+            <li>не влезшие - переносятся</li>
         </ul>
     </div>
 </section>
@@ -603,10 +618,11 @@ position: fixed;
     <div>
         <h2>БЭМ</h2>
         <ul>
-            <li>12 ячеек</li>
-            <li>может делиться на 1, 2, 3, 4, 6, 12</li>
-            <li>ячейки могут быть вложенными</li>
-            <li>не влезщие - переносятся</li>
+            <li>(Блок, Элемент, Модификатор)</li>
+            <li>особая методология вёрстки</li>
+            <li>как называть классы</li>
+            <li>какие классы в них</li>
+            <li><a href="https://ru.bem.info/">Сабж</a></li>
         </ul>
     </div>
 </section>
@@ -681,12 +697,12 @@ position: fixed;
 
 <section class="slide">
     <div>
-        <h2>БЭМ</h2>
+        <h2>БЭММ (+ миксин)</h2>
         <pre class="xbig">
             <code>
 header__logo header__logo--new-year
 
-header__logo header__logo--new-year page__header
+page__header header__logo header__logo--new-year
             </code>
         </pre>
     </div>
@@ -759,13 +775,6 @@ header__logo header__logo--new-year page__header
 }
             </code>
         </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Домашнее задание</h2>
-        <p>Сделать вёрстку (HTML + CSS) главной страницы сайта для обучения.</p>
     </div>
 </section>
 
