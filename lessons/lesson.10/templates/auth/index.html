@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Auth Index
+{% endblock %}
+
+{% block body %}
+<h1>User info:</h1>
+<div>
+    <ul class="list-group">
+        <li class="list-group-item">Authenticated: {{ user.is_authenticated }}</li>
+        {% if user.is_authenticated %}
+        <li class="list-group-item">ID: {{ user.id }}</li>
+        <li class="list-group-item">Username: {{ user.username }}</li>
+        {% endif %}
+    </ul>
+</div>
+<hr>
+<div>
+    <a href="{{ url_for('auth_app.login') }}">Login</a>
+    <br>
+    <a href="{{ url_for('auth_app.logout') }}">Logout</a>
+</div>
+{% endblock %}
