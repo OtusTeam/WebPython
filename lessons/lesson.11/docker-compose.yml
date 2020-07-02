@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  app:
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
+    build:
+      context: .
+    ports:
+#      - 3000:5000
+      - 3000:80
+    volumes:
+      - ./db:/app/db
+    environment:
+      FLASK_APP: main
+#    entrypoint:
+#      - "bash"
+#      - "entrypoint.sh"
+#    command:
+#      - "flask"
+#      - "run"
+#      - "--host=0.0.0.0"
+    depends_on:
+      - pg
+
+  pg:
+    image: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "2"
+        max-size: "1m"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/pg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

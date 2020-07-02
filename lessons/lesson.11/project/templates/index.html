@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block body %}
+<h1>Hello Index!</h1>
+<h2>Auth: <a href="{{ url_for('auth_app.index') }}">Auth index</a></h2>
+{% endblock %}
