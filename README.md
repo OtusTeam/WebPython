@@ -8,3 +8,4 @@
 - [Урок 7. ORM.SQLAlchemy](lessons/lesson.7/)
 - [Урок 10. Flask, SQLAlchemy, flask-login](lessons/lesson.10/)
 - [Урок 11. Flask, docker network](lessons/lesson.11/)
+- [Урок 12. Введение в Django. Модели, миграции, админка, settings, orm](lessons/lesson.12/)
