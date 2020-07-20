@@ -9,3 +9,4 @@
 - [Урок 10. Flask, SQLAlchemy, flask-login](lessons/lesson.10/)
 - [Урок 11. Flask, docker network](lessons/lesson.11/)
 - [Урок 12. Введение в Django. Модели, миграции, админка, settings, orm](lessons/lesson.12/)
+- [Урок 16. Django. Фабрики: mixer, Factory Boy, Faker](lessons/lesson.16/)
