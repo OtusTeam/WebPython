@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 3000:5000
+    volumes:
+      - ./files:/app/caches
+
+  db:
+    image: postgres:10
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./files/db:/var/lib/postgresql/data

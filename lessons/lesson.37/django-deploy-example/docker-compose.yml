@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web:
+    build: ./project
+    command: gunicorn myproj.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - 8080:8000
+#    depends_on:
+#      - db
+# TODO: connect to postgres
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
