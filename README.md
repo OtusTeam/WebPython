@@ -10,3 +10,4 @@
 - [Урок 11. Flask, docker network](lessons/lesson.11/)
 - [Урок 12. Введение в Django. Модели, миграции, админка, settings, orm](lessons/lesson.12/)
 - [Урок 16. Django. Фабрики: mixer, Factory Boy, Faker](lessons/lesson.16/)
+- [Урок 18. Введение в Django REST Framework](lessons/lesson.18/)
