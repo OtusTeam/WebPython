@@ -3,4 +3,4 @@
 
 ### Занятия
 
-- [Урок название](lessons/lesson.folder/)
+- [Урок 10: Введение в werkzeug, Flask](lessons/lesson.10/)
