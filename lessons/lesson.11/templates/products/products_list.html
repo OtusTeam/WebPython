@@ -1,0 +1,25 @@
+{% extends 'products/base.html' %}
+
+{% block title -%}
+  Products list
+{%- endblock %}
+
+{% block body %}
+  <h2>Available products:</h2>
+  <div>
+    <ul>
+      {% for product in products %}
+        <li>
+          <a href="{{ url_for('product_app.product_detail', product_id=product.id) }}">
+            {{ product.name -}}
+          </a>
+          {% if product.is_new %}
+            <span class="badge text-light bg-secondary">New</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <hr>
+  <h3><a href="{{ url_for('product_app.add_product') }}">Add product</a></h3>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'products/base.html' %}
+
+{% block title -%}
+  Product #{{ product.id }}
+{%- endblock %}
+
+{% block body %}
+  <h2>{{ product.name }}</h2>
+  <hr>
+  <form action="{{ url_for('product_app.product_delete', product_id=product.id) }}" method="post">
+      <button class="btn btn-danger">Delete</button>
+  </form>
+  <a href="{{ url_for('product_app.products_list') }}">Products list</a>
+{% endblock %}
