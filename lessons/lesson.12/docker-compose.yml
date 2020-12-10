@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      # dockerfile: Dockerfile
+    ports:
+#      - 5000:5000
+      - 5000:80
+    environment:
+      PG_HOST: db
+      PG_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - db
+#    volumes:
+#      - ./:/app
+
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: my_shop
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - $HOME/dbs/web-flask-12/data:/var/lib/postgresql/data
