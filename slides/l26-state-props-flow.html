@@ -1,14 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>Курс веб-разработки на Питоне: Лекция 22</title>
+    <title>Занятие 31</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="stylesheet" href="styles/screen.css">
     <link rel="stylesheet" href="styles/default.css">
     <link rel="stylesheet" href="styles/styles.css">
-
 </head>
 <body class="full" data-plugins="notes">
 <script src="js/highlight.pack.js"></script>
@@ -18,17 +17,25 @@
     console.clear = undefined;  // иначе notes работают неправильно.
 </script>
 
-<header class="caption">
-    <h2>«Python для web&#8209;разработки» – лекция 26</h2>
-    <h1>OTUS</h1>
-    <p>Михаил Кузнецов</p>
-</header>
-
 <section class="slide" id="cover">
     <div>
         <h2>OTUS</h2>
-        <h1>«Python для web&#8209;разработки»<br>лекция 26<br>React</h1>
-        <p>Михаил Кузнецов</p>
+        <h1>«Python для web&#8209;разработки»<br>занятие 31<br>React</h1>
+        <p>Дворжецкиий Юрий</p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Дворжецкий Юрий</h2>
+        <ul>
+            <li>Влюблён в JS</li>
+            <li>То, что сейчас называют full-stack;</li>
+            <li>Написал гигабайты кода в очень больших и маленьких проектах;</li>
+            <li>Провёл более 3000 часов курсов, тренингов и вебинаров;</li>
+            <li>Учил и подготовил более 800 разработчиков;</li>
+            <li>Являюсь одним из создателей первых групп данного курса</li>
+        </ul>
     </div>
 </section>
 
@@ -44,24 +51,11 @@
     </div>
 </section>
 
-
 <section class="slide">
     <div>
         <h2>Tools</h2>
         <ul>
             <li><a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?h1=nl">React Developer Tools</a> </li>
-        </ul>
-    </div>
-</section>
-
-
-<section class="slide">
-    <div>
-        <h2>Орг.моменты</h2>
-        <ul>
-            <li>Небольшая задержка с домашкой - я пока исправился, но исправлюсь в ближайшее время</li>
-            <li>Про тайминг помню.</li>
-            <li>В конце отзыв.</li>
         </ul>
     </div>
 </section>
@@ -95,31 +89,7 @@ export default class User extends Component {
 
 <section class="slide">
     <div>
-        <h2>props</h2>
-        <pre class="xbig">
-            <code>
-&lt;Page>
-    &lt;div/>
-    &lt;span/>
-&lt;/Page>
-
-export default class Page extends Component {
-    render() {
-        return (
-            &lt;div className="page">
-                {this.props.children}
-            &lt;/div>
-        );
-    }
-}
-            </code>
-        </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>props</h2>
+        <h2>props (в классовых + деструкция)</h2>
         <pre class="xbig">
             <code>
 class Hello extends Component {
@@ -130,9 +100,49 @@ class Hello extends Component {
         )
     }
 }
-// Эквивалентная запись (stateless)
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props (в функциональных)</h2>
+        <pre class="xbig">
+            <code>
+function Hello (props) {
+    const {username} = props;
+    return (
+       &lt;div>Hello, {username}&lt;/div>
+    )
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props (в функциональных + деструкция)</h2>
+        <pre class="xbig">
+            <code>
+function Hello ({username}) {
+    return (
+       &lt;div>Hello, {username}&lt;/div>
+    )
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props (в стрелочных)</h2>
+        <pre class="xbig">
+            <code>
 const Hello = ({username}) => (
-    &lt;div>Hello, {username}&lt;/div>
+   &lt;div>Hello, {username}&lt;/div>
 );
             </code>
         </pre>
@@ -151,6 +161,28 @@ const Hello = ({username}) => (
             <li>Туда можно класть и React-элементы</li>
             <li>Их можно валидировать</li>
         </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>props</h2>
+        <pre class="xbig">
+            <code>
+&lt;Page>
+    &lt;span>
+    &lt;div/>
+&lt;/Page>
+
+function Page () {
+    return (
+        &lt;div className="page">
+            {this.props.children}
+        &lt;/div>
+    );
+}
+            </code>
+        </pre>
     </div>
 </section>
 
@@ -252,26 +284,34 @@ Label.propTypes = {
 
 <section class="slide">
     <div>
-        <h2>this.props.children</h2>
+        <h2>C TypeScript</h2>
+        <ul>
+            <li>Сейчас гораздо активнее используется TypeScript</li>
+            <li>Проверка типов свойств осуществляется на уровне компилятора</li>
+            <li>Про это чуть позже</li>
+            <li>Но пример покажу сейчас</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>TypeScript</h2>
         <pre class="xbig">
             <code>
-class Container extends Component {
-    render () {
-        return &lt;div>
-            {this.props.children}
-        &lt;/div>
-    }
-}
+import React from 'react';
 
-Container.propTypes = {
-    PropTypes.element.isRequired
+interface ButtonProps {
+    text: string,
+    action: () => void
 }
-
+const MyBytton : React.FC&lt;ButtonProps> = ({text, action}) => {
+     // ...
+}
             </code>
         </pre>
     </div>
 </section>
-
 
 <section class="slide">
     <div>
@@ -363,7 +403,7 @@ class Label extends Component {
                 браузерах
             </li>
             <li>Также есть обычные методы событий: stopPropagation() и preventDefault()</li>
-            <li>Если необходимо добраться до нативного события, просто используте поле nativeEvent </li>
+            <li>Если необходимо добраться до нативного события, просто используйте поле nativeEvent </li>
         </ul>
     </div>
 </section>
@@ -455,6 +495,41 @@ render() {
 
 <section class="slide">
     <div>
+        <h2>React Hooks</h2>
+        <ul>
+            <li>Сейчас в основном используются функциональные компоненты</li>
+            <li>Раньше в них нельзя было использовать state, а с Hooks стало можно</li>
+            <li>Не совсем эквивалентное поведение, но всё же</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <pre class="xbig">
+            <code>
+import React, { useState } from 'react';
+
+function Example() {
+    const [count, setCount] = useState(0);
+
+    return (
+        &lt;div>
+            &lt;p>Вы кликнули {count} раз(а)&lt;/p>
+            &lt;button onClick={() => setCount(count + 1)}>
+               Нажми на меня
+            &lt;/button>
+        &lt;/div>
+    );
+}
+            </code>
+        </pre>
+    </div>
+</section>
+
+
+<section class="slide">
+    <div>
         <h2>Упражнение</h2>
         <pre class="xbig">
             <code>
@@ -491,7 +566,7 @@ render() {
 
 <section class="slide">
     <div>
-        <h2>Что должно помещаться в state?</h2>
+        <h2>Что должно помещаться в state текущего компоненте?</h2>
         <ul>
             <li>Данные по которым может вызываться обновление UI</li>
             <li>Минимальные данные, необходимые для логики</li>
@@ -500,7 +575,7 @@ render() {
 </section>
 <section class="slide">
     <div>
-        <h2>Что НЕ должно помещаться в state?</h2>
+        <h2>Что НЕ должно помещаться в state текущего компоненте?</h2>
         <ul>
             <li>Дубликаты данных из формы</li>
             <li>React компоненты</li>
@@ -508,6 +583,7 @@ render() {
         </ul>
     </div>
 </section>
+
 <section class="slide">
     <div>
         <h2>Упражнение</h2>
@@ -577,7 +653,6 @@ class App extends Component {
       &lt;div className="App">
         &lt;input value={user.username}
                 onChange={e => user.username=e.target.value}/>
-
       &lt;/div>
     );
   }
@@ -599,8 +674,8 @@ class App extends Component {
         &lt;input placeholder="Введите имя" value={} onChange={}/>
         &lt;br/>
         &lt;input placeholder="Введите имя" value={} onChange={}/>
-        &lt;button onClick={/*а здесь алерт*/}>Зарегистрироваться</button>
-                &lt;/div>
+        &lt;button onClick={/*а здесь алерт*/}>Зарегистрироваться&lt;/button>
+      &lt;/div>
     );
   }
 }
@@ -619,7 +694,7 @@ class App extends Component {
     <div>
         <h2>Опрос</h2>
         <ul>
-            <li><a href="https://otus.ru/polls/1689/">https://otus.ru/polls/1689/</a>
+            <li><a href="https://otus.ru/polls/18171/" target="_blank">https://otus.ru/polls/18171/</a>
         </ul>
     </div>
 </section>
@@ -642,4 +717,3 @@ class App extends Component {
 <script src="js/shower.min.js"></script>
 </body>
 </html>
-
