@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>Курс веб-разработки на Питоне: Лекция 33</title>
+    <title>Курс веб-разработки на Питоне: Лекция 34</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -19,16 +19,10 @@
 
 </script>
 
-<header class="caption">
-    <h2>«Python для web&#8209;разработки» – лекция 32</h2>
-    <h1>OTUS</h1>
-    <p>Дворжецкий Юрий</p>
-</header>
-
 <section class="slide" id="cover">
     <div>
         <h2>OTUS</h2>
-        <h1>«Python для web&#8209;разработки»<br>лекция 33<br>Flux и Redux</h1>
+        <h1>«Python для web&#8209;разработки»<br>лекция 34<br>Flux и Redux</h1>
         <p>Дворжецкий Юрий</p>
     </div>
 </section>
@@ -49,8 +43,9 @@
     <div>
         <h2>Links</h2>
         <ul>
-            <li><a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools</a> </li>
-            <li><a href="https://codepen.io/shershen08/pen/oNvdovy">Redux demo codepen</a> </li>
+            <li><a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux
+                DevTools</a></li>
+            <li><a href="https://codepen.io/shershen08/pen/oNvdovy">Redux demo codepen</a></li>
         </ul>
     </div>
 </section>
@@ -170,7 +165,8 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Flux</h2>
         <ul>
-            <li>One-Way Data Flow <br>делает Ваши приложения очень простыми: для понимания, отладки и дальнейшего расширения.
+            <li>One-Way Data Flow <br>делает Ваши приложения очень простыми: для понимания, отладки и дальнейшего
+                расширения.
             </li>
             <li>Two-Way Data Flow <br>является причиной каскадных изменений, неэффективности всей клиентской
                 части и источником частых и труднообнаружимых ошибок.
@@ -190,7 +186,8 @@ const Dialog = ({visible, onClose}) => props.visible && &lt;div>
     <div>
         <h2>Роли во Flux</h2>
         <ul>
-            <li>Action – это просто объект содержащий идентификатор действия (type), и все данные необходимые для совершения действия
+            <li>Action – это просто объект содержащий идентификатор действия (type), и все данные необходимые для
+                совершения действия
             </li>
             <li>Store содержит логику приложения и его текущее состояние</li>
             <li>Store обновляется callback-ом из диспатчера. Callback получает action как параметр</li>
@@ -734,8 +731,102 @@ export default connect(
 
 <section class="slide">
     <div>
-        <h2>Итоги</h2>
-        <p><img src="img/l30-redux-flow.png" style="height: 400px; width: auto"/></p>
+        <h2>Бонус (MobX)</h2>
+        <ul>
+            <li>Продвинутый state manager</li>
+            <li>Используется в современном окружении</li>
+            <li>Основан на паттерне Observable (правда не сложный rxjs, а собственный)</li>
+            <li>Можно считать, что это классический паттерн Model and View</li>
+            <li>Он очень интересный :)</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>MobX</h2>
+        <pre class="xbig">
+        <code>
+import {observable, autorun} from 'mobx';
+
+class CounterStore {
+    @observable counter = 0;
+
+    increment() { this.counter++; }
+    decrement() { this.counter--; }
+}
+
+const store = new CounterStore();
+autorun( () => console.log(store.counter) );
+store.increment();
+        </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>MobX</h2>
+        <pre class="xbig" style="font-size: 50%;">
+        <code>
+import { makeObservable, observable, action } from 'mobx';
+
+class DoubleCounterStore {
+    value = 0
+
+    constructor(value) {
+        makeObservable(this, {
+            value: observable, increment: action
+        })
+    }
+
+    increment() {
+        this.value++;
+        this.value++;
+    }
+}
+        </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>MobX</h2>
+        <pre class="xbig" style="font-size: 50%;">
+        <code>
+import { makeObservable, observable, action } from 'mobx';
+
+class DoubleCounterStore {
+    value = 0
+
+    constructor(value) {
+        makeAutoObservable(this)
+    }
+
+    increment() {
+        this.value++;
+        this.value++;
+    }
+}
+        </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>MobX и React</h2>
+        <pre class="xbig">
+        <code>
+import { observer } from 'mobx';
+
+const myTimer = new Timer()
+const TimerView = observer( ({ timer }) => <span>{timer.seconds}</span>
+
+ReactDOM.render( &lt;TimerView timer={myTimer} />, document.body )
+        </code>
+        </pre>
     </div>
 </section>
 
@@ -749,7 +840,7 @@ export default connect(
     <div>
         <h2>Опрос</h2>
         <ul>
-            <li><a href="https://otus.ru/polls/8404/">https://otus.ru/polls/8404/</a>
+            <li><a href="https://otus.ru/polls/18172/">https://otus.ru/polls/18172/</a>
         </ul>
     </div>
 </section>
