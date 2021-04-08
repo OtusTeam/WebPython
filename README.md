@@ -3,4 +3,4 @@
 
 ### Занятия
 
-- [Урок название](lessons/lesson.folder/)
+- [Введение в docker, docker-compose](lessons/lesson.03/)

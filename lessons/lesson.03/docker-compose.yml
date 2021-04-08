@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+    - 5050:5000
+#    depends_on:
+#      - pg
+
+  pg:
+    image: postgres:12
