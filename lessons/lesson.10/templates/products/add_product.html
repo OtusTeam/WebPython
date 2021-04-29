@@ -1,0 +1,20 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+  Add product
+{% endblock %}
+
+{% block body %}
+  <h4>Add new product</h4>
+  <form method="post" class="my-3">
+
+    <div class="form-group">
+      <label for="product-name">Product name</label>
+      <input class="form-control" id="product-name" name="product-name" type="text" required>
+    </div>
+
+    <input class="btn btn-primary btn-block" type="submit" value="Add">
+  </form>
+  <a href="{{ url_for('products_app.list') }}">Back to list</a>
+
+{% endblock %}
