@@ -7,3 +7,4 @@
 - [Урок 6. Введение в автотесты: pytest](lessons/lesson.06/)
 - [Урок 8. ORM. SQLAlchemy](lessons/lesson.08/)
 - [Урок 10. werkzeug, Flask](lessons/lesson.10/)
+- [Урок 11. Flask-SQLAlchemy, Flask-Migrate](lessons/lesson.11/)

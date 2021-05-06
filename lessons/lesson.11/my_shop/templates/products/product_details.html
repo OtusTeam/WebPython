@@ -1,0 +1,17 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+  Product #{{ product.id }}
+{% endblock %}
+
+{% block body %}
+  <h4>
+    Product #{{ product.id }} {{ product.name }}
+    {% if product.is_new %}
+      <span class="badge badge-secondary">New</span>
+    {% endif %}
+  </h4>
+  <small>
+    <a href="{{ url_for('products_app.list') }}">Back to list</a>
+  </small>
+{% endblock %}
