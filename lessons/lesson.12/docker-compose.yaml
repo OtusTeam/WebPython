@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://user:password@pg:5432/shop_project
+    ports:
+      - 5050:80
+#      - 5050:5000
+    depends_on:
+      - pg
+  pg:
+    image: postgres # use latest official postgres version
+    env_file:
+      - postgres.env # configure postgres
+#    ports:
+#      - 5432:5432
+    volumes:
+      - ./db-data/pg-data:/var/lib/postgresql/data/ # persist data even if container shuts down

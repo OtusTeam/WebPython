@@ -8,3 +8,4 @@
 - [Урок 8. ORM. SQLAlchemy](lessons/lesson.08/)
 - [Урок 10. werkzeug, Flask](lessons/lesson.10/)
 - [Урок 11. Flask-SQLAlchemy, Flask-Migrate](lessons/lesson.11/)
+- [Урок 12. Flask + uwsgi + nginx. Подключение к БД в docker-network](lessons/lesson.12/)
