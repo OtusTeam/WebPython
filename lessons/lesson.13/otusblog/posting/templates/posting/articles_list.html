@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Articles list</title>
+</head>
+<body>
+  <div>
+    <ul>
+
+    {% for article in articles %}
+      <li>{{ article.title }} by {{ article.author.user }}</li>
+    {% empty %}
+      <h5>No published articles</h5>
+    {% endfor %}
+
+    </ul>
+  </div>
+</body>
+</html>
