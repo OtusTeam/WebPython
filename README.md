@@ -11,3 +11,4 @@
 - [Урок 12. Flask + uwsgi + nginx. Подключение к БД в docker-network](lessons/lesson.12/)
 - [Урок 13. Django settings, ORM, админка, миграции, superuser](lessons/lesson.13/)
 - [Урок 17. Django. фабрики: mixer, Factory Boy, Faker](lessons/lesson.17/)
+- [Урок 19. Введение в django-rest-framework. Generics, actions; filtering, ordering](lessons/lesson.19/)
