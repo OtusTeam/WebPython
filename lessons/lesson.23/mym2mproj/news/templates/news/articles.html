@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Articles list</title>
+</head>
+<body>
+  <ul>
+    <ul>
+      {% for article in article_list %}
+        <li>
+          <div>
+            {{ article.id }}. <strong>{{ article.title }}</strong>
+            by <em>{{ article.author.nickname }}</em>
+          </div>
+          <ul>
+            {% for tag in article.tags.all %}
+              <li>{{ tag.name }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

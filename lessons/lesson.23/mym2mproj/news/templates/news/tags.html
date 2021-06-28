@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tags list</title>
+</head>
+<body>
+  <div>
+    <ul>
+      {% for tag in tag_list %}
+        <li>
+          {{ tag.id }}. <strong>{{ tag.name }}</strong>
+          <ul>
+            {% for article in tag.articles.all %}
+              <li>
+                {{ article.title }} by <em>{{ article.author.nickname }}</em>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

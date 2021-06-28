@@ -13,3 +13,4 @@
 - [Урок 17. Django. фабрики: mixer, Factory Boy, Faker](lessons/lesson.17/)
 - [Урок 19. Введение в django-rest-framework. Generics, actions; filtering, ordering](lessons/lesson.19/)
 - [Урок 20. DRF Auth: Token, JWT, OAuth2](lessons/lesson.20/)
+- [Урок 23. Django m2m, django-debug-toolbar, select_related, prefetch_related](lessons/lesson.23/)
