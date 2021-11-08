@@ -3,4 +3,4 @@
 
 ### Занятия
 
-- [Урок название](lessons/lesson.folder/)
+- [Введение в автотесты, pytest](lessons/lesson.04/)
