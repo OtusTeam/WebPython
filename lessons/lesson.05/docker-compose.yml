@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  otusblog:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+#      args:
+#        LIB_QWE_VERSION: 1.1.2
+
+#    entrypoint:
+    command:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8001
+    ports:
+      - "8080:8001"
+    volumes:
+      - ./otusblog:/var/app
+#      - ./otusblog-db:/var/app/database
+      - otusblog-db:/var/app/database
+
+
+volumes:
+  otusblog-db:
