@@ -3,6 +3,7 @@
 
 ### Занятия
 
-- [Введение в автотесты, pytest](lessons/lesson.04/)
-- [Знакомство с Docker, docker-compose](lessons/lesson.05/)
-- [ORM, SQLAlchemy](lessons/lesson.06/)
+- [Урок 4. Введение в автотесты, pytest](lessons/lesson.04/)
+- [Урок 5. Знакомство с Docker, docker-compose](lessons/lesson.05/)
+- [Урок 6. ORM, SQLAlchemy](lessons/lesson.06/)
+- [Урок 8. Введение в werkzeug; Flask](lessons/lesson.08/)
