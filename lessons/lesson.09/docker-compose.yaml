@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  pg:
+    image: postgres # use latest official postgres version
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  db-data:
