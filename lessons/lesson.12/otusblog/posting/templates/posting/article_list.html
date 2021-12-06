@@ -1,0 +1,13 @@
+{% extends 'posting/base.html' %}
+
+{% block container %}
+    <ul>
+        {% for post in article_list %}
+            <li>{{ forloop.counter }}:
+                <a href="{% url 'posting:post_detail' post.pk %}">
+                    {{ post }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
