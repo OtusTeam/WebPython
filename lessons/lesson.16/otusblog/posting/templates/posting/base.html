@@ -1,0 +1,32 @@
+{% extends 'root.html' %}
+
+{% block page_title %}
+    {{ page_title|default:"posting"|title }}
+{% endblock %}
+
+
+{% block main_container %}
+    <div class="menu">
+        <ul>
+            <li>
+                <a href="{% url 'posting:index' %}">main</a>
+            </li>
+            <li>
+                <a href="{% url 'posting:authors' %}">authors</a>
+            </li>
+            <li>
+                <a href="{% url 'posting:about' %}">about</a>
+            </li>
+            <li>
+                <a href="{% url 'myauth:user_create' %}">new user</a>
+            </li>
+            <li>
+                <a href="{% url 'myauth:user_login' %}">login</a>
+            </li>
+        </ul>
+    </div>
+
+    {% block container %}
+    {% endblock %}
+
+{% endblock %}

@@ -14,3 +14,4 @@
 - [Урок 13. Django forms. Наследование моделей. Абстрактные классы и proxy в django](lessons/lesson.13/)
 - [Урок 14. Django m2m, select_related/prefetch_related, django debug toolbar](lessons/lesson.14/)
 - [Урок 15. Django ORM, оптимизация работы с БД](lessons/lesson.15/)
+- [Урок 16. Тестирование django приложений. Тестирование моделей. mixer для создания фейковых данных](lessons/lesson.16/)

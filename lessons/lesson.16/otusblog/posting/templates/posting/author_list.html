@@ -1,0 +1,9 @@
+{% extends 'posting/base.html' %}
+
+{% block container %}
+    <ul>
+        {% for item in authors %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
