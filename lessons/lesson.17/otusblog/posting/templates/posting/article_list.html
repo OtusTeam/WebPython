@@ -1,0 +1,24 @@
+{% extends 'posting/base.html' %}
+
+{% block container %}
+    <a href="{% url 'posting:post_create' %}">Create post</a>
+    <ul>
+        {% for post in article_list %}
+            <li>{{ forloop.counter }}:
+                <a href="{% url 'posting:post_detail' post.pk %}">
+                    {{ post }}
+                    <ul>
+                        {% for tag in post.tag.all %}
+                            <b>{{ tag }}</b>
+                        {% endfor %}
+                    </ul>
+                    {#                    <i>{{ post.author.user.username }}</i>#}
+                    {#                    <b>{{ post.author.status }}</b>#}
+                    {#                    <b>{{ post.author_id }}</b>>#}
+                    <a href="{% url 'posting:post_update' post.pk %}">update</a>
+                    <a href="{#% url 'posting:post_delete' post.pk %#}">delete</a>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

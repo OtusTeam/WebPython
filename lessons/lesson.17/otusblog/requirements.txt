@@ -1,0 +1,8 @@
+Django==3.2
+pytest
+pytest-cov
+pytest-django
+mixer
+factory_boy
+Faker
+faker_music

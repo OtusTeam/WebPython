@@ -1,0 +1,14 @@
+{% extends 'posting/base.html' %}
+
+{% block container %}
+    <div class="article-create-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+{#            {% for f_name, field in form.fields.items %}#}
+{#                {{ f_name }} {{ field }}#}
+{#            {% endfor %}#}
+            <input type="submit" value="save">
+        </form>
+    </div>
+{% endblock %}
