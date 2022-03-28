@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{object.name}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{object.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">age: {{object.age}}</h6>
+                <p class="card-text">Some page with params</p>
+                <a href="/" class="card-link">Home</a>
+            </div>
+        </div>
+    </div>
+    <div id="message"></div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function() {
+        document.getElementById("message").innerHTML = '<text class="text-info">It made from another place</text>';
+    }
+</script>
+
+</body>
+</html>
