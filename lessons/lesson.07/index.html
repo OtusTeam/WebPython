@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, purple);
+      background-size: 400% 400%;
+      animation: gradient 6s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0 50%;
+      }
+    }
+
+    div {
+      background-color: gray;
+    }
+
+    h6 {
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .headers {
+      font-size: 1.5rem;
+      background-color: rgba(0, 128, 0, 0.3);
+    }
+
+    div.headers > h6 {
+      border: solid blueviolet;
+    }
+
+    div.clicks {
+      font-size: 1.75rem;
+    }
+
+  </style>
+</head>
+<body>
+<div class="headers">
+  <h1>Hello World!</h1>
+  <h2>Hello World!!</h2>
+  <h3>Hello World!!!</h3>
+  <h4>Hello World!!!</h4>
+  <h5>Hello World!!!</h5>
+  <h6>Hello World!!!</h6>
+</div>
+
+<div>
+  <h6 class="headers">Lorem Ipsum</h6>
+  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+  type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
+  essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+  passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</div>
+
+<div class="clicks">
+  <h3>Clicks counter</h3>
+  <div>Clicks <span id="clicks-count">0</span></div>
+<!--  <button onclick="handleClick()">Click!</button>-->
+  <button id="click-btn">Click!</button>
+</div>
+
+<script>
+  console.log('Hello World!');
+
+  function hello(name) {
+    console.log('Hello', name);
+  }
+
+  hello('OTUS');
+
+  let clicksCount = 0;
+
+  function handleClick() {
+    // console.log('Clicked!');
+    clicksCount += 1;
+    updateClicksOnPage();
+  }
+
+  function updateClicksOnPage() {
+    const clicksCountSpan = document.getElementById('clicks-count');
+    clicksCountSpan.innerText = clicksCount;
+  }
+
+  const clickBtn = document.getElementById('click-btn');
+  clickBtn.addEventListener('click', handleClick)
+
+</script>
+</body>
+</html>

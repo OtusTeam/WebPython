@@ -9,3 +9,4 @@
 - [Урок 4. Тестирование, pytest, coverage, фикстуры, моки, параметризация](lessons/lesson.04/)
 - [Урок 5. Контейнеризация. Знакомство с Docker](lessons/lesson.05/)
 - [Урок 6. ORM, SQLAlchemy](lessons/lesson.06/)
+- [Урок 7. Знакомство с фронтендом, Bootstrap 5](lessons/lesson.07/)
