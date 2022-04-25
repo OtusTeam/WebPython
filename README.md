@@ -10,3 +10,4 @@
 - [Урок 5. Контейнеризация. Знакомство с Docker](lessons/lesson.05/)
 - [Урок 6. ORM, SQLAlchemy](lessons/lesson.06/)
 - [Урок 7. Знакомство с фронтендом, Bootstrap 5](lessons/lesson.07/)
+- [Урок 8. Знакомство с Flask. Blueprints; Flask-WTF; flash](lessons/lesson.08/)
