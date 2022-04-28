@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Internal Server Error{% endblock %}
+{% block body %}
+  <h1>Internal Server Error</h1>
+  <p>Oops... we seem to have made a mistake, sorry!</p>
+  <p><a href="{{ url_for('products_app.list') }}">Go to products</a>
+{% endblock %}
