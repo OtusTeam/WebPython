@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% from 'macros/back_to_products.html' import back_to_products_page %}
+
+{% block title %}
+  Add product
+{% endblock %}
+
+
+{% block body %}
+  <h1>Add product</h1>
+
+  <form method="post">
+{#    <label for="input-product" class="">Product name</label>#}
+{#    <input#}
+{#      id="input-product"#}
+{#      name="product-name"#}
+{#      class="form-control"#}
+{#      type="text"#}
+{#      placeholder="Tablet"#}
+{#      aria-label="product input"#}
+{##}
+{#    >#}
+
+    {{ form.hidden_tag() }}
+
+    <div>
+      {{ form.name.label(class='form-label') }}
+      {{ form.name(class='form-control') }}
+    </div>
+
+    <div class="form-check">
+      {{ form.is_new(class='form-check-input') }}
+      {{ form.is_new.label(class='form-check-label') }}
+    </div>
+
+    {% if form.name.errors %}
+      <ul class="alert alert-danger errors my-3">
+      {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+
+    <input type="submit" value="Save" class="btn btn-primary my-3">
+  </form>
+  <br>
+
+  {{ back_to_products_page() }}
+
+
+{% endblock %}

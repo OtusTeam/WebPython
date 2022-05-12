@@ -12,3 +12,4 @@
 - [Урок 7. Знакомство с фронтендом, Bootstrap 5](lessons/lesson.07/)
 - [Урок 8. Знакомство с Flask. Blueprints; Flask-WTF; flash](lessons/lesson.08/)
 - [Урок 9. Flask-SQLAlchemy, Flask-Migrate](lessons/lesson.09/)
+- [Урок 10. Связь контейнеров в docker. Сборка проекта на Flask. Тестирование Flask приложения](lessons/lesson.10/)

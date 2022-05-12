@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker-build/api/Dockerfile
+    environment:
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://user:password@pg/shop
+      CONFIG: ProductionConfig
+    ports:
+      - "5000:80"
+    depends_on:
+      pg:
+        condition: service_healthy
+
+  pg:
+    image: postgres # use latest official postgres version
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 7s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
