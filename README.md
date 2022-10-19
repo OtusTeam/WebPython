@@ -1,4 +1,4 @@
-# Web Python 20XX-XX
+# Web Python 2022-03
 
 
 ### Занятия
