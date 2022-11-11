@@ -3,4 +3,4 @@
 
 ### Занятия
 
-- [Урок название](lessons/lesson.folder/)
+- [Урок 4. Тестирование: unittest, pytest, фикстуры, параметризация, coverage](lessons/lesson.04/)
