@@ -4,3 +4,4 @@
 ### Занятия
 
 - [Урок 4. Тестирование: unittest, pytest, фикстуры, параметризация, coverage](lessons/lesson.04/)
+- [Урок 5. Введение в docker, docker-compose](lessons/lesson.05/)
