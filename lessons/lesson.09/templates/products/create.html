@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Create Product
+{% endblock %}
+
+{% block body %}
+  <h1>
+    Create a new product:
+  </h1>
+
+  <div>
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        <ul>
+          {% for name, errors in form.errors.items() %}
+            <li><strong>{{ name }}</strong></li>
+            <ul>
+              {% for error in errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.name.label(class='form-label') }}
+      {{ form.name(size=20, class='form-control') }}
+      <button class="btn btn-primary my-3" type="submit"
+      >Create
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <a href="{{ url_for('products_app.list') }}"
+    >Back to products list</a>
+  </div>
+{% endblock %}

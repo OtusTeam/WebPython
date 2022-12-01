@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% from "macros/usernameform.html" import usernameform %}
+
+{% block title %}
+  Index page
+{% endblock %}
+
+{% block body %}
+  <main>
+    <h1>Page body</h1>
+    <div>
+      User agent: <code>{{ request.headers.get('user-agent') }}</code>
+    </div>
+    <div>
+      <ul>
+        {% for name in ['foo', 'bar', 'spam', 'eggs', 'fizz']|sort %}
+          <li>
+
+            {% set value = name|title %}
+
+            {% if not loop.index0 %}
+              <strong>{{ value }}</strong>
+            {% else %}
+              {{ value }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div>
+{#      {% set username = request.args.get('username') %}#}
+      {% if username %}
+        <p>Previous username: <code>{{ username }}</code></p>
+      {% endif %}
+      {{ usernameform('john') }}
+      {{ usernameform('sam', 'Add') }}
+    </div>
+  </main>
+{% endblock %}
+
