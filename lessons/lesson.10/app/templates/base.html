@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% block title %}
+      Base title
+    {% endblock %}
+  </title>
+  {#  <style>#}
+  {#    body {#}
+  {#      background-color: #f1f1f1;#}
+  {#      font-family: '.AppleSystemUIFont', 'SansSerif', serif;#}
+  {#    }#}
+  {#  </style>#}
+  {#  {% block head %}#}
+  {##}
+  {#  {% endblock %}#}
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+</head>
+<body>
+<div class="container my-2">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="alert alert-info">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% block body %}
+
+  {% endblock %}
+  <footer>
+    &copy; 2023
+  </footer>
+</div>
+</body>
+</html>

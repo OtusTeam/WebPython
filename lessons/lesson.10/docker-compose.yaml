@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_DB: blog
+      POSTGRES_USER: demouser
+      POSTGRES_PASSWORD: demopass
+      PGDATA: /var/lib/postgresql/data/pgdata
+#    ports:
+#      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+
+  app-prod:
+    build:
+      dockerfile: ./Dockerfile
+    environment:
+      SECRET_KEY: 9cc524425b08f7fc8f66b058b669eab27eaebbe92cb835518ef8a408883ea41b
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://demouser:demopass@pg:5432/blog
+      CONFIG_NAME: ProductionConfig
+    ports:
+      - "8000:80"
+    depends_on:
+      - pg
+
+  app:
+    build:
+      dockerfile: ./Dockerfile
+    environment:
+      SECRET_KEY: 9cc524425b08f7fc8f66b058b669eab27eaebbe92cb835518ef8a408883ea41b
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://demouser:demopass@pg:5432/blog
+      CONFIG_NAME: DevelopmentConfig
+    command:
+      - python
+      - app.py
+    volumes:
+      - ./app:/app
+    ports:
+      - "5050:5000"
+    depends_on:
+      - pg
+
+volumes:
+  db-data:
