@@ -2,8 +2,7 @@
 
 
 ### Открытые уроки:
-- [Основы ООП от 11.06.2020](open-lessons/oop.base.11.06.2020/)
-
+- [Основы FastAPI от 28.09.2023](open-lessons/fastapi-intro-28.09.2023)
 
 ### Курсы Web Python:
 - [WebPython.2019.04](https://github.com/OtusTeam/WebPython/tree/WebPython.2019.04)
