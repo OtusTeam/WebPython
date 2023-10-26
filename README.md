@@ -4,6 +4,7 @@
 ### Открытые уроки:
 - [Основы FastAPI от 28.09.2023](open-lessons/fastapi-intro-28.09.2023)
 - [Знакомство с Vue от 19.10.2023](open-lessons/vue-intro-19.10.2023)
+- [Django CBV 26.10.2023](open-lessons/django-cbv-26.10.2023)
 
 ### Курсы Web Python:
 - [WebPython.2019.04](https://github.com/OtusTeam/WebPython/tree/WebPython.2019.04)

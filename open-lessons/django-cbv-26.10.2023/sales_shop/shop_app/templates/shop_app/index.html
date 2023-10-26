@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Shop App Index
+{% endblock %}
+
+{% block body %}
+	<h1>Welcome to our shop!</h1>
+
+  <div>
+    <a href="{% url 'shop_app:categories' %}">Categories</a>
+  </div>
+  <div>
+    <a href="{% url 'index' %}">Back to main</a>
+  </div>
+{% endblock %}

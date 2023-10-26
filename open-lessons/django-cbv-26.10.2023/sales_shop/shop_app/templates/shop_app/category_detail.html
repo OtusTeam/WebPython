@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Category #{{ object.pk }}
+{% endblock %}
+
+{% block body %}
+  <h1>Category #{{ object.pk }} details:</h1>
+
+  <div>
+    <h2>{{ category.name }}</h2>
+    <h3>Description:</h3>
+    <p>{{ category.description }}</p>
+  </div>
+
+  <div>
+    <a href="{% url 'shop_app:category-delete' pk=object.pk %}">Delete category</a>
+  </div>
+  <div>
+    <a href="{% url 'shop_app:categories' %}">Back to categories list</a>
+  </div>
+
+{% endblock %}

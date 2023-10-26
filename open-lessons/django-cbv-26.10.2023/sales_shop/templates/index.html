@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Index page
+{% endblock %}
+
+{% block body %}
+	<h1>Hello there!!!</h1>
+
+  <div>
+    <a href="{% url 'shop_app:index' %}">Go to shop</a>
+  </div>
+{% endblock %}
