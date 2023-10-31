@@ -17,3 +17,4 @@
 - [WebPython.2021.10](https://github.com/OtusTeam/WebPython/tree/WebPython.2021.10)
 - [WebPython.2022.03](https://github.com/OtusTeam/WebPython/tree/WebPython.2022.03)
 - [WebPython.2022.10](https://github.com/OtusTeam/WebPython/tree/WebPython.2022.10)
+- [WebPython.2023.10](https://github.com/OtusTeam/WebPython/tree/WebPython.2023.10)
