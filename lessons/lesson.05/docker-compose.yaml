@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres:15
+#    build: ...
+    environment:
+      POSTGRES_DB: blog
+      POSTGRES_USER: otus
+      POSTGRES_PASSWORD: passwd!
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: /healthcheck
+
+#  back:
+#    ...
+
+volumes:
+  db-data:
