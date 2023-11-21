@@ -8,3 +8,4 @@
 - [Урок 3. ООП. Магические методы, утиная типизация, статические методы, методы класса](lessons/lesson.03/)
 - [Урок 4. Введение в автотесты. pytest](lessons/lesson.04/)
 - [Урок 5. Введение в docker, docker-compose](lessons/lesson.05/)
+- [Урок 6. ORM, SQLAlchemy](lessons/lesson.06/)
