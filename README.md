@@ -10,3 +10,4 @@
 - [Урок 5. Введение в docker, docker-compose](lessons/lesson.05/)
 - [Урок 6. ORM, SQLAlchemy](lessons/lesson.06/)
 - [Урок 7. Знакомство с Front-end частью курса. Основы HTML, CSS, методологии верстки. Немного Bootstrap 5](lessons/lesson.07/)
+- [Урок 8. Введение в werkzeug; Flask](lessons/lesson.08/)

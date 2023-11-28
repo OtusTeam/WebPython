@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Contacts
+{% endblock %}
+
+{% block main %}
+<h1>Contacts</h1>
+<h2>You can contact us</h2>
+
+<div id="form" class="main-background" id="contacts">
+    <ul style="margin: 15px">
+      <li>email: {{ admin_email }}</li>
+      <li>telegram</li>
+      <li>phone</li>
+    </ul>
+</div>
+
+<div id="form" class="main-background">
+    <form>
+      <label for="fname">First name:</label><br>
+      <input type="text" id="fname" name="fname"><br>
+      <label for="lname">Last name:</label><br>
+      <input type="text" id="lname" name="lname">
+        <br>
+        <button type="submit">Send message</button>
+    </form>
+</div>
+
+<a href="{{ url_for('index') }}">Index</a>
+{% endblock %}
