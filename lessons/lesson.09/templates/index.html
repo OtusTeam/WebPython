@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        {% if products %}
+
+          {% for product in products %}
+            <div class="card col-md-3 col-sm-6">
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">
+                    <a href="/product/{{product.id}}/">
+                        {{product.name}}
+                    </a>
+                </h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Buy</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+            No products
+        {% endif %}
+
+        <a class="btn btn-primary" href="{{ url_for('create') }}">Create</a>
+    </div>
+    <p></p>
+<a class="btn btn-info" href="{{ url_for('contacts.contact') }}">Contacts</a>
+<button id="idClick" class="btn btn-primary" type="button" onclick="clickCount();">Click</button>
+{% endblock %}
