@@ -12,3 +12,4 @@
 - [Урок 7. Знакомство с Front-end частью курса. Основы HTML, CSS, методологии верстки. Немного Bootstrap 5](lessons/lesson.07/)
 - [Урок 8. Введение в werkzeug; Flask](lessons/lesson.08/)
 - [Урок 9. Werkzeug; Flask + SQLAlchemy. Работа с моделями данных](lessons/lesson.09/)
+- [Урок 10. Связь контейнеров в docker. Сборка проекта на Flask](lessons/lesson.10/)

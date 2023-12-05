@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  pg:
+    image: postgres:15
+#    build: ...
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: otus
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - db-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "shop", "-U", "otus" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+
+  dev-backend:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      pg:
+        condition: service_healthy
+    command: bash -c "
+      flask db upgrade
+      && python wsgi.py
+      "
+
+  gunicorn-backend:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      pg:
+        condition: service_healthy
+    command: bash -c "
+      flask db upgrade
+      && pip install gunicorn
+      && gunicorn wsgi:app -b 0.0.0.0
+      "
+
+  prod-backend:
+    environment:
+      SECRET_KEY: ${FLASK_SECRET_KEY}
+      SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://otus:${PG_PASSWORD}@pg:5432/shop"
+    build: .
+    ports:
+      - "9000:80"
+    depends_on:
+      pg:
+        condition: service_healthy
+
+#volumes:
+#  db-data:

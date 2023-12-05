@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create product
+{% endblock %}
+
+{% block main %}
+<h1>Create</h1>
+<form method="POST">
+    {{ form.errors }}
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(class="form-control") }}
+    <input class="btn btn-primary" type="submit" value="Save">
+</form>
+{% endblock %}
