@@ -13,3 +13,4 @@
 - [Урок 8. Введение в werkzeug; Flask](lessons/lesson.08/)
 - [Урок 9. Werkzeug; Flask + SQLAlchemy. Работа с моделями данных](lessons/lesson.09/)
 - [Урок 10. Связь контейнеров в docker. Сборка проекта на Flask](lessons/lesson.10/)
+- [Урок 11. Django settings, orm, админка, миграции, superuser](lessons/lesson.11/)
