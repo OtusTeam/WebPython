@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+    Categories
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+      {% for category in category_list %}
+    <div class="col-lg-3">
+        <div class="card" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">
+                <a href="{% url 'mainapp:category_detail' pk=category.pk %}">
+                {{category.name}}
+               </a>
+            </h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="{% url 'mainapp:category_update' pk=category.pk %}" class="btn btn-primary">Update</a>
+            <a href="{% url 'mainapp:category_delete' pk=category.pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'mainapp:animal_list' %}?category_id={{category.id}}" class="btn btn-info">Get Animals</a>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+  </div>
+<p></p>
+    <a class="btn btn-info" href="{% url 'mainapp:category_create' %}">Create</a>
+    <hr>
+    <p class="text-warning">{{some_text}}</p>
+</div>
+{% endblock %}

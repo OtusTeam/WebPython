@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    Animals
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+      {% for object in object_list %}
+    <div class="col-lg-3">
+        <div class="card" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">
+                {{object.name}}
+            </h5>
+            <p class="card-text">{{object.category.name}}</p>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+  </div>
+<p></p>
+
+    <a class="btn btn-info" href="{% url 'mainapp:animal_create' %}">Create</a>
+</div>
+{% endblock %}
