@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Zoo
+{% endblock %}
+
+{% block body %}
+
+<div class="text-center bg-body-tertiary rounded-3">
+    <img src="{% static 'images/logo.png' %}" class="bi mt-4 mb-3" width="100" height="100">
+    <h1 class="text-body-emphasis">Welcome to Zoo!</h1>
+    <p class="col-lg-8 mx-auto fs-5 text-muted">
+      You can find your little friends here.
+    </p>
+    <div class="d-inline-flex gap-2 mb-5">
+        <a class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" href="#" target="_blank">Categories</a>
+      <a class="btn btn-outline-secondary btn-lg px-4 rounded-pill" href="#">Contact</a>
+    </div>
+  </div>
+
+
+{% endblock %}
