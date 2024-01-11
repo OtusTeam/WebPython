@@ -21,3 +21,4 @@
 - [Урок 16. Тестирование django приложений. Тестирование моделей. mixer для создания фейковых данных](lessons/lesson.16/)
 - [Урок 17. Django. фабрики: mixer, Factory Boy, Faker](lessons/lesson.17/)
 - [Урок 18. Азы работы с очередями задач](lessons/lesson.18/)
+- [Урок 19. Введение в django-rest-framework](lessons/lesson.19/)
