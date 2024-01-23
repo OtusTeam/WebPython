@@ -24,3 +24,4 @@
 - [Урок 19. Введение в django-rest-framework](lessons/lesson.19/)
 - [Урок 20. DRF. Serializers. Renderers. Routers](lessons/lesson.20/)
 - [Урок 21. DRF. Views. Filtering. Pagination](lessons/lesson.21/)
+- [Урок 22. Django-rest-framework авторизация](lessons/lesson.22/)
