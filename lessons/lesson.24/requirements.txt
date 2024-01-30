@@ -1,0 +1,13 @@
+Django==5.0
+psycopg2-binary==2.9.9
+django-debug-toolbar==4.2.0
+coverage==7.3.4
+Faker==21.0.0
+mixer==7.2.2
+django-rq==2.10.1
+djangorestframework==3.14.0
+Markdown==3.5.2
+django-filter==23.5
+requests==2.31.0
+drf-yasg==1.21.7
+graphene-django==3.2.0

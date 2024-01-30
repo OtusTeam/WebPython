@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}
+    Animals
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+
+    {% with categories.count as count %}
+    <h2>Количество категорий {{count}}</h2>
+  <!-- Example row of columns -->
+  <div class="row">
+      {% for object in object_list %}
+    <div class="col-lg-3">
+        <div class="card" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">
+                {{object.name}}
+                {{object.show_food}}
+            </h5>
+            <p class="card-text">{{object.category.name}}</p>
+
+              {% if object.food.exists %}
+              <p>food:</p>
+                  <ul class="list-group">
+                      {% for food in object.food.all %}
+                            <li class="list-group-item">
+                                {{food.name}}
+                            </li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+  </div>
+
+    <h2>Количество категорий {{count}}</h2>
+
+    {% endwith %}
+<p></p>
+
+    <a class="btn btn-info" href="{% url 'mainapp:animal_create' %}">Create</a>
+</div>
+{% endblock %}
