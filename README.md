@@ -27,4 +27,5 @@
 - [Урок 22. Django-rest-framework авторизация](lessons/lesson.22/)
 - [Урок 23. DRF. Система версий. Документация](lessons/lesson.23/)
 - [Урок 24. API. GraphQL и его реализация в Python. GraphQL и Django](lessons/lesson.24/)
+- [Урок 25. Тестирование django приложений. Тестирование views. Тестирование api](lessons/lesson.25/)
 
